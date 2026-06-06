@@ -354,6 +354,33 @@
       color: #8F806B;
     }
 
+    .sight-actions {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .wishlist-btn, .regret-btn {
+      background: transparent;
+      border: 1px solid #C8BCA5;
+      padding: 0.3rem 0.8rem;
+      border-radius: 2rem;
+      font-size: 0.8rem;
+      color: #5E4B37;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .wishlist-btn.saved {
+      background: #EBE0D0;
+      border-color: #A58B6E;
+    }
+
+    .regret-btn.marked {
+      background: #E6D0D0;
+      border-color: #B0906E;
+    }
+
     .alt-section {
       margin-top: 0.8rem;
       border-top: 1px dashed #DDD4C8;
@@ -410,20 +437,92 @@
       cursor: pointer;
     }
 
-    .wishlist-btn {
-      background: transparent;
-      border: 1px solid #C8BCA5;
-      padding: 0.3rem 0.8rem;
-      border-radius: 2rem;
-      font-size: 0.8rem;
-      color: #5E4B37;
-      cursor: pointer;
-      transition: 0.2s;
+    .regret-item, .regret-rank-item {
+      background: #FBF8F0;
+      border: 1px solid #E3D8C4;
+      border-radius: 1.5rem;
+      padding: 1rem;
+      margin-bottom: 1rem;
     }
 
-    .wishlist-btn.saved {
-      background: #EBE0D0;
-      border-color: #A58B6E;
+    .regret-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .regret-note-input {
+      width: 100%;
+      border: 1px solid #D6CBB8;
+      border-radius: 2rem;
+      padding: 0.6rem 1rem;
+      font-family: inherit;
+      font-size: 0.9rem;
+      background: rgba(253, 251, 247, 0.9);
+      color: #4B3E2E;
+      outline: none;
+    }
+
+    .regret-badge {
+      background: #E6D7BD;
+      color: #5E4B37;
+      font-size: 0.75rem;
+      padding: 0.15rem 0.8rem;
+      border-radius: 2rem;
+    }
+
+    .settings-panel {
+      background: #F7F1E5;
+      border: 1px solid #E1D4C0;
+      border-radius: 1.5rem;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .settings-row {
+      display: flex;
+      gap: 0.8rem;
+      align-items: center;
+      margin-bottom: 0.8rem;
+    }
+
+    .settings-label {
+      min-width: 80px;
+      font-size: 0.85rem;
+      color: #5E4B37;
+    }
+
+    .settings-input {
+      flex: 1;
+      border: 1px solid #D6CBB8;
+      border-radius: 2rem;
+      padding: 0.5rem 1rem;
+      font-family: inherit;
+      font-size: 0.9rem;
+      background: rgba(253, 251, 247, 0.9);
+      color: #4B3E2E;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(230, 215, 189, 0.95);
+      backdrop-filter: blur(8px);
+      border: 1px solid #C8BCA5;
+      padding: 0.8rem 1.8rem;
+      border-radius: 3rem;
+      font-size: 0.9rem;
+      color: #4B3E2E;
+      z-index: 100;
+      white-space: nowrap;
+      animation: toastIn 0.4s ease;
+    }
+
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+      to { opacity: 1; transform: translateX(-50%) translateY(0); }
     }
   </style>
 </head>
@@ -453,11 +552,29 @@
         <canvas id="radar-canvas" width="260" height="260"></canvas>
       </div>
       <div class="persona-name" id="persona-name"></div>
+      
+      <!-- 出行偏好设置 -->
+      <div class="detail-link" id="toggle-settings" style="margin-top:0.8rem;">出行偏好 ▾</div>
+      <div id="settings-panel" class="settings-panel hidden">
+        <div class="settings-row">
+          <span class="settings-label">人均预算</span>
+          <input type="number" class="settings-input" id="budget-input" placeholder="元/天" min="100" max="3000" value="500">
+        </div>
+        <div class="settings-row">
+          <span class="settings-label">出行天数</span>
+          <input type="number" class="settings-input" id="days-input" placeholder="天" min="1" max="30" value="3">
+        </div>
+        <button class="btn primary" id="apply-settings" style="width:100%;">应用偏好</button>
+      </div>
+
       <div style="text-align: center; margin-top: 0.3rem; color: #9B8C7A; font-size:0.9rem;">
         你的心灵目的地
       </div>
       <div class="city-recommendation" id="city-list"></div>
       <div class="detail-link" id="restart-link">↺ 重新测试</div>
+      <div class="detail-link" id="goto-regret" style="margin-top:0.5rem;">📖 我的遗憾笔记</div>
+      <div class="detail-link" id="goto-regret-pill" style="margin-top:0.3rem;">💊 后悔药 · 同人格踩坑榜</div>
+      <div class="detail-link" id="export-report" style="margin-top:0.3rem;">📥 导出我的旅行报告</div>
       <hr>
       <div class="small-text">点击城市查看匹配景点</div>
     </div>
@@ -469,6 +586,24 @@
       <div class="subtitle" id="city-subtitle" style="border-bottom: none; margin-bottom: 1rem;"></div>
       <input type="text" class="search-box" id="sight-search" placeholder="搜索景点...">
       <div class="sight-list" id="sight-list"></div>
+    </div>
+
+    <!-- 遗憾笔记视图 -->
+    <div id="regret-view" class="hidden fade-in">
+      <div class="back-link" id="back-to-result-from-regret">← 返回城市推荐</div>
+      <h1 style="font-size:1.8rem;">遗憾笔记</h1>
+      <div class="subtitle" style="border-bottom: none; margin-bottom: 1rem;">那些想去却没去成的地方</div>
+      <div id="regret-list"></div>
+      <div class="small-text" style="margin-top:1.5rem;" id="no-regret-msg"></div>
+    </div>
+
+    <!-- 后悔药视图 -->
+    <div id="regret-pill-view" class="hidden fade-in">
+      <div class="back-link" id="back-to-result-from-pill">← 返回城市推荐</div>
+      <h1 style="font-size:1.8rem;">后悔药</h1>
+      <div class="subtitle" style="border-bottom: none; margin-bottom: 1rem;" id="pill-persona-subtitle"></div>
+      <div id="pill-rank-list"></div>
+      <div class="small-text" style="margin-top:1rem;">数据来自和你相同人格的匿名旅行者</div>
     </div>
   </div>
 
@@ -497,7 +632,6 @@
         [ { adventure: 3, planning: -2 }, { planning: 3, culture: 1 }, { planning: 5 }, { adventure: 2, social: 1 } ]
       ];
 
-      // 扩展的国内城市数据库（为所有出现城市添加六维评分）
       const cities = [
         { name: "北京", culture: 95, nature: 45, adventure: 35, planning: 75, social: 60, budget: 40 },
         { name: "上海", culture: 70, nature: 35, adventure: 40, planning: 70, social: 85, budget: 45 },
@@ -520,7 +654,6 @@
         { name: "敦煌", culture: 90, nature: 70, adventure: 80, planning: 50, social: 30, budget: 50 }
       ];
 
-      // 精细版景点数据（直接依据你提供的表格）
       const allSights = [
         { city:"北京", name:"故宫", type:"历史古迹", history:10, photo:9, crowd:3, stamina:5, food:4, value:8, unique:9, time:4, alt:["恭王府"] },
         { city:"北京", name:"法源寺", type:"小众古寺", history:9, photo:7, crowd:8, stamina:1, food:3, value:10, unique:8, time:1.5, alt:["广济寺"] },
@@ -571,11 +704,16 @@
       let userDimensions = null;
       let currentCity = null;
       let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+      let regrets = JSON.parse(localStorage.getItem('regrets') || '{}');
+      let regretPills = JSON.parse(localStorage.getItem('regretPills') || '[]');
+      let userBudget = 500;
+      let userDays = 3;
 
-      // DOM元素
       const testView = document.getElementById('test-view');
       const resultView = document.getElementById('result-view');
       const citySightsView = document.getElementById('city-sights-view');
+      const regretView = document.getElementById('regret-view');
+      const regretPillView = document.getElementById('regret-pill-view');
       const questionText = document.getElementById('question-text');
       const optionsContainer = document.getElementById('options-container');
       const prevBtn = document.getElementById('prev-btn');
@@ -591,8 +729,44 @@
       const sightList = document.getElementById('sight-list');
       const sightSearch = document.getElementById('sight-search');
       const backToResult = document.getElementById('back-to-result');
+      const backToResultFromRegret = document.getElementById('back-to-result-from-regret');
+      const backToResultFromPill = document.getElementById('back-to-result-from-pill');
+      const gotoRegret = document.getElementById('goto-regret');
+      const gotoRegretPill = document.getElementById('goto-regret-pill');
+      const regretList = document.getElementById('regret-list');
+      const noRegretMsg = document.getElementById('no-regret-msg');
+      const pillPersonaSubtitle = document.getElementById('pill-persona-subtitle');
+      const pillRankList = document.getElementById('pill-rank-list');
+      const toggleSettings = document.getElementById('toggle-settings');
+      const settingsPanel = document.getElementById('settings-panel');
+      const budgetInput = document.getElementById('budget-input');
+      const daysInput = document.getElementById('days-input');
+      const applySettings = document.getElementById('apply-settings');
+      const exportReport = document.getElementById('export-report');
 
-      // ==================== 辅助函数 ====================
+      function saveData() {
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        localStorage.setItem('regrets', JSON.stringify(regrets));
+        localStorage.setItem('regretPills', JSON.stringify(regretPills));
+      }
+
+      function showToast(text) {
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.textContent = text;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2500);
+      }
+
+      function checkCityRegrets(cityName) {
+        const cityRegrets = Object.entries(regrets).filter(([name, data]) => data.city === cityName);
+        if (cityRegrets.length > 0) {
+          const names = cityRegrets.map(([name]) => name).join('、');
+          setTimeout(() => showToast(`📌 你上次在${cityName}留下了遗憾：${names}`), 500);
+        }
+      }
+
+      // ==================== 核心算法（含预算/天数调整） ====================
       function calculateDimensions() {
         let dims = { culture: 20, nature: 20, adventure: 20, planning: 20, social: 20, budget: 20 };
         answers.forEach((ans, qIdx) => {
@@ -606,6 +780,12 @@
         for (let k in dims) {
           dims[k] = Math.min(100, Math.max(0, dims[k]));
         }
+        // 根据用户输入的预算调整budget维度：预算越低越看重性价比
+        const budgetFactor = Math.max(0, 1 - (userBudget - 100) / 2000); // 100->1, 2000->0
+        dims.budget = Math.min(100, dims.budget + Math.round(budgetFactor * 30));
+        // 天数少则提高planning重要性
+        if (userDays <= 2) dims.planning = Math.min(100, dims.planning + 15);
+        else if (userDays >= 7) dims.planning = Math.max(0, dims.planning - 10);
         return dims;
       }
 
@@ -685,12 +865,11 @@
         }).sort((a, b) => b.match - a.match).slice(0, 3);
       }
 
-      // 调整后的个性化评分：crowd 高表示人少舒适，直接作为正面因素
       function getPersonalizedScore(sight, dims) {
         const weights = {
           history: dims.culture / 100,
           photo: (dims.social + dims.culture) / 200,
-          crowd: 1 - (dims.planning / 100) * 0.7 - (dims.adventure / 100) * 0.3, // 计划者/猎奇者更在意舒适
+          crowd: 1 - (dims.planning / 100) * 0.7 - (dims.adventure / 100) * 0.3,
           stamina: 1 - (dims.nature / 100) * 0.5,
           food: dims.social / 100,
           value: dims.budget / 100,
@@ -699,8 +878,8 @@
         let score = 0;
         score += sight.history * weights.history;
         score += sight.photo * weights.photo;
-        score += sight.crowd * weights.crowd;          // 直接使用crowd值（越高越舒适）
-        score += (10 - sight.stamina) * weights.stamina; // 体力消耗反向
+        score += sight.crowd * weights.crowd;
+        score += (10 - sight.stamina) * weights.stamina;
         score += sight.food * weights.food;
         score += sight.value * weights.value;
         score += sight.unique * weights.unique;
@@ -729,6 +908,7 @@
         const score = getPersonalizedScore(sight, dims);
         const highlights = getHighlightDimensions(sight, dims);
         const isWished = wishlist.includes(sight.name);
+        const isRegretPill = regretPills.some(p => p.sight === sight.name && p.persona === getPersonaName(dims));
         const card = document.createElement('div');
         card.className = 'sight-card';
         card.innerHTML = `
@@ -745,7 +925,10 @@
           </div>
           <div class="sight-meta">
             <span>🕒 推荐 ${sight.time} 小时</span>
-            <button class="wishlist-btn ${isWished ? 'saved' : ''}" data-sight="${sight.name}">${isWished ? '✓ 已想去' : '+ 想去'}</button>
+            <div class="sight-actions">
+              <button class="wishlist-btn ${isWished ? 'saved' : ''}" data-sight="${sight.name}">${isWished ? '✓ 已想去' : '+ 想去'}</button>
+              <button class="regret-btn ${isRegretPill ? 'marked' : ''}" data-sight="${sight.name}">${isRegretPill ? '💔 已后悔' : '⚡ 踩雷'}</button>
+            </div>
           </div>
           <div class="alt-section">
             <button class="alt-toggle">替代方案 ▾</button>
@@ -766,19 +949,19 @@
             e.stopPropagation();
             const altName = item.dataset.alt;
             const altSight = allSights.find(s => s.name === altName);
-            if (altSight) {
-              showSingleSight(altSight);
-            } else {
-              alert(`${altName} 详细信息暂未收录，敬请期待`);
-            }
+            if (altSight) showSingleSight(altSight);
+            else alert(`${altName} 详细信息暂未收录，敬请期待`);
           });
         });
-        const wishBtn = card.querySelector('.wishlist-btn');
-        wishBtn.addEventListener('click', (e) => {
+        card.querySelector('.wishlist-btn').addEventListener('click', (e) => {
           e.stopPropagation();
           toggleWishlist(sight.name);
-          wishBtn.classList.toggle('saved');
-          wishBtn.textContent = wishBtn.classList.contains('saved') ? '✓ 已想去' : '+ 想去';
+          refreshCurrentView();
+        });
+        card.querySelector('.regret-btn').addEventListener('click', (e) => {
+          e.stopPropagation();
+          toggleRegretPill(sight);
+          refreshCurrentView();
         });
         return card;
       }
@@ -786,10 +969,26 @@
       function toggleWishlist(sightName) {
         if (wishlist.includes(sightName)) {
           wishlist = wishlist.filter(s => s !== sightName);
+          if (regrets[sightName]) { delete regrets[sightName]; }
         } else {
           wishlist.push(sightName);
         }
-        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        saveData();
+      }
+
+      function toggleRegretPill(sight) {
+        const persona = getPersonaName(userDimensions);
+        const idx = regretPills.findIndex(p => p.sight === sight.name && p.persona === persona);
+        if (idx > -1) regretPills.splice(idx, 1);
+        else regretPills.push({ sight: sight.name, city: sight.city, persona });
+        saveData();
+      }
+
+      function refreshCurrentView() {
+        if (!citySightsView.classList.contains('hidden')) {
+          if (currentCity) showCitySights(currentCity);
+          else if (sightSearch.value) handleSearch(sightSearch.value);
+        }
       }
 
       function showSingleSight(sight) {
@@ -799,8 +998,7 @@
         sightList.innerHTML = '';
         sightList.appendChild(renderSightCard(sight, userDimensions));
         sightSearch.value = '';
-        testView.classList.add('hidden');
-        resultView.classList.add('hidden');
+        hideAllViews();
         citySightsView.classList.remove('hidden');
         currentCity = null;
       }
@@ -813,9 +1011,9 @@
         citySubtitle.textContent = `根据你的人格精选 ${citySights.length} 个景点`;
         sightSearch.value = '';
         renderCitySightList(citySights);
-        testView.classList.add('hidden');
-        resultView.classList.add('hidden');
+        hideAllViews();
         citySightsView.classList.remove('hidden');
+        checkCityRegrets(cityName);
       }
 
       function renderCitySightList(sights) {
@@ -833,9 +1031,7 @@
           if (currentCity) {
             const citySights = allSights.filter(s => s.city === currentCity);
             renderCitySightList(citySights);
-          } else {
-            sightList.innerHTML = '';
-          }
+          } else sightList.innerHTML = '';
           return;
         }
         const results = allSights.filter(s => s.name.toLowerCase().includes(query.toLowerCase()));
@@ -846,14 +1042,117 @@
         renderCitySightList(results);
       }
 
-      // ==================== 视图切换与事件绑定 ====================
+      function hideAllViews() {
+        testView.classList.add('hidden');
+        resultView.classList.add('hidden');
+        citySightsView.classList.add('hidden');
+        regretView.classList.add('hidden');
+        regretPillView.classList.add('hidden');
+      }
+
+      // ==================== 遗憾笔记 ====================
+      function renderRegretView() {
+        regretList.innerHTML = '';
+        const wished = wishlist.map(n => allSights.find(s => s.name === n)).filter(Boolean);
+        if (wished.length === 0) {
+          noRegretMsg.textContent = '你还没有收藏任何景点，去结果中点击“+ 想去”吧';
+          return;
+        }
+        noRegretMsg.textContent = '';
+        wished.forEach(sight => {
+          const isRegret = !!regrets[sight.name];
+          const div = document.createElement('div');
+          div.className = 'regret-item';
+          div.innerHTML = `
+            <div class="regret-header">
+              <span><strong>${sight.name}</strong> <span class="sight-type">${sight.city}</span></span>
+              <label style="display:flex;align-items:center;gap:0.3rem;font-size:0.85rem;">
+                <input type="checkbox" ${isRegret ? 'checked' : ''} data-sight="${sight.name}" class="regret-checkbox"> 遗憾
+              </label>
+            </div>
+            <input class="regret-note-input" placeholder="写下你想说的话..." value="${isRegret ? regrets[sight.name].note : ''}" data-sight="${sight.name}">
+          `;
+          regretList.appendChild(div);
+        });
+        document.querySelectorAll('.regret-checkbox').forEach(cb => {
+          cb.addEventListener('change', (e) => {
+            const sightName = e.target.dataset.sight;
+            const sight = allSights.find(s => s.name === sightName);
+            if (e.target.checked) {
+              const note = document.querySelector(`.regret-note-input[data-sight="${sightName}"]`)?.value || '';
+              regrets[sightName] = { note, city: sight?.city || '' };
+            } else delete regrets[sightName];
+            saveData();
+          });
+        });
+        document.querySelectorAll('.regret-note-input').forEach(input => {
+          input.addEventListener('input', (e) => {
+            if (regrets[e.target.dataset.sight]) {
+              regrets[e.target.dataset.sight].note = e.target.value;
+              saveData();
+            }
+          });
+        });
+      }
+
+      // ==================== 后悔药 ====================
+      function renderRegretPillView() {
+        const persona = getPersonaName(userDimensions);
+        pillPersonaSubtitle.textContent = `“${persona}” 型旅行者最后悔去的景点`;
+        pillRankList.innerHTML = '';
+        const personaPills = regretPills.filter(p => p.persona === persona);
+        if (personaPills.length === 0) {
+          pillRankList.innerHTML = '<p style="text-align:center; color:#9B8C7A;">还没有数据，去给景点点“踩雷”吧</p>';
+          return;
+        }
+        const counts = {};
+        personaPills.forEach(p => counts[p.sight] = (counts[p.sight] || 0) + 1);
+        Object.entries(counts).sort((a,b) => b[1]-a[1]).slice(0,5).forEach(([name, cnt], i) => {
+          const sight = allSights.find(s => s.name === name);
+          if (!sight) return;
+          const div = document.createElement('div');
+          div.className = 'regret-rank-item';
+          div.innerHTML = `<div style="display:flex;justify-content:space-between;"><span><strong>${i+1}. ${name}</strong> <span class="sight-type">${sight.city}</span></span><span class="regret-badge">${cnt}人后悔</span></div>`;
+          pillRankList.appendChild(div);
+        });
+      }
+
+      // ==================== 导出报告 ====================
+      function exportTravelReport() {
+        if (!userDimensions) return;
+        const persona = getPersonaName(userDimensions);
+        const topCities = matchCities(userDimensions);
+        const wished = wishlist.map(n => allSights.find(s => s.name === n)).filter(Boolean);
+        const regretEntries = Object.entries(regrets);
+        let text = `=== Next Station 旅行报告 ===\n\n`;
+        text += `✨ 旅行人格：${persona}\n`;
+        text += `💰 人均预算：${userBudget} 元/天   📅 出行天数：${userDays} 天\n\n`;
+        text += `🏙️ 推荐城市：\n`;
+        topCities.forEach((c, i) => text += `  ${i+1}. ${c.name}（匹配度 ${c.match}%）\n`);
+        text += `\n❤️ 想去景点：\n`;
+        if (wished.length) wished.forEach(s => text += `  - ${s.name}（${s.city}）\n`);
+        else text += `  暂无收藏\n`;
+        text += `\n📌 遗憾笔记：\n`;
+        if (regretEntries.length) regretEntries.forEach(([name, data]) => text += `  - ${name}（${data.city}）：${data.note || '未写心情'}\n`);
+        else text += `  暂无遗憾\n`;
+        text += `\n📅 生成时间：${new Date().toLocaleDateString()}`;
+        const blob = new Blob([text], {type: 'text/plain'});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `NextStation_${persona}_${new Date().toISOString().slice(0,10)}.txt`;
+        a.click();
+        showToast('报告已下载');
+      }
+
+      // ==================== 视图切换 ====================
       function showResults() {
+        userBudget = parseInt(budgetInput.value) || 500;
+        userDays = parseInt(daysInput.value) || 3;
         userDimensions = calculateDimensions();
         const persona = getPersonaName(userDimensions);
         const topCities = matchCities(userDimensions);
-        testView.classList.add('hidden');
+        hideAllViews();
         resultView.classList.remove('hidden');
-        citySightsView.classList.add('hidden');
         personaNameEl.textContent = persona;
         drawRadar(userDimensions);
         cityListEl.innerHTML = '';
@@ -871,19 +1170,24 @@
         currentQuestion = 0;
         userDimensions = null;
         currentCity = null;
-        resultView.classList.add('hidden');
-        citySightsView.classList.add('hidden');
+        hideAllViews();
         testView.classList.remove('hidden');
         renderQuestion();
       }
 
-      backToResult.addEventListener('click', () => {
-        if (userDimensions) {
-          citySightsView.classList.add('hidden');
-          resultView.classList.remove('hidden');
-        }
-      });
+      // 事件绑定
+      toggleSettings.addEventListener('click', () => settingsPanel.classList.toggle('hidden'));
+      applySettings.addEventListener('click', () => showResults());
+      budgetInput.addEventListener('change', () => { userBudget = parseInt(budgetInput.value) || 500; });
+      daysInput.addEventListener('change', () => { userDays = parseInt(daysInput.value) || 3; });
+      exportReport.addEventListener('click', exportTravelReport);
 
+      backToResult.addEventListener('click', () => { hideAllViews(); resultView.classList.remove('hidden'); });
+      backToResultFromRegret.addEventListener('click', () => { hideAllViews(); resultView.classList.remove('hidden'); });
+      backToResultFromPill.addEventListener('click', () => { hideAllViews(); resultView.classList.remove('hidden'); });
+      gotoRegret.addEventListener('click', () => { hideAllViews(); regretView.classList.remove('hidden'); renderRegretView(); });
+      gotoRegretPill.addEventListener('click', () => { if(!userDimensions) return; hideAllViews(); regretPillView.classList.remove('hidden'); renderRegretPillView(); });
+      restartLink.addEventListener('click', restartTest);
       sightSearch.addEventListener('input', (e) => handleSearch(e.target.value));
 
       function renderQuestion() {
@@ -926,10 +1230,8 @@
       nextBtn.addEventListener('click', () => {
         if (answers[currentQuestion] === -1) { alert('请先选择一个选项'); return; }
         if (currentQuestion < questions.length - 1) { currentQuestion++; renderQuestion(); }
-        else { showResults(); }
+        else showResults();
       });
-
-      restartLink.addEventListener('click', restartTest);
 
       renderQuestion();
     })();
