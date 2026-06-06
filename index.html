@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <title>旅行人格 · 找到本命城市</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #F9F6F0;
+      font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "Times New Roman", "Georgia", serif;
+      color: #4B3E2E;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* 世界地图背景（浅色若隐若现） */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 500'%3E%3Cpath d='M200 150 Q220 130 250 160 T300 180 T350 150 T400 170 T450 140 T500 160 T550 150 T600 170 T650 140 T700 160 T750 150 T800 170 M180 200 Q200 180 230 210 T280 230 T330 200 T380 220 T430 190 T480 210 T530 200 T580 220 T630 190 T680 210 T730 200 T780 220 M220 250 Q240 230 270 260 T320 280 T370 250 T420 270 T470 240 T520 260 T570 250 T620 270 T670 240 T720 260 M150 300 Q170 280 200 310 T250 330 T300 300 T350 320 T400 290 T450 310 T500 300 T550 320 T600 290 T650 310 M190 350 Q210 330 240 360 T290 380 T340 350 T390 370 T440 340 T490 360 T540 350 T590 370 T640 340 T690 360 M250 100 Q270 80 300 110 T350 130 T400 100 T450 120 T500 90 T550 110 T600 100 T650 120 T700 90 M300 50 Q320 30 350 60 T400 80 T450 50 T500 70 T550 40 T600 60' stroke='%23D6CBB8' stroke-width='0.8' fill='none' opacity='0.2'/%3E%3Ccircle cx='300' cy='200' r='10' fill='%23D6CBB8' opacity='0.2'/%3E%3Ccircle cx='600' cy='150' r='8' fill='%23D6CBB8' opacity='0.2'/%3E%3Ccircle cx='700' cy='280' r='12' fill='%23D6CBB8' opacity='0.2'/%3E%3Ccircle cx='250' cy='350' r='6' fill='%23D6CBB8' opacity='0.2'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      opacity: 0.6;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .card {
+      max-width: 480px;
+      width: 100%;
+      background: rgba(255, 252, 245, 0.95);
+      backdrop-filter: blur(8px);
+      border-radius: 2.5rem;
+      padding: 2.2rem 1.8rem;
+      box-shadow: 0 20px 40px rgba(120, 90, 60, 0.08), 0 6px 12px rgba(0,0,0,0.02);
+      border: 1px solid #EAE1D4;
+      transition: all 0.3s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      font-size: 2.1rem;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      color: #5E4B37;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #9B8C7A;
+      margin-bottom: 2.2rem;
+      border-bottom: 1px dashed #DDD4C8;
+      padding-bottom: 1.2rem;
+      font-style: italic;
+      letter-spacing: 0.02em;
+    }
+
+    .progress {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 2.2rem;
+      justify-content: center;
+    }
+
+    .progress-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 10px;
+      background: #E2D9CD;
+      transition: background 0.3s;
+    }
+
+    .progress-dot.active {
+      background: #B09A7A;
+      width: 20px;
+    }
+
+    .question {
+      margin-bottom: 2rem;
+    }
+
+    .question-text {
+      font-size: 1.35rem;
+      font-weight: 400;
+      margin-bottom: 1.5rem;
+      color: #4B3E2E;
+      letter-spacing: 0.02em;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .option-btn {
+      background: transparent;
+      border: 1px solid #D6CBB8;
+      background: rgba(253, 251, 247, 0.9);
+      padding: 0.9rem 1.3rem;
+      border-radius: 2.5rem;
+      font-size: 0.95rem;
+      color: #5E4B37;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+      letter-spacing: 0.02em;
+      display: flex;
+      align-items: center;
+      backdrop-filter: blur(2px);
+    }
+
+    .option-btn:hover {
+      background: #F3EDE2;
+      border-color: #C2AD90;
+    }
+
+    .option-btn.selected {
+      background: #EBE0D0;
+      border-color: #A58B6E;
+      font-weight: 500;
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+      gap: 1rem;
+    }
+
+    .btn {
+      background: transparent;
+      border: 1px solid #C8BCA5;
+      padding: 0.7rem 1.8rem;
+      border-radius: 3rem;
+      font-size: 0.9rem;
+      color: #5E4B37;
+      cursor: pointer;
+      font-family: inherit;
+      letter-spacing: 0.05em;
+      transition: 0.2s;
+      background: rgba(255, 252, 245, 0.9);
+      backdrop-filter: blur(2px);
+    }
+
+    .btn.primary {
+      background: #C7B59B;
+      border-color: #C7B59B;
+      color: #FCF9F2;
+      font-weight: 500;
+    }
+
+    .btn.primary:hover {
+      background: #B29E7D;
+      border-color: #B29E7D;
+    }
+
+    .btn:disabled {
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    /* 结果页样式 */
+    .radar-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 1rem 0 1.8rem;
+    }
+
+    canvas {
+      width: 100%;
+      max-width: 260px;
+      height: auto;
+    }
+
+    .persona-name {
+      font-size: 1.8rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      color: #5E4B37;
+      margin-top: 0.8rem;
+      text-align: center;
+    }
+
+    .city-recommendation {
+      display: flex;
+      gap: 0.8rem;
+      overflow-x: auto;
+      padding: 0.5rem 0 1rem;
+      margin-top: 1.2rem;
+    }
+
+    .city-card {
+      min-width: 130px;
+      background: #F7F1E5;
+      border-radius: 1.8rem;
+      padding: 1.2rem 0.8rem;
+      text-align: center;
+      border: 1px solid #E1D4C0;
+      flex: 1;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .city-card:hover {
+      background: #EDE3D3;
+      border-color: #BBA88B;
+    }
+
+    .city-name {
+      font-weight: 500;
+      font-size: 1.1rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .match-percent {
+      font-size: 0.8rem;
+      color: #9B8C7A;
+    }
+
+    .detail-link {
+      margin-top: 1.8rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #9B8C7A;
+      text-decoration: underline;
+      cursor: pointer;
+      text-underline-offset: 3px;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #E0D6C5;
+      margin: 1.8rem 0 1.2rem;
+    }
+
+    .small-text {
+      font-size: 0.8rem;
+      color: #B7A48B;
+      text-align: center;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .fade-in {
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="card" id="app">
+    <!-- 测试视图 -->
+    <div id="test-view">
+      <h1>旅行人格</h1>
+      <div class="subtitle">· 找到你的本命城市 ·</div>
+      <div class="progress" id="progress-dots"></div>
+      <div class="question" id="question-area">
+        <div class="question-text" id="question-text"></div>
+        <div class="options" id="options-container"></div>
+      </div>
+      <div class="nav-buttons">
+        <button class="btn" id="prev-btn" disabled>← 上一题</button>
+        <span style="display: flex; align-items: center; color: #B7A48B; font-size:0.85rem;" id="step-indicator">1/8</span>
+        <button class="btn primary" id="next-btn">下一题 →</button>
+      </div>
+    </div>
+
+    <!-- 结果视图 (初始隐藏) -->
+    <div id="result-view" class="hidden fade-in">
+      <h1 style="margin-bottom:0.2rem;">你的旅行人格</h1>
+      <div class="subtitle" style="border-bottom: none; margin-bottom: 0.5rem;">内在的旅行者，终于被看见</div>
+      <div class="radar-container">
+        <canvas id="radar-canvas" width="260" height="260"></canvas>
+      </div>
+      <div class="persona-name" id="persona-name">随性流浪诗人</div>
+      <div style="text-align: center; margin-top: 0.3rem; color: #9B8C7A; font-size:0.9rem;">
+        你的心灵目的地
+      </div>
+      <div class="city-recommendation" id="city-list"></div>
+      <div class="detail-link" id="restart-link">↺ 重新测试</div>
+      <hr>
+      <div class="small-text">点击城市查看匹配景点 · 遗憾笔记即将开启</div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // ==================== 核心数据（你可以自由修改） ====================
+      const questions = [
+        { text: "清晨醒来，你更想……", options: ["在陌生城市的巷子里漫步", "在酒店阳台享受早餐和风景", "立刻出发去一个冷门秘境", "按照攻略打卡第一站"] },
+        { text: "旅途中最让你兴奋的是？", options: ["偶遇的街头艺术或古迹", "一家完美的咖啡馆/书店", "没有人烟的山海之景", "提前预约好的米其林餐厅"] },
+        { text: "你的行李通常……", options: ["极简背包，随时出发", "一个登机箱，搭配得体", "装满户外装备", "井井有条，分类打包"] },
+        { text: "对于排队景点，你的态度？", options: ["基本拒绝，除非意义非凡", "可以忍受，只要值得", "完全不想等，换地方", "提前买免排队票"] },
+        { text: "旅行预算方面，你更像？", options: ["精打细算的青旅/民宿派", "中等舒适，偶尔犒劳自己", "愿意为独特体验花钱", "预算宽松，体验至上"] },
+        { text: "一个人时，你倾向于？", options: ["自己安静地记录/拍照", "和当地人聊天交朋友", "享受孤独的行走", "独自但随时在线分享"] },
+        { text: "以下哪种描述最贴近你？", options: ["我喜欢深入当地历史", "我更在意自然风光", "美食是我的旅行核心", "我追求独特的审美体验"] },
+        { text: "面对计划变动，你通常？", options: ["兴奋，随遇而安", "有点焦虑但能调整", "立刻重新规划路线", "无所谓，本来就松散"] }
+      ];
+
+      // 每个选项对六个维度的分值影响 (文化、自然、猎奇、计划、社交、预算)
+      const scoreRules = [
+        [ { culture: 3, adventure: 2 }, { planning: 2, budget: -1 }, { adventure: 4, nature: 2 }, { planning: 4, culture: 1 } ],
+        [ { culture: 4, social: 1 }, { social: 2, planning: 2 }, { nature: 4, adventure: 3 }, { budget: -2, planning: 3 } ],
+        [ { adventure: 3, budget: 2 }, { social: 1, planning: 2 }, { nature: 3, adventure: 2 }, { planning: 4, culture: 1 } ],
+        [ { culture: 3, planning: 1 }, { planning: 2, social: 1 }, { adventure: 2, nature: 1 }, { budget: -2, planning: 3 } ],
+        [ { budget: 4, adventure: 1 }, { budget: 2, social: 1 }, { budget: -2, adventure: 3 }, { budget: -3, planning: 2 } ],
+        [ { culture: 2, social: -1 }, { social: 4, adventure: 1 }, { nature: 2, adventure: 2 }, { social: 2, planning: 1 } ],
+        [ { culture: 5, planning: 1 }, { nature: 5, adventure: 2 }, { social: 2, budget: 1 }, { culture: 2, social: 2, adventure: 1 } ],
+        [ { adventure: 3, planning: -2 }, { planning: 3, culture: 1 }, { planning: 5 }, { adventure: 2, social: 1 } ]
+      ];
+
+      // 全球城市数据库（可继续添加，每个城市标注六个维度的亲和度 0-100）
+      const cities = [
+        { name: "京都", culture: 95, nature: 60, adventure: 40, planning: 70, social: 50, budget: 30 },
+        { name: "雷克雅未克", culture: 40, nature: 95, adventure: 90, planning: 30, social: 60, budget: 20 },
+        { name: "曼谷", culture: 70, nature: 40, adventure: 60, planning: 50, social: 90, budget: 80 },
+        { name: "伊斯坦布尔", culture: 90, nature: 50, adventure: 70, planning: 60, social: 75, budget: 50 },
+        { name: "巴塞罗那", culture: 80, nature: 55, adventure: 65, planning: 60, social: 80, budget: 60 },
+        { name: "成都", culture: 75, nature: 65, adventure: 55, planning: 50, social: 85, budget: 85 },
+        { name: "皇后镇", culture: 30, nature: 95, adventure: 90, planning: 40, social: 55, budget: 35 },
+        { name: "柏林", culture: 85, nature: 40, adventure: 70, planning: 55, social: 75, budget: 55 },
+        { name: "马拉喀什", culture: 80, nature: 50, adventure: 75, planning: 45, social: 70, budget: 65 }
+      ];
+
+      // ==================== 状态管理 ====================
+      let currentQuestion = 0;
+      let answers = new Array(questions.length).fill(-1);
+      
+      // DOM元素
+      const testView = document.getElementById('test-view');
+      const resultView = document.getElementById('result-view');
+      const questionText = document.getElementById('question-text');
+      const optionsContainer = document.getElementById('options-container');
+      const prevBtn = document.getElementById('prev-btn');
+      const nextBtn = document.getElementById('next-btn');
+      const stepIndicator = document.getElementById('step-indicator');
+      const progressDots = document.getElementById('progress-dots');
+      const personaNameEl = document.getElementById('persona-name');
+      const cityListEl = document.getElementById('city-list');
+      const restartLink = document.getElementById('restart-link');
+      const canvas = document.getElementById('radar-canvas');
+
+      // ==================== 渲染函数 ====================
+      function renderQuestion() {
+        const q = questions[currentQuestion];
+        questionText.textContent = q.text;
+        optionsContainer.innerHTML = '';
+        q.options.forEach((opt, idx) => {
+          const btn = document.createElement('button');
+          btn.className = 'option-btn';
+          if (answers[currentQuestion] === idx) btn.classList.add('selected');
+          btn.textContent = opt;
+          btn.addEventListener('click', () => selectOption(idx));
+          optionsContainer.appendChild(btn);
+        });
+
+        stepIndicator.textContent = `${currentQuestion + 1}/${questions.length}`;
+        prevBtn.disabled = currentQuestion === 0;
+        if (currentQuestion === questions.length - 1) {
+          nextBtn.textContent = '查看结果 ✦';
+        } else {
+          nextBtn.textContent = '下一题 →';
+        }
+        renderProgressDots();
+      }
+
+      function renderProgressDots() {
+        progressDots.innerHTML = '';
+        for (let i = 0; i < questions.length; i++) {
+          const dot = document.createElement('span');
+          dot.className = 'progress-dot' + (i === currentQuestion ? ' active' : '');
+          if (answers[i] !== -1) dot.style.background = '#B09A7A';
+          progressDots.appendChild(dot);
+        }
+      }
+
+      function selectOption(index) {
+        answers[currentQuestion] = index;
+        renderQuestion();
+      }
+
+      // ==================== 计算逻辑 ====================
+      function calculateDimensions() {
+        let dims = { culture: 20, nature: 20, adventure: 20, planning: 20, social: 20, budget: 20 };
+        answers.forEach((ans, qIdx) => {
+          if (ans !== -1 && scoreRules[qIdx] && scoreRules[qIdx][ans]) {
+            const rule = scoreRules[qIdx][ans];
+            for (let [key, val] of Object.entries(rule)) {
+              if (dims[key] !== undefined) dims[key] += val;
+            }
+          }
+        });
+        // 限制在0-100之间
+        for (let k in dims) {
+          dims[k] = Math.min(100, Math.max(0, dims[k]));
+        }
+        return dims;
+      }
+
+      function getPersonaName(dims) {
+        if (dims.culture > 75 && dims.planning > 60) return "硬核历史迷";
+        if (dims.nature > 75 && dims.adventure > 70) return "荒野探险家";
+        if (dims.social > 75 && dims.budget > 60) return "社交美食家";
+        if (dims.adventure > 70 && dims.planning < 40) return "随性流浪诗人";
+        if (dims.planning > 70 && dims.culture > 60) return "精致计划者";
+        if (dims.budget > 70) return "省钱背包客";
+        return "自由灵魂旅行者";
+      }
+
+      function drawRadar(dims) {
+        const ctx = canvas.getContext('2d');
+        const w = canvas.width;
+        const h = canvas.height;
+        ctx.clearRect(0, 0, w, h);
+        
+        const labels = ['文化', '自然', '猎奇', '计划', '社交', '预算'];
+        const keys = ['culture', 'nature', 'adventure', 'planning', 'social', 'budget'];
+        const centerX = w/2, centerY = h/2;
+        const radius = 85;
+        const numAxes = keys.length;
+
+        // 背景网格
+        ctx.strokeStyle = '#DDD4C8';
+        ctx.lineWidth = 0.6;
+        for (let i = 1; i <= 4; i++) {
+          ctx.beginPath();
+          for (let j = 0; j < numAxes; j++) {
+            const angle = (Math.PI * 2 / numAxes) * j - Math.PI/2;
+            const r = radius * (i/4);
+            const x = centerX + r * Math.cos(angle);
+            const y = centerY + r * Math.sin(angle);
+            if (j === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          }
+          ctx.closePath();
+          ctx.stroke();
+        }
+
+        // 轴线
+        for (let i = 0; i < numAxes; i++) {
+          const angle = (Math.PI * 2 / numAxes) * i - Math.PI/2;
+          ctx.beginPath();
+          ctx.moveTo(centerX, centerY);
+          ctx.lineTo(centerX + radius * Math.cos(angle), centerY + radius * Math.sin(angle));
+          ctx.strokeStyle = '#E2D9CD';
+          ctx.stroke();
+        }
+
+        // 数据多边形
+        ctx.beginPath();
+        for (let i = 0; i < numAxes; i++) {
+          const val = dims[keys[i]] / 100;
+          const angle = (Math.PI * 2 / numAxes) * i - Math.PI/2;
+          const x = centerX + radius * val * Math.cos(angle);
+          const y = centerY + radius * val * Math.sin(angle);
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(183, 164, 139, 0.25)';
+        ctx.fill();
+        ctx.strokeStyle = '#A58B6E';
+        ctx.lineWidth = 1.8;
+        ctx.stroke();
+
+        // 维度标签
+        ctx.fillStyle = '#5E4B37';
+        ctx.font = '12px "Noto Serif SC", serif';
+        ctx.textAlign = 'center';
+        for (let i = 0; i < numAxes; i++) {
+          const angle = (Math.PI * 2 / numAxes) * i - Math.PI/2;
+          const x = centerX + (radius + 18) * Math.cos(angle);
+          const y = centerY + (radius + 18) * Math.sin(angle);
+          ctx.fillText(labels[i], x, y + 4);
+        }
+      }
+
+      function matchCities(dims) {
+        const cityScores = cities.map(city => {
+          let score = 0;
+          for (let key of ['culture','nature','adventure','planning','social','budget']) {
+            score += 1 - Math.abs(dims[key] - city[key]) / 100;
+          }
+          return { ...city, match: Math.round((score / 6) * 100) };
+        });
+        cityScores.sort((a, b) => b.match - a.match);
+        return cityScores.slice(0, 3);
+      }
+
+      function showResults() {
+        const dims = calculateDimensions();
+        const persona = getPersonaName(dims);
+        const topCities = matchCities(dims);
+
+        testView.classList.add('hidden');
+        resultView.classList.remove('hidden');
+        personaNameEl.textContent = persona;
+        drawRadar(dims);
+
+        cityListEl.innerHTML = '';
+        topCities.forEach(city => {
+          const div = document.createElement('div');
+          div.className = 'city-card';
+          div.innerHTML = `<div class="city-name">${city.name}</div><div class="match-percent">匹配 ${city.match}%</div>`;
+          div.addEventListener('click', () => alert(`进入 ${city.name} 的景点推荐（下一步开发）`));
+          cityListEl.appendChild(div);
+        });
+      }
+
+      function restartTest() {
+        answers = new Array(questions.length).fill(-1);
+        currentQuestion = 0;
+        resultView.classList.add('hidden');
+        testView.classList.remove('hidden');
+        renderQuestion();
+      }
+
+      // 事件绑定
+      prevBtn.addEventListener('click', () => {
+        if (currentQuestion > 0) {
+          currentQuestion--;
+          renderQuestion();
+        }
+      });
+
+      nextBtn.addEventListener('click', () => {
+        if (answers[currentQuestion] === -1) {
+          alert('请先选择一个选项');
+          return;
+        }
+        if (currentQuestion < questions.length - 1) {
+          currentQuestion++;
+          renderQuestion();
+        } else {
+          showResults();
+        }
+      });
+
+      restartLink.addEventListener('click', restartTest);
+
+      // 启动
+      renderQuestion();
+    })();
+  </script>
+</body>
+</html>
