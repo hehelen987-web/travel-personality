@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
-  <title>旅行人格 · 找到本命城市</title>
+  <title>Next Station · 旅行人格与景点评分</title>
   <style>
     * {
       margin: 0;
@@ -26,7 +26,6 @@
       overflow-x: hidden;
     }
 
-    /* 世界地图背景（浅色若隐若现） */
     body::before {
       content: "";
       position: fixed;
@@ -44,7 +43,7 @@
     }
 
     .card {
-      max-width: 480px;
+      max-width: 500px;
       width: 100%;
       background: rgba(255, 252, 245, 0.95);
       backdrop-filter: blur(8px);
@@ -183,7 +182,11 @@
       pointer-events: none;
     }
 
-    /* 结果页样式 */
+    .btn.small {
+      padding: 0.4rem 1rem;
+      font-size: 0.8rem;
+    }
+
     .radar-container {
       display: flex;
       flex-direction: column;
@@ -276,6 +279,151 @@
       from { opacity: 0; transform: translateY(6px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
+    /* 景点卡片样式 */
+    .sight-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1.2rem;
+    }
+
+    .sight-card {
+      background: #FBF8F0;
+      border: 1px solid #E3D8C4;
+      border-radius: 1.5rem;
+      padding: 1.2rem;
+      transition: 0.2s;
+    }
+
+    .sight-card:hover {
+      border-color: #C2AD90;
+    }
+
+    .sight-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.8rem;
+    }
+
+    .sight-name {
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: #4B3E2E;
+    }
+
+    .sight-match {
+      font-size: 0.9rem;
+      color: #B09A7A;
+      background: #F0E8D5;
+      padding: 0.2rem 0.8rem;
+      border-radius: 2rem;
+    }
+
+    .dimension-highlight {
+      display: flex;
+      gap: 0.8rem;
+      margin-bottom: 0.8rem;
+      font-size: 0.85rem;
+    }
+
+    .highlight-badge {
+      background: #EFE7D8;
+      padding: 0.25rem 0.7rem;
+      border-radius: 1.5rem;
+    }
+
+    .highlight-badge.positive {
+      color: #5E4B37;
+      background: #E2D5BC;
+    }
+
+    .highlight-badge.negative {
+      color: #B0906E;
+      background: #F3EDE2;
+    }
+
+    .sight-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 0.8rem 0;
+      font-size: 0.85rem;
+      color: #8F806B;
+    }
+
+    .alt-section {
+      margin-top: 0.8rem;
+      border-top: 1px dashed #DDD4C8;
+      padding-top: 0.6rem;
+    }
+
+    .alt-toggle {
+      background: none;
+      border: none;
+      color: #B09A7A;
+      font-family: inherit;
+      font-size: 0.85rem;
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      padding: 0;
+    }
+
+    .alt-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.5rem;
+    }
+
+    .alt-item {
+      background: #F3EDE2;
+      border-radius: 1.5rem;
+      padding: 0.2rem 0.8rem;
+      font-size: 0.8rem;
+      color: #5E4B37;
+      cursor: pointer;
+      border: 1px solid #DDD4C8;
+    }
+
+    .search-box {
+      width: 100%;
+      padding: 0.8rem 1.2rem;
+      border: 1px solid #D6CBB8;
+      border-radius: 2.5rem;
+      background: rgba(253, 251, 247, 0.9);
+      font-family: inherit;
+      font-size: 0.95rem;
+      color: #5E4B37;
+      margin-bottom: 1.2rem;
+      outline: none;
+    }
+
+    .back-link {
+      text-align: left;
+      font-size: 0.9rem;
+      color: #9B8C7A;
+      margin-bottom: 1rem;
+      cursor: pointer;
+    }
+
+    .wishlist-btn {
+      background: transparent;
+      border: 1px solid #C8BCA5;
+      padding: 0.3rem 0.8rem;
+      border-radius: 2rem;
+      font-size: 0.8rem;
+      color: #5E4B37;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .wishlist-btn.saved {
+      background: #EBE0D0;
+      border-color: #A58B6E;
+    }
   </style>
 </head>
 <body>
@@ -296,27 +444,36 @@
       </div>
     </div>
 
-    <!-- 结果视图 (初始隐藏) -->
+    <!-- 结果视图（城市推荐） -->
     <div id="result-view" class="hidden fade-in">
       <h1 style="margin-bottom:0.2rem;">你的旅行人格</h1>
       <div class="subtitle" style="border-bottom: none; margin-bottom: 0.5rem;">内在的旅行者，终于被看见</div>
       <div class="radar-container">
         <canvas id="radar-canvas" width="260" height="260"></canvas>
       </div>
-      <div class="persona-name" id="persona-name">随性流浪诗人</div>
+      <div class="persona-name" id="persona-name"></div>
       <div style="text-align: center; margin-top: 0.3rem; color: #9B8C7A; font-size:0.9rem;">
         你的心灵目的地
       </div>
       <div class="city-recommendation" id="city-list"></div>
       <div class="detail-link" id="restart-link">↺ 重新测试</div>
       <hr>
-      <div class="small-text">点击城市查看匹配景点 · 遗憾笔记即将开启</div>
+      <div class="small-text">点击城市查看匹配景点</div>
+    </div>
+
+    <!-- 城市景点视图 -->
+    <div id="city-sights-view" class="hidden fade-in">
+      <div class="back-link" id="back-to-result">← 返回城市推荐</div>
+      <h1 id="city-title" style="font-size:1.8rem;"></h1>
+      <div class="subtitle" id="city-subtitle" style="border-bottom: none; margin-bottom: 1rem;"></div>
+      <input type="text" class="search-box" id="sight-search" placeholder="搜索景点...">
+      <div class="sight-list" id="sight-list"></div>
     </div>
   </div>
 
   <script>
     (function() {
-      // ==================== 核心数据（你可以自由修改） ====================
+      // ==================== 数据层 ====================
       const questions = [
         { text: "清晨醒来，你更想……", options: ["在陌生城市的巷子里漫步", "在酒店阳台享受早餐和风景", "立刻出发去一个冷门秘境", "按照攻略打卡第一站"] },
         { text: "旅途中最让你兴奋的是？", options: ["偶遇的街头艺术或古迹", "一家完美的咖啡馆/书店", "没有人烟的山海之景", "提前预约好的米其林餐厅"] },
@@ -328,7 +485,6 @@
         { text: "面对计划变动，你通常？", options: ["兴奋，随遇而安", "有点焦虑但能调整", "立刻重新规划路线", "无所谓，本来就松散"] }
       ];
 
-      // 每个选项对六个维度的分值影响 (文化、自然、猎奇、计划、社交、预算)
       const scoreRules = [
         [ { culture: 3, adventure: 2 }, { planning: 2, budget: -1 }, { adventure: 4, nature: 2 }, { planning: 4, culture: 1 } ],
         [ { culture: 4, social: 1 }, { social: 2, planning: 2 }, { nature: 4, adventure: 3 }, { budget: -2, planning: 3 } ],
@@ -340,7 +496,6 @@
         [ { adventure: 3, planning: -2 }, { planning: 3, culture: 1 }, { planning: 5 }, { adventure: 2, social: 1 } ]
       ];
 
-      // 全球城市数据库（可继续添加，每个城市标注六个维度的亲和度 0-100）
       const cities = [
         { name: "京都", culture: 95, nature: 60, adventure: 40, planning: 70, social: 50, budget: 30 },
         { name: "雷克雅未克", culture: 40, nature: 95, adventure: 90, planning: 30, social: 60, budget: 20 },
@@ -353,13 +508,45 @@
         { name: "马拉喀什", culture: 80, nature: 50, adventure: 75, planning: 45, social: 70, budget: 65 }
       ];
 
+      // 景点数据（用户提供的表格）
+      const allSights = [
+        { city:"京都", name:"清水寺", history:9.5, photo:8, crowd:2.5, stamina:4, food:3, value:7, unique:5, time:2.5, alt:["二年坂","高台寺"] },
+        { city:"京都", name:"伏见稻荷大社", history:8.5, photo:9.5, crowd:1.5, stamina:7, food:5, value:9, unique:7, time:3, alt:["三十三间堂","东福寺"] },
+        { city:"东京", name:"浅草寺", history:8.5, photo:8, crowd:3, stamina:2, food:6, value:9, unique:4, time:2, alt:["增上寺","神田明神"] },
+        { city:"东京", name:"涩谷Sky", history:5, photo:9.5, crowd:4, stamina:1, food:7, value:7, unique:6, time:1.5, alt:["东京塔","六本木之丘"] },
+        { city:"巴黎", name:"埃菲尔铁塔", history:8, photo:10, crowd:2, stamina:2, food:7, value:6, unique:5, time:2, alt:["蒙帕纳斯大厦"] },
+        { city:"巴黎", name:"卢浮宫", history:10, photo:9, crowd:3, stamina:5, food:4, value:8, unique:8, time:4, alt:["奥赛博物馆"] },
+        { city:"伦敦", name:"大英博物馆", history:10, photo:7.5, crowd:5, stamina:3, food:2, value:10, unique:7, time:3, alt:["维多利亚与阿尔伯特博物馆"] },
+        { city:"伦敦", name:"塔桥", history:8, photo:8.5, crowd:5, stamina:2, food:5, value:8, unique:5, time:1.5, alt:["伦敦塔"] },
+        { city:"罗马", name:"斗兽场", history:10, photo:9, crowd:3, stamina:4, food:5, value:7, unique:8, time:3, alt:["古罗马广场"] },
+        { city:"罗马", name:"特莱维喷泉", history:7, photo:9, crowd:1.5, stamina:1, food:7, value:9, unique:4, time:1, alt:["纳沃纳广场"] },
+        { city:"纽约", name:"时代广场", history:6, photo:8.5, crowd:2, stamina:1, food:9, value:7, unique:5, time:2, alt:["洛克菲勒中心"] },
+        { city:"纽约", name:"中央公园", history:7, photo:8, crowd:7, stamina:3, food:6, value:10, unique:4, time:3, alt:["布莱恩特公园"] },
+        { city:"北京", name:"故宫", history:10, photo:9, crowd:3, stamina:5, food:4, value:8, unique:9, time:4, alt:["恭王府"] },
+        { city:"北京", name:"长城(八达岭)", history:10, photo:9.5, crowd:4, stamina:7, food:3, value:8, unique:10, time:4, alt:["慕田峪长城"] },
+        { city:"上海", name:"外滩", history:7, photo:9, crowd:5, stamina:1, food:8, value:10, unique:5, time:2, alt:["北外滩"] },
+        { city:"上海", name:"豫园", history:8, photo:8, crowd:4, stamina:2, food:8, value:8, unique:6, time:2, alt:["七宝古镇"] },
+        { city:"首尔", name:"景福宫", history:9, photo:8.5, crowd:5, stamina:2, food:6, value:9, unique:6, time:2, alt:["昌德宫"] },
+        { city:"首尔", name:"北村韩屋村", history:8, photo:9, crowd:4, stamina:3, food:7, value:10, unique:7, time:2, alt:["益善洞"] },
+        { city:"曼谷", name:"大皇宫", history:9, photo:9, crowd:3, stamina:4, food:6, value:7, unique:6, time:3, alt:["郑王庙"] },
+        { city:"曼谷", name:"卧佛寺", history:8, photo:8, crowd:5, stamina:2, food:5, value:9, unique:5, time:1.5, alt:["金山寺"] },
+        { city:"新加坡", name:"滨海湾花园", history:7, photo:10, crowd:6, stamina:2, food:6, value:7, unique:8, time:3, alt:["植物园"] },
+        { city:"新加坡", name:"鱼尾狮公园", history:5, photo:8, crowd:6, stamina:1, food:7, value:10, unique:3, time:1, alt:["滨海艺术中心"] },
+        { city:"巴塞罗那", name:"圣家堂", history:10, photo:10, crowd:4, stamina:2, food:4, value:7, unique:10, time:3, alt:["巴特罗之家"] },
+        { city:"巴塞罗那", name:"古埃尔公园", history:8, photo:9.5, crowd:4, stamina:4, food:4, value:8, unique:8, time:2.5, alt:["蒙锥克山"] }
+      ];
+
       // ==================== 状态管理 ====================
       let currentQuestion = 0;
       let answers = new Array(questions.length).fill(-1);
-      
+      let userDimensions = null;
+      let currentCity = null;
+      let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+
       // DOM元素
       const testView = document.getElementById('test-view');
       const resultView = document.getElementById('result-view');
+      const citySightsView = document.getElementById('city-sights-view');
       const questionText = document.getElementById('question-text');
       const optionsContainer = document.getElementById('options-container');
       const prevBtn = document.getElementById('prev-btn');
@@ -370,47 +557,13 @@
       const cityListEl = document.getElementById('city-list');
       const restartLink = document.getElementById('restart-link');
       const canvas = document.getElementById('radar-canvas');
+      const cityTitle = document.getElementById('city-title');
+      const citySubtitle = document.getElementById('city-subtitle');
+      const sightList = document.getElementById('sight-list');
+      const sightSearch = document.getElementById('sight-search');
+      const backToResult = document.getElementById('back-to-result');
 
-      // ==================== 渲染函数 ====================
-      function renderQuestion() {
-        const q = questions[currentQuestion];
-        questionText.textContent = q.text;
-        optionsContainer.innerHTML = '';
-        q.options.forEach((opt, idx) => {
-          const btn = document.createElement('button');
-          btn.className = 'option-btn';
-          if (answers[currentQuestion] === idx) btn.classList.add('selected');
-          btn.textContent = opt;
-          btn.addEventListener('click', () => selectOption(idx));
-          optionsContainer.appendChild(btn);
-        });
-
-        stepIndicator.textContent = `${currentQuestion + 1}/${questions.length}`;
-        prevBtn.disabled = currentQuestion === 0;
-        if (currentQuestion === questions.length - 1) {
-          nextBtn.textContent = '查看结果 ✦';
-        } else {
-          nextBtn.textContent = '下一题 →';
-        }
-        renderProgressDots();
-      }
-
-      function renderProgressDots() {
-        progressDots.innerHTML = '';
-        for (let i = 0; i < questions.length; i++) {
-          const dot = document.createElement('span');
-          dot.className = 'progress-dot' + (i === currentQuestion ? ' active' : '');
-          if (answers[i] !== -1) dot.style.background = '#B09A7A';
-          progressDots.appendChild(dot);
-        }
-      }
-
-      function selectOption(index) {
-        answers[currentQuestion] = index;
-        renderQuestion();
-      }
-
-      // ==================== 计算逻辑 ====================
+      // ==================== 辅助函数 ====================
       function calculateDimensions() {
         let dims = { culture: 20, nature: 20, adventure: 20, planning: 20, social: 20, budget: 20 };
         answers.forEach((ans, qIdx) => {
@@ -421,7 +574,6 @@
             }
           }
         });
-        // 限制在0-100之间
         for (let k in dims) {
           dims[k] = Math.min(100, Math.max(0, dims[k]));
         }
@@ -440,17 +592,11 @@
 
       function drawRadar(dims) {
         const ctx = canvas.getContext('2d');
-        const w = canvas.width;
-        const h = canvas.height;
+        const w = canvas.width, h = canvas.height;
         ctx.clearRect(0, 0, w, h);
-        
         const labels = ['文化', '自然', '猎奇', '计划', '社交', '预算'];
         const keys = ['culture', 'nature', 'adventure', 'planning', 'social', 'budget'];
-        const centerX = w/2, centerY = h/2;
-        const radius = 85;
-        const numAxes = keys.length;
-
-        // 背景网格
+        const centerX = w/2, centerY = h/2, radius = 85, numAxes = keys.length;
         ctx.strokeStyle = '#DDD4C8';
         ctx.lineWidth = 0.6;
         for (let i = 1; i <= 4; i++) {
@@ -466,8 +612,6 @@
           ctx.closePath();
           ctx.stroke();
         }
-
-        // 轴线
         for (let i = 0; i < numAxes; i++) {
           const angle = (Math.PI * 2 / numAxes) * i - Math.PI/2;
           ctx.beginPath();
@@ -476,8 +620,6 @@
           ctx.strokeStyle = '#E2D9CD';
           ctx.stroke();
         }
-
-        // 数据多边形
         ctx.beginPath();
         for (let i = 0; i < numAxes; i++) {
           const val = dims[keys[i]] / 100;
@@ -493,8 +635,6 @@
         ctx.strokeStyle = '#A58B6E';
         ctx.lineWidth = 1.8;
         ctx.stroke();
-
-        // 维度标签
         ctx.fillStyle = '#5E4B37';
         ctx.font = '12px "Noto Serif SC", serif';
         ctx.textAlign = 'center';
@@ -507,33 +647,196 @@
       }
 
       function matchCities(dims) {
-        const cityScores = cities.map(city => {
+        return cities.map(city => {
           let score = 0;
           for (let key of ['culture','nature','adventure','planning','social','budget']) {
             score += 1 - Math.abs(dims[key] - city[key]) / 100;
           }
           return { ...city, match: Math.round((score / 6) * 100) };
-        });
-        cityScores.sort((a, b) => b.match - a.match);
-        return cityScores.slice(0, 3);
+        }).sort((a, b) => b.match - a.match).slice(0, 3);
       }
 
-      function showResults() {
-        const dims = calculateDimensions();
-        const persona = getPersonaName(dims);
-        const topCities = matchCities(dims);
+      // 个性化景点评分
+      function getPersonalizedScore(sight, dims) {
+        // 维度映射：用户维度权重影响景点各属性
+        const weights = {
+          history: dims.culture / 100,
+          photo: (dims.social + dims.culture) / 200,
+          crowd: 1 - (dims.planning / 100) * 0.7 - (dims.adventure / 100) * 0.3, // 计划性强或猎奇的人更讨厌拥挤
+          stamina: 1 - (dims.nature / 100) * 0.5, // 自然爱好者不怕体力消耗
+          food: dims.social / 100,
+          value: dims.budget / 100,
+          unique: dims.adventure / 100
+        };
+        let score = 0;
+        score += sight.history * weights.history;
+        score += sight.photo * weights.photo;
+        score += (10 - sight.crowd) * weights.crowd; // 拥挤忍受度反向
+        score += (10 - sight.stamina) * weights.stamina; // 体力消耗反向
+        score += sight.food * weights.food;
+        score += sight.value * weights.value;
+        score += sight.unique * weights.unique;
+        return Math.round(score / 7 * 10); // 归一化到0-100
+      }
 
+      function getHighlightDimensions(sight, dims) {
+        // 找出用户最看重的维度和最可能踩雷的维度
+        const aspects = [
+          { key: 'history', label: '历史人文', value: sight.history, weight: dims.culture },
+          { key: 'photo', label: '出片颜值', value: sight.photo, weight: (dims.social + dims.culture) / 2 },
+          { key: 'crowd', label: '拥挤度', value: sight.crowd, weight: 100 - dims.planning }, // 计划者更讨厌拥挤
+          { key: 'stamina', label: '体力消耗', value: sight.stamina, weight: 100 - dims.nature },
+          { key: 'food', label: '美食关联', value: sight.food, weight: dims.social },
+          { key: 'value', label: '性价比', value: sight.value, weight: dims.budget },
+          { key: 'unique', label: '独特性', value: sight.unique, weight: dims.adventure }
+        ];
+        // 正向匹配（高权重且高得分）
+        const positive = aspects.filter(a => a.weight > 50 && a.value > 7).sort((a,b) => b.weight - a.weight);
+        // 负面踩雷（高权重但低得分）
+        const negative = aspects.filter(a => a.weight > 50 && a.value < 4).sort((a,b) => b.weight - a.weight);
+        return {
+          positive: positive.length > 0 ? positive[0] : null,
+          negative: negative.length > 0 ? negative[0] : null
+        };
+      }
+
+      function renderSightCard(sight, dims) {
+        const score = getPersonalizedScore(sight, dims);
+        const highlights = getHighlightDimensions(sight, dims);
+        const isWished = wishlist.includes(sight.name);
+        const card = document.createElement('div');
+        card.className = 'sight-card';
+        card.innerHTML = `
+          <div class="sight-header">
+            <span class="sight-name">${sight.name}</span>
+            <span class="sight-match">与你匹配 ${score}%</span>
+          </div>
+          <div class="dimension-highlight">
+            ${highlights.positive ? `<span class="highlight-badge positive">${highlights.positive.label} ${highlights.positive.value} ← 你极爱</span>` : ''}
+            ${highlights.negative ? `<span class="highlight-badge negative">${highlights.negative.label} ${highlights.negative.value} ← 你可能受不了</span>` : ''}
+          </div>
+          <div class="sight-meta">
+            <span>🕒 推荐 ${sight.time} 小时</span>
+            <button class="wishlist-btn ${isWished ? 'saved' : ''}" data-sight="${sight.name}">${isWished ? '✓ 已想去' : '+ 想去'}</button>
+          </div>
+          <div class="alt-section">
+            <button class="alt-toggle">替代方案 ▾</button>
+            <div class="alt-list hidden">
+              ${sight.alt.map(a => `<span class="alt-item" data-alt="${a}">${a}</span>`).join('')}
+            </div>
+          </div>
+        `;
+        // 替代方案展开/折叠
+        const toggleBtn = card.querySelector('.alt-toggle');
+        const altList = card.querySelector('.alt-list');
+        toggleBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          altList.classList.toggle('hidden');
+          toggleBtn.textContent = altList.classList.contains('hidden') ? '替代方案 ▾' : '替代方案 ▴';
+        });
+        // 替代景点点击（若在数据库中则跳转显示）
+        card.querySelectorAll('.alt-item').forEach(item => {
+          item.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const altName = item.dataset.alt;
+            const altSight = allSights.find(s => s.name === altName);
+            if (altSight) {
+              showSingleSight(altSight);
+            } else {
+              alert(`${altName} 详细信息暂未收录，敬请期待`);
+            }
+          });
+        });
+        // 想去按钮
+        const wishBtn = card.querySelector('.wishlist-btn');
+        wishBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          toggleWishlist(sight.name);
+          wishBtn.classList.toggle('saved');
+          wishBtn.textContent = wishBtn.classList.contains('saved') ? '✓ 已想去' : '+ 想去';
+        });
+        return card;
+      }
+
+      function toggleWishlist(sightName) {
+        if (wishlist.includes(sightName)) {
+          wishlist = wishlist.filter(s => s !== sightName);
+        } else {
+          wishlist.push(sightName);
+        }
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+      }
+
+      function showSingleSight(sight) {
+        if (!userDimensions) return;
+        cityTitle.textContent = sight.name;
+        citySubtitle.textContent = `位于 ${sight.city}`;
+        sightList.innerHTML = '';
+        sightList.appendChild(renderSightCard(sight, userDimensions));
+        sightSearch.value = '';
+        testView.classList.add('hidden');
+        resultView.classList.add('hidden');
+        citySightsView.classList.remove('hidden');
+        currentCity = null; // 标记为非城市浏览
+      }
+
+      function showCitySights(cityName) {
+        const citySights = allSights.filter(s => s.city === cityName);
+        if (!userDimensions || citySights.length === 0) return;
+        currentCity = cityName;
+        cityTitle.textContent = cityName;
+        citySubtitle.textContent = `根据你的人格精选 ${citySights.length} 个景点`;
+        sightSearch.value = '';
+        renderCitySightList(citySights);
+        testView.classList.add('hidden');
+        resultView.classList.add('hidden');
+        citySightsView.classList.remove('hidden');
+      }
+
+      function renderCitySightList(sights) {
+        sightList.innerHTML = '';
+        if (sights.length === 0) {
+          sightList.innerHTML = '<p style="text-align:center; color:#9B8C7A;">暂无匹配景点</p>';
+          return;
+        }
+        const sorted = [...sights].sort((a,b) => getPersonalizedScore(b, userDimensions) - getPersonalizedScore(a, userDimensions));
+        sorted.forEach(s => sightList.appendChild(renderSightCard(s, userDimensions)));
+      }
+
+      function handleSearch(query) {
+        if (!query.trim()) {
+          if (currentCity) {
+            const citySights = allSights.filter(s => s.city === currentCity);
+            renderCitySightList(citySights);
+          } else {
+            sightList.innerHTML = '';
+          }
+          return;
+        }
+        const results = allSights.filter(s => s.name.toLowerCase().includes(query.toLowerCase()));
+        if (results.length === 0) {
+          sightList.innerHTML = '<p style="text-align:center; color:#9B8C7A;">未找到相关景点</p>';
+          return;
+        }
+        renderCitySightList(results);
+      }
+
+      // ==================== 视图切换与事件绑定 ====================
+      function showResults() {
+        userDimensions = calculateDimensions();
+        const persona = getPersonaName(userDimensions);
+        const topCities = matchCities(userDimensions);
         testView.classList.add('hidden');
         resultView.classList.remove('hidden');
+        citySightsView.classList.add('hidden');
         personaNameEl.textContent = persona;
-        drawRadar(dims);
-
+        drawRadar(userDimensions);
         cityListEl.innerHTML = '';
         topCities.forEach(city => {
           const div = document.createElement('div');
           div.className = 'city-card';
           div.innerHTML = `<div class="city-name">${city.name}</div><div class="match-percent">匹配 ${city.match}%</div>`;
-          div.addEventListener('click', () => alert(`进入 ${city.name} 的景点推荐（下一步开发）`));
+          div.addEventListener('click', () => showCitySights(city.name));
           cityListEl.appendChild(div);
         });
       }
@@ -541,30 +844,65 @@
       function restartTest() {
         answers = new Array(questions.length).fill(-1);
         currentQuestion = 0;
+        userDimensions = null;
+        currentCity = null;
         resultView.classList.add('hidden');
+        citySightsView.classList.add('hidden');
         testView.classList.remove('hidden');
         renderQuestion();
       }
 
-      // 事件绑定
-      prevBtn.addEventListener('click', () => {
-        if (currentQuestion > 0) {
-          currentQuestion--;
-          renderQuestion();
+      backToResult.addEventListener('click', () => {
+        if (userDimensions) {
+          citySightsView.classList.add('hidden');
+          resultView.classList.remove('hidden');
         }
       });
 
+      sightSearch.addEventListener('input', (e) => handleSearch(e.target.value));
+
+      // 测试流程
+      function renderQuestion() {
+        const q = questions[currentQuestion];
+        questionText.textContent = q.text;
+        optionsContainer.innerHTML = '';
+        q.options.forEach((opt, idx) => {
+          const btn = document.createElement('button');
+          btn.className = 'option-btn';
+          if (answers[currentQuestion] === idx) btn.classList.add('selected');
+          btn.textContent = opt;
+          btn.addEventListener('click', () => selectOption(idx));
+          optionsContainer.appendChild(btn);
+        });
+        stepIndicator.textContent = `${currentQuestion + 1}/${questions.length}`;
+        prevBtn.disabled = currentQuestion === 0;
+        nextBtn.textContent = currentQuestion === questions.length - 1 ? '查看结果 ✦' : '下一题 →';
+        renderProgressDots();
+      }
+
+      function renderProgressDots() {
+        progressDots.innerHTML = '';
+        for (let i = 0; i < questions.length; i++) {
+          const dot = document.createElement('span');
+          dot.className = 'progress-dot' + (i === currentQuestion ? ' active' : '');
+          if (answers[i] !== -1) dot.style.background = '#B09A7A';
+          progressDots.appendChild(dot);
+        }
+      }
+
+      function selectOption(index) {
+        answers[currentQuestion] = index;
+        renderQuestion();
+      }
+
+      prevBtn.addEventListener('click', () => {
+        if (currentQuestion > 0) { currentQuestion--; renderQuestion(); }
+      });
+
       nextBtn.addEventListener('click', () => {
-        if (answers[currentQuestion] === -1) {
-          alert('请先选择一个选项');
-          return;
-        }
-        if (currentQuestion < questions.length - 1) {
-          currentQuestion++;
-          renderQuestion();
-        } else {
-          showResults();
-        }
+        if (answers[currentQuestion] === -1) { alert('请先选择一个选项'); return; }
+        if (currentQuestion < questions.length - 1) { currentQuestion++; renderQuestion(); }
+        else { showResults(); }
       });
 
       restartLink.addEventListener('click', restartTest);
