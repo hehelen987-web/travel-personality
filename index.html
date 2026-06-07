@@ -24,7 +24,6 @@
       color: var(--text);
       line-height: 1.6;
       min-height: 100vh;
-      min-height: 100dvh;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -89,7 +88,7 @@
       transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); font-family: inherit; letter-spacing: 0.02em;
       backdrop-filter: blur(4px); position: relative;
     }
-    .option-btn:active { transform: scale(0.97); transition: transform 0.1s; }
+    .option-btn:active { transform: scale(0.97); }
     .option-btn:hover { background: #F3EDE2; border-color: #C2AD90; transform: translateX(4px); box-shadow: 0 4px 12px rgba(120, 90, 60, 0.06); }
     .option-btn.selected {
       background: var(--highlight); border-color: #A58B6E; font-weight: 500;
@@ -248,7 +247,7 @@
 
   <script>
     (function() {
-      // ---------- 数据层 ----------
+      // ==================== 数据层 ====================
       const questions = [
         { text: "清晨醒来，你更想……", options: ["在古城巷子里漫步", "在酒店阳台享受早餐和风景", "立刻出发去一个冷门秘境", "按照攻略打卡第一站"] },
         { text: "旅途中最让你兴奋的是？", options: ["偶遇的古迹或博物馆", "一家完美的茶馆/咖啡馆", "没有人烟的山水", "提前预约好的网红餐厅"] },
@@ -414,6 +413,7 @@
         "城市探索家": "你痴迷于城市的肌理与活力。\n你喜欢穿街走巷，发现藏在老城里的新潮小店。\n不设限的漫步，是你和城市对话的方式。",
         "性价比指挥官": "你擅长用有限的预算撬动最大的体验。\n你会在特价机票、免费讲解、错峰出行中找到乐趣。\n每一分钱都花在刀刃上，但从不牺牲旅行的质量。",
         "佛系漫游者": "你是个随和而包容的旅行者。\n历史、自然、美食你都喜欢，但都不强求。\n去哪里都行，怎么玩都开心，旅途中的小确幸最让你满足。",
+        "全能旅行家": "你是一个六边形战士！\n无论文化、自然、美食还是计划，你都游刃有余。\n你可以轻松适应任何旅行方式，每一次出行都精彩纷呈。",
         "文化爱好者": "你对历史与艺术情有独钟，但不一定执着于打卡清单。\n你喜欢在旅途中感受文明的温度，一次好的展览就能点亮一整天。",
         "自然向往者": "你心向山水，即使体力一般，也愿意为一片晚霞停下脚步。\n你喜欢柔和的自然，比如森林步道、湖畔骑行。",
         "好奇冒险家": "你对未知充满好奇，喜欢小众目的地和惊喜。\n你不怕折腾，怕的是旅途无趣。",
@@ -423,7 +423,7 @@
         "自由灵魂旅行者": "你是独特的旅行者，拥有属于自己的探索方式。\n有时你偏爱历史，有时你向往自然，你的旅行风格灵活多变，不被定义。"
       };
 
-      // ---------- 状态 ----------
+      // ==================== 状态管理 ====================
       let currentQuestion = 0;
       let answers = new Array(questions.length).fill(-1);
       let userDimensions = null;
@@ -433,7 +433,7 @@
       let regretPills = JSON.parse(localStorage.getItem('regretPills') || '[]');
       let userBudget = 500, userDays = 3;
 
-      // ---------- 工具函数 ----------
+      // ==================== 工具函数 ====================
       function saveData() {
         localStorage.setItem('wishlist', JSON.stringify(wishlist));
         localStorage.setItem('regrets', JSON.stringify(regrets));
@@ -469,7 +469,7 @@
         });
       }
 
-      // ---------- 核心算法 ----------
+      // ==================== 核心算法（两阶段人格匹配） ====================
       function calculateDimensions() {
         let dims = { culture: 10, nature: 10, adventure: 10, planning: 10, social: 10, budget: 10 };
         answers.forEach((ans, qIdx) => {
@@ -489,29 +489,71 @@
       }
 
       function getPersonaName(dims) {
-        const personas = {
-          "硬核历史迷":      { culture: 85, nature: 30, adventure: 30, planning: 70, social: 40, budget: 40 },
-          "荒野探险家":      { culture: 30, nature: 90, adventure: 85, planning: 25, social: 30, budget: 45 },
-          "社交美食家":      { culture: 40, nature: 35, adventure: 50, planning: 45, social: 90, budget: 70 },
-          "随性流浪诗人":    { culture: 55, nature: 60, adventure: 75, planning: 15, social: 60, budget: 55 },
-          "精致计划者":      { culture: 70, nature: 35, adventure: 25, planning: 90, social: 50, budget: 45 },
-          "省钱背包客":      { culture: 35, nature: 45, adventure: 50, planning: 40, social: 45, budget: 95 },
-          "文艺打卡机":      { culture: 75, nature: 55, adventure: 35, planning: 60, social: 70, budget: 50 },
-          "自然隐居者":      { culture: 40, nature: 90, adventure: 50, planning: 20, social: 25, budget: 55 },
-          "城市探索家":      { culture: 55, nature: 45, adventure: 65, planning: 40, social: 80, budget: 60 },
-          "性价比指挥官":    { culture: 45, nature: 40, adventure: 45, planning: 70, social: 60, budget: 85 },
-          "佛系漫游者":      { culture: 55, nature: 55, adventure: 55, planning: 55, social: 55, budget: 55 },
-        };
-        let bestPersona = "自由灵魂旅行者";
-        let bestScore = Infinity;
-        for (let [name, ideal] of Object.entries(personas)) {
-          let dist = 0;
-          for (let key of ['culture','nature','adventure','planning','social','budget']) {
-            dist += Math.pow(dims[key] - ideal[key], 2);
-          }
-          if (dist < bestScore) { bestScore = dist; bestPersona = name; }
+        // 阶段一：找出最高维度和次高维度
+        const sorted = Object.entries(dims).sort((a,b) => b[1] - a[1]);
+        const topDim = sorted[0][0];
+        const secondDim = sorted[1][0];
+        const topVal = sorted[0][1];
+        const secondVal = sorted[1][1];
+
+        // 阶段二：根据组合规则进行精细化判断
+
+        // 全能型检查
+        if (sorted.every(([k,v]) => v >= 60)) return "全能旅行家";
+
+        // 佛系检查
+        if (sorted.every(([k,v]) => v >= 40 && v <= 65) && topVal - sorted[5][1] <= 25) return "佛系漫游者";
+
+        // 文化最高的情况
+        if (topDim === 'culture') {
+          if (secondDim === 'social' && secondVal >= 60) return "文艺打卡机";
+          if (secondDim === 'adventure' && secondVal >= 55) return "好奇冒险家";
+          if (secondDim === 'planning' && secondVal >= 55) return "硬核历史迷";
+          if (secondDim === 'nature' && secondVal >= 50) return "文艺打卡机"; // 文化+自然=文艺
+          return "文化爱好者";
         }
-        return bestPersona;
+
+        // 自然最高的情况
+        if (topDim === 'nature') {
+          if (dims.adventure >= 65) return "荒野探险家";
+          if (dims.planning <= 30) return "随性流浪诗人";
+          if (dims.social <= 35) return "自然隐居者";
+          if (secondDim === 'social' && secondVal >= 60) return "人间烟火客";
+          return "自然向往者";
+        }
+
+        // 冒险最高的情况
+        if (topDim === 'adventure') {
+          if (dims.nature >= 60) return "荒野探险家";
+          if (dims.planning <= 30) return "随性流浪诗人";
+          if (secondDim === 'social' && secondVal >= 55) return "城市探索家";
+          return "好奇冒险家";
+        }
+
+        // 社交最高的情况
+        if (topDim === 'social') {
+          if (dims.budget <= 50) return "性价比指挥官";
+          if (dims.budget >= 65) return "社交美食家";
+          if (secondDim === 'culture' && secondVal >= 55) return "文艺打卡机";
+          if (secondDim === 'adventure' && secondVal >= 55) return "城市探索家";
+          return "人间烟火客";
+        }
+
+        // 计划最高的情况
+        if (topDim === 'planning') {
+          if (dims.culture >= 60) return "精致计划者";
+          if (dims.budget >= 60) return "性价比指挥官";
+          return "井井有条派";
+        }
+
+        // 预算最高的情况
+        if (topDim === 'budget') {
+          if (dims.social >= 60) return "社交美食家";
+          if (dims.adventure >= 55) return "好奇冒险家";
+          return "省钱背包客";
+        }
+
+        return "自由灵魂旅行者";
       }
 
       function drawRadar(dims) {
@@ -614,7 +656,7 @@
         return { positive: pos||null, negative: neg||null };
       }
 
-      // ---------- 界面渲染 ----------
+      // ==================== 界面渲染 ====================
       function renderSightCard(sight, dims) {
         const score = getPersonalizedScore(sight, dims);
         const hl = getHighlights(sight, dims);
@@ -882,7 +924,7 @@
         renderProgressDots();
       }
 
-      // 事件绑定
+      // ==================== 事件绑定 ====================
       document.getElementById('prev-btn').addEventListener('click', () => {
         if (currentQuestion > 0) { currentQuestion--; renderQuestion(); }
       });
