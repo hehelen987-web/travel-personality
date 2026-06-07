@@ -599,27 +599,26 @@
     ];
 
     const cities = [
-  { name: "北京", culture: 98, nature: 40, adventure: 30, planning: 75, social: 55, budget: 35, tags:["硬核历史迷","精致计划者"] },
-  { name: "西安", culture: 97, nature: 35, adventure: 45, planning: 70, social: 50, budget: 48, tags:["硬核历史迷","文艺打卡机"] },
-  { name: "洛阳", culture: 94, nature: 45, adventure: 42, planning: 65, social: 50, budget: 58, tags:["硬核历史迷","文化爱好者"] },
-  { name: "敦煌", culture: 90, nature: 70, adventure: 80, planning: 48, social: 28, budget: 50, tags:["荒野探险家","好奇冒险家"] },
-  { name: "丽江", culture: 68, nature: 92, adventure: 78, planning: 32, social: 65, budget: 58, tags:["自然隐居者","随性流浪诗人"] },
-  { name: "大理", culture: 60, nature: 90, adventure: 62, planning: 28, social: 72, budget: 78, tags:["自然隐居者","省钱背包客"] },
-  { name: "成都", culture: 75, nature: 62, adventure: 55, planning: 42, social: 88, budget: 88, tags:["社交美食家","人间烟火客"] },
-  { name: "长沙", culture: 65, nature: 52, adventure: 58, planning: 48, social: 92, budget: 86, tags:["社交美食家","城市探索家"] },
-  { name: "重庆", culture: 62, nature: 72, adventure: 72, planning: 38, social: 88, budget: 82, tags:["城市探索家","社交美食家"] },
-  { name: "厦门", culture: 66, nature: 78, adventure: 42, planning: 55, social: 82, budget: 72, tags:["文艺打卡机","人间烟火客"] },
-  { name: "青岛", culture: 55, nature: 82, adventure: 48, planning: 58, social: 78, budget: 68, tags:["城市探索家","自然向往者"] },
-  { name: "苏州", culture: 92, nature: 56, adventure: 25, planning: 76, social: 60, budget: 56, tags:["精致计划者","文艺打卡机"] },
-  { name: "杭州", culture: 86, nature: 82, adventure: 40, planning: 60, social: 70, budget: 58, tags:["文艺打卡机","自然向往者"] },
-  { name: "南京", culture: 90, nature: 58, adventure: 45, planning: 66, social: 66, budget: 58, tags:["硬核历史迷","井井有条派"] },
-  { name: "泉州", culture: 86, nature: 56, adventure: 52, planning: 52, social: 72, budget: 76, tags:["文化爱好者","人间烟火客"] },
-  { name: "昆明", culture: 60, nature: 82, adventure: 55, planning: 50, social: 72, budget: 78, tags:["自然向往者","省钱背包客"] },
-  { name: "贵阳", culture: 56, nature: 86, adventure: 72, planning: 44, social: 66, budget: 76, tags:["好奇冒险家","自然隐居者"] },
-  { name: "哈尔滨", culture: 56, nature: 62, adventure: 52, planning: 62, social: 78, budget: 62, tags:["城市探索家","井井有条派"] },
-  { name: "上海", culture: 72, nature: 36, adventure: 40, planning: 72, social: 86, budget: 42, tags:["精致计划者","城市探索家"] }
+  { name: "北京", culture: 98, nature: 40, adventure: 30, planning: 75, social: 55, budget: 35, minDays: 3, maxDays: 6, tags:["硬核历史迷","精致计划者"] },
+  { name: "西安", culture: 97, nature: 35, adventure: 45, planning: 70, social: 50, budget: 48, minDays: 3, maxDays: 5, tags:["硬核历史迷","文艺打卡机"] },
+  { name: "洛阳", culture: 94, nature: 45, adventure: 42, planning: 65, social: 50, budget: 58, minDays: 2, maxDays: 4, tags:["硬核历史迷","文化爱好者"] },
+  { name: "敦煌", culture: 90, nature: 70, adventure: 80, planning: 48, social: 28, budget: 50, minDays: 3, maxDays: 6, tags:["荒野探险家","好奇冒险家"] },
+  { name: "丽江", culture: 68, nature: 92, adventure: 78, planning: 32, social: 65, budget: 58, minDays: 4, maxDays: 8, tags:["自然隐居者","随性流浪诗人"] },
+  { name: "大理", culture: 60, nature: 90, adventure: 62, planning: 28, social: 72, budget: 78, minDays: 4, maxDays: 8, tags:["自然隐居者","省钱背包客"] },
+  { name: "成都", culture: 75, nature: 62, adventure: 55, planning: 42, social: 88, budget: 88, minDays: 3, maxDays: 6, tags:["社交美食家","人间烟火客"] },
+  { name: "长沙", culture: 65, nature: 52, adventure: 58, planning: 48, social: 92, budget: 86, minDays: 2, maxDays: 4, tags:["社交美食家","城市探索家"] },
+  { name: "重庆", culture: 62, nature: 72, adventure: 72, planning: 38, social: 88, budget: 82, minDays: 3, maxDays: 5, tags:["城市探索家","社交美食家"] },
+  { name: "厦门", culture: 66, nature: 78, adventure: 42, planning: 55, social: 82, budget: 72, minDays: 3, maxDays: 5, tags:["文艺打卡机","人间烟火客"] },
+  { name: "青岛", culture: 55, nature: 82, adventure: 48, planning: 58, social: 78, budget: 68, minDays: 3, maxDays: 5, tags:["城市探索家","自然向往者"] },
+  { name: "苏州", culture: 92, nature: 56, adventure: 25, planning: 76, social: 60, budget: 56, minDays: 2, maxDays: 4, tags:["精致计划者","文艺打卡机"] },
+  { name: "杭州", culture: 86, nature: 82, adventure: 40, planning: 60, social: 70, budget: 58, minDays: 3, maxDays: 5, tags:["文艺打卡机","自然向往者"] },
+  { name: "南京", culture: 90, nature: 58, adventure: 45, planning: 66, social: 66, budget: 58, minDays: 2, maxDays: 4, tags:["硬核历史迷","井井有条派"] },
+  { name: "泉州", culture: 86, nature: 56, adventure: 52, planning: 52, social: 72, budget: 76, minDays: 2, maxDays: 4, tags:["文化爱好者","人间烟火客"] },
+  { name: "昆明", culture: 60, nature: 82, adventure: 55, planning: 50, social: 72, budget: 78, minDays: 3, maxDays: 5, tags:["自然向往者","省钱背包客"] },
+  { name: "贵阳", culture: 56, nature: 86, adventure: 72, planning: 44, social: 66, budget: 76, minDays: 3, maxDays: 6, tags:["好奇冒险家","自然隐居者"] },
+  { name: "哈尔滨", culture: 56, nature: 62, adventure: 52, planning: 62, social: 78, budget: 62, minDays: 3, maxDays: 5, tags:["城市探索家","井井有条派"] },
+  { name: "上海", culture: 72, nature: 36, adventure: 40, planning: 72, social: 86, budget: 42, minDays: 2, maxDays: 4, tags:["精致计划者","城市探索家"] }
 ];
-
     const allSights = [
       { city:"北京", name:"故宫", type:"历史古迹", history:10, photo:9, crowd:3, stamina:5, food:4, value:8, unique:9, time:4, alt:["恭王府"] },
       { city:"北京", name:"法源寺", type:"小众古寺", history:9, photo:7, crowd:8, stamina:1, food:3, value:10, unique:8, time:1.5, alt:["广济寺"] },
@@ -886,8 +885,7 @@
         ctx.fillText(labels[i], x, y + 4);
       }
     }
-
-   function matchCities(dims) {
+function matchCities(dims) {
   const persona = getPersonaName(dims);
   const weights = { culture: 2, nature: 1.5, adventure: 1.5, planning: 1, social: 1, budget: 1 };
   const totalWeight = 8;
@@ -899,24 +897,46 @@
     }
     let match = Math.round((score / totalWeight) * 100);
 
-    // 标签加权：如果城市标签包含当前人格，额外加分
+    // 标签加权
     if (city.tags && city.tags.includes(persona)) {
       match = Math.min(100, match + 12);
     }
-    // 如果用户的主维度与城市的主维度匹配，额外加分
+    // 最高维度匹配加权
     const sortedUserDims = Object.entries(dims).sort((a,b) => b[1] - a[1]);
     const topUserDim = sortedUserDims[0][0];
     const cityMaxDim = Object.entries({
-      culture: city.culture,
-      nature: city.nature,
-      adventure: city.adventure,
-      planning: city.planning,
-      social: city.social,
-      budget: city.budget
+      culture: city.culture, nature: city.nature, adventure: city.adventure,
+      planning: city.planning, social: city.social, budget: city.budget
     }).sort((a,b) => b[1] - a[1])[0][0];
     if (topUserDim === cityMaxDim) {
       match = Math.min(100, match + 8);
     }
+
+    // === 出行偏好（预算和天数）直接影响 ===
+    // 预算影响：用户预算越低，越偏向高性价比（city.budget 高）的城市
+    if (userBudget <= 300 && city.budget < 50) {
+      match -= 15; // 低预算用户不适合去消费较高的城市
+    } else if (userBudget >= 1000 && city.budget > 80) {
+      match -= 10; // 高预算用户可能不那么在意极致性价比
+    }
+
+    // 天数影响：根据城市建议游玩天数范围进行加分或扣分
+    if (userDays < city.minDays) {
+      // 用户天数太少，无法充分游玩该城市
+      match -= 20;
+    } else if (userDays >= city.minDays && userDays <= city.maxDays) {
+      // 天数匹配该城市理想范围，加分
+      match += 8;
+    } else if (userDays > city.maxDays) {
+      // 用户天数超过该城市最大建议天数，可能可以考虑更远的目的地，轻微减分
+      match -= 5;
+    }
+
+    // 确保匹配度在0-100之间
+    match = Math.min(100, Math.max(0, match));
+    return { name: city.name, match };
+  }).sort((a, b) => b.match - a.match).slice(0, 3);
+}
 
     return { name: city.name, match };
   }).sort((a, b) => b.match - a.match).slice(0, 3);
