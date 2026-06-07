@@ -16,7 +16,6 @@
       --highlight: #EBE0D0;
       --positive: #E2D5BC;
       --negative: #F3EDE2;
-      --shadow: 0 20px 40px rgba(120, 90, 60, 0.08);
     }
 
     * {
@@ -24,8 +23,6 @@
       padding: 0;
       box-sizing: border-box;
       -webkit-tap-highlight-color: transparent;
-      -webkit-user-select: none;
-      user-select: none;
     }
 
     body {
@@ -44,7 +41,6 @@
       overflow-x: hidden;
     }
 
-    /* 世界地图背景 */
     body::before {
       content: "";
       position: fixed;
@@ -66,27 +62,40 @@
       -webkit-backdrop-filter: blur(12px);
       border-radius: 2.8rem;
       padding: 2rem 1.6rem;
-      box-shadow: var(--shadow), 0 1px 3px rgba(0,0,0,0.02);
+      box-shadow: 0 20px 40px rgba(120, 90, 60, 0.08);
       border: 1px solid rgba(234, 225, 212, 0.8);
       position: relative;
       z-index: 1;
-      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
-                  box-shadow 0.3s ease;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s;
     }
 
     .card:hover {
       transform: translateY(-2px);
-      box-shadow: 0 24px 48px rgba(120, 90, 60, 0.12), 0 2px 6px rgba(0,0,0,0.03);
+      box-shadow: 0 24px 48px rgba(120, 90, 60, 0.12);
     }
 
-    /* 旅行地图进度条 */
+    h1 {
+      font-size: 2rem;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      color: #5E4B37;
+      text-align: center;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      font-style: italic;
+    }
+
+    /* 旅行进度条 */
     .journey-progress {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0;
-      margin-bottom: 2rem;
-      position: relative;
+      margin-bottom: 1.8rem;
     }
 
     .journey-stop {
@@ -122,16 +131,11 @@
       height: 2px;
       background: #E2D9CD;
       margin: 0 -2px;
-      transition: background 0.4s ease;
+      transition: background 0.4s;
     }
 
     .journey-line.completed {
       background: #C7B59B;
-    }
-
-    /* 题目区域 */
-    .question-area {
-      margin-bottom: 1.5rem;
     }
 
     .question-counter {
@@ -140,15 +144,12 @@
       text-align: center;
       margin-bottom: 1rem;
       letter-spacing: 0.1em;
-      text-transform: uppercase;
     }
 
     .question-text {
-      font-size: 1.4rem;
-      font-weight: 400;
+      font-size: 1.35rem;
       margin-bottom: 1.8rem;
       color: var(--text);
-      letter-spacing: 0.02em;
       text-align: center;
       line-height: 1.5;
     }
@@ -171,18 +172,12 @@
       transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
       font-family: inherit;
       letter-spacing: 0.02em;
-      position: relative;
-      overflow: hidden;
       backdrop-filter: blur(4px);
     }
 
-    .option-btn::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(199, 181, 155, 0.15) 0%, transparent 60%);
-      opacity: 0;
-      transition: opacity 0.3s;
+    .option-btn:active {
+      transform: scale(0.97);
+      transition: transform 0.1s;
     }
 
     .option-btn:hover {
@@ -190,11 +185,6 @@
       border-color: #C2AD90;
       transform: translateX(4px);
       box-shadow: 0 4px 12px rgba(120, 90, 60, 0.06);
-    }
-
-    .option-btn:active {
-      transform: scale(0.97);
-      transition: transform 0.1s;
     }
 
     .option-btn.selected {
@@ -215,7 +205,6 @@
       font-size: 0.8rem;
     }
 
-    /* 导航按钮 */
     .nav-buttons {
       display: flex;
       justify-content: space-between;
@@ -236,17 +225,15 @@
       letter-spacing: 0.04em;
       transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
       backdrop-filter: blur(4px);
-      position: relative;
+    }
+
+    .btn:active {
+      transform: scale(0.95);
     }
 
     .btn:hover {
       transform: translateY(-1px);
       box-shadow: 0 4px 12px rgba(120, 90, 60, 0.08);
-    }
-
-    .btn:active {
-      transform: scale(0.95);
-      transition: transform 0.1s;
     }
 
     .btn.primary {
@@ -259,23 +246,18 @@
 
     .btn.primary:hover {
       background: var(--accent-hover);
-      border-color: var(--accent-hover);
-      box-shadow: 0 6px 20px rgba(178, 158, 125, 0.4);
     }
 
     .btn:disabled {
       opacity: 0.35;
       pointer-events: none;
-      transform: none;
     }
 
     .step-indicator {
       font-size: 0.85rem;
       color: #B7A48B;
-      letter-spacing: 0.05em;
     }
 
-    /* 雷达图 */
     .radar-container {
       display: flex;
       flex-direction: column;
@@ -293,22 +275,17 @@
       to { opacity: 1; transform: scale(1) rotate(0deg); }
     }
 
-    /* 人格名称与描述 */
-    .persona-reveal {
-      text-align: center;
-      animation: fadeInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-    }
-
     .persona-name {
       font-size: 2rem;
       font-weight: 400;
       letter-spacing: 0.08em;
       color: #5E4B37;
       margin-top: 0.8rem;
+      text-align: center;
     }
 
     .persona-desc {
-      margin: 1rem 0 0.5rem;
+      margin: 1rem 0;
       padding: 1.2rem 1.5rem;
       background: rgba(247, 241, 229, 0.8);
       border-radius: 1.5rem;
@@ -317,6 +294,12 @@
       line-height: 1.7;
       backdrop-filter: blur(4px);
       border: 1px solid rgba(225, 212, 192, 0.5);
+      text-align: center;
+      white-space: pre-line;
+    }
+
+    .fade-in {
+      animation: fadeInUp 0.5s ease both;
     }
 
     @keyframes fadeInUp {
@@ -324,11 +307,6 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .fade-in {
-      animation: fadeInUp 0.5s ease both;
-    }
-
-    /* 城市卡片 */
     .city-recommendation {
       display: flex;
       gap: 0.8rem;
@@ -340,9 +318,7 @@
       scrollbar-width: none;
     }
 
-    .city-recommendation::-webkit-scrollbar {
-      display: none;
-    }
+    .city-recommendation::-webkit-scrollbar { display: none; }
 
     .city-card {
       min-width: 140px;
@@ -352,11 +328,11 @@
       text-align: center;
       border: 1.5px solid #E1D4C0;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.3s;
       scroll-snap-align: start;
-      position: relative;
     }
 
+    .city-card:active { transform: scale(0.95); }
     .city-card:hover {
       background: #EDE3D3;
       border-color: #BBA88B;
@@ -364,17 +340,7 @@
       box-shadow: 0 8px 24px rgba(120, 90, 60, 0.1);
     }
 
-    .city-card:active {
-      transform: scale(0.95);
-      transition: transform 0.1s;
-    }
-
-    .city-name {
-      font-weight: 500;
-      font-size: 1.15rem;
-      margin-bottom: 0.4rem;
-    }
-
+    .city-name { font-weight: 500; font-size: 1.15rem; margin-bottom: 0.4rem; }
     .match-percent {
       font-size: 0.8rem;
       color: var(--muted);
@@ -384,49 +350,37 @@
       display: inline-block;
     }
 
-    /* 景点卡片 */
-    .sight-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      margin-top: 1rem;
+    .detail-link {
+      color: var(--muted);
+      text-decoration: underline;
+      cursor: pointer;
+      text-underline-offset: 3px;
+      font-size: 0.9rem;
     }
+
+    .detail-link:hover { color: #5E4B37; }
+
+    .hidden { display: none !important; }
+
+    .sight-list { display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem; }
 
     .sight-card {
       background: #FBF8F0;
       border: 1.5px solid #E3D8C4;
       border-radius: 1.8rem;
       padding: 1.2rem;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
+      transition: all 0.3s;
     }
 
+    .sight-card:active { transform: scale(0.98); }
     .sight-card:hover {
       border-color: #C2AD90;
       transform: translateY(-2px);
       box-shadow: 0 8px 20px rgba(120, 90, 60, 0.06);
     }
 
-    .sight-card:active {
-      transform: scale(0.98);
-      transition: transform 0.1s;
-    }
-
-    .sight-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 0.8rem;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .sight-name {
-      font-size: 1.25rem;
-      font-weight: 500;
-      color: var(--text);
-    }
-
+    .sight-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.8rem; flex-wrap: wrap; }
+    .sight-name { font-size: 1.25rem; font-weight: 500; }
     .sight-type {
       font-size: 0.7rem;
       color: #B7A48B;
@@ -434,67 +388,35 @@
       padding: 0.2rem 0.8rem;
       border-radius: 1rem;
       margin-left: 0.4rem;
-      vertical-align: middle;
     }
-
     .sight-match {
       font-size: 0.85rem;
       color: #B09A7A;
       background: #F0E8D5;
       padding: 0.25rem 0.9rem;
       border-radius: 2rem;
-      font-weight: 500;
       animation: matchPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
-
     @keyframes matchPop {
       from { transform: scale(0); opacity: 0; }
       to { transform: scale(1); opacity: 1; }
     }
 
-    .dimension-highlight {
-      display: flex;
-      gap: 0.6rem;
-      margin-bottom: 0.8rem;
-      font-size: 0.82rem;
-      flex-wrap: wrap;
-    }
-
     .highlight-badge {
       padding: 0.3rem 0.8rem;
       border-radius: 1.5rem;
-      font-weight: 500;
+      font-size: 0.82rem;
       animation: slideIn 0.4s ease both;
     }
-
-    .highlight-badge.positive {
-      color: #5E4B37;
-      background: var(--positive);
-    }
-
-    .highlight-badge.negative {
-      color: #B0906E;
-      background: var(--negative);
-    }
-
+    .highlight-badge.positive { background: var(--positive); color: #5E4B37; }
+    .highlight-badge.negative { background: var(--negative); color: #B0906E; }
     @keyframes slideIn {
       from { opacity: 0; transform: translateX(-10px); }
       to { opacity: 1; transform: translateX(0); }
     }
 
-    .sight-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 0.8rem 0;
-      font-size: 0.85rem;
-      color: #8F806B;
-    }
-
-    .sight-actions {
-      display: flex;
-      gap: 0.5rem;
-    }
+    .sight-meta { display: flex; justify-content: space-between; align-items: center; margin: 0.8rem 0; font-size: 0.85rem; color: #8F806B; }
+    .sight-actions { display: flex; gap: 0.5rem; }
 
     .action-btn {
       background: transparent;
@@ -504,28 +426,11 @@
       font-size: 0.78rem;
       color: var(--text);
       cursor: pointer;
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-      font-family: inherit;
+      transition: all 0.2s;
     }
-
-    .action-btn:hover {
-      transform: translateY(-1px);
-    }
-
-    .action-btn:active {
-      transform: scale(0.9);
-      transition: transform 0.1s;
-    }
-
-    .action-btn.wished {
-      background: var(--highlight);
-      border-color: #A58B6E;
-    }
-
-    .action-btn.regretted {
-      background: #E6D0D0;
-      border-color: #B0906E;
-    }
+    .action-btn:active { transform: scale(0.9); }
+    .action-btn.wished { background: var(--highlight); border-color: #A58B6E; }
+    .action-btn.regretted { background: #E6D0D0; border-color: #B0906E; }
 
     .alt-toggle {
       background: none;
@@ -534,44 +439,20 @@
       font-size: 0.85rem;
       cursor: pointer;
       text-decoration: underline;
-      text-underline-offset: 3px;
       padding: 0;
-      font-family: inherit;
-      transition: color 0.2s;
+      margin-top: 0.5rem;
     }
-
-    .alt-toggle:hover {
-      color: #8F806B;
-    }
-
-    .alt-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-      margin-top: 0.6rem;
-    }
-
+    .alt-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
     .alt-chip {
       background: rgba(243, 237, 226, 0.6);
       border-radius: 1.5rem;
       padding: 0.3rem 0.9rem;
       font-size: 0.8rem;
-      color: var(--text);
-      cursor: pointer;
       border: 1px solid #DDD4C8;
-      transition: all 0.2s;
-      backdrop-filter: blur(4px);
+      cursor: pointer;
+      transition: 0.2s;
     }
-
-    .alt-chip:hover {
-      background: var(--highlight);
-      border-color: #A58B6E;
-      transform: translateY(-2px);
-    }
-
-    .alt-chip:active {
-      transform: scale(0.93);
-    }
+    .alt-chip:hover { background: var(--highlight); border-color: #A58B6E; transform: translateY(-2px); }
 
     .search-box {
       width: 100%;
@@ -581,37 +462,14 @@
       background: rgba(253, 251, 247, 0.9);
       font-family: inherit;
       font-size: 0.95rem;
-      color: var(--text);
-      margin-bottom: 1.2rem;
       outline: none;
-      transition: all 0.3s;
-      backdrop-filter: blur(4px);
-    }
-
-    .search-box:focus {
-      border-color: #BBA88B;
-      box-shadow: 0 0 0 4px rgba(199, 181, 155, 0.15);
-    }
-
-    .back-link {
-      text-align: left;
-      font-size: 0.9rem;
-      color: var(--muted);
       margin-bottom: 1rem;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.3rem;
-      transition: color 0.2s;
+      transition: 0.3s;
     }
+    .search-box:focus { border-color: #BBA88B; box-shadow: 0 0 0 4px rgba(199, 181, 155, 0.15); }
 
-    .back-link:hover {
-      color: #5E4B37;
-    }
-
-    .hidden {
-      display: none !important;
-    }
+    .back-link { display: inline-flex; align-items: center; gap: 0.3rem; color: var(--muted); cursor: pointer; margin-bottom: 1rem; }
+    .back-link:hover { color: #5E4B37; }
 
     .toast {
       position: fixed;
@@ -624,23 +482,18 @@
       padding: 0.9rem 2rem;
       border-radius: 3rem;
       font-size: 0.9rem;
-      color: var(--text);
       z-index: 100;
-      white-space: nowrap;
       animation: toastIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
       box-shadow: 0 8px 24px rgba(120, 90, 60, 0.12);
     }
-
     @keyframes toastIn {
       from { opacity: 0; transform: translateX(-50%) translateY(20px); }
       to { opacity: 1; transform: translateX(-50%) translateY(0); }
     }
 
-    /* 响应式 */
     @media (max-width: 400px) {
-      .card { padding: 1.5rem 1.2rem; border-radius: 2.2rem; }
+      .card { padding: 1.5rem 1.2rem; }
       .question-text { font-size: 1.2rem; }
-      .option-btn { padding: 0.85rem 1.2rem; font-size: 0.9rem; }
     }
   </style>
 </head>
@@ -648,17 +501,12 @@
   <div class="card" id="app">
     <!-- 测试视图 -->
     <div id="test-view">
-      <h1 style="text-align:center;font-weight:400;letter-spacing:0.06em;color:#5E4B37;margin-bottom:0.3rem;">旅行人格</h1>
-      <div class="subtitle" style="text-align:center;color:#9B8C7A;margin-bottom:1.5rem;font-style:italic;">· 找到你的本命城市 ·</div>
-      
+      <h1>旅行人格</h1>
+      <div class="subtitle">· 找到你的本命城市 ·</div>
       <div class="journey-progress" id="progress-dots"></div>
-      
-      <div class="question-area">
-        <div class="question-counter" id="question-counter"></div>
-        <div class="question-text" id="question-text"></div>
-        <div class="options" id="options-container"></div>
-      </div>
-      
+      <div class="question-counter" id="question-counter"></div>
+      <div class="question-text" id="question-text"></div>
+      <div class="options" id="options-container"></div>
       <div class="nav-buttons">
         <button class="btn" id="prev-btn" disabled>← 上一题</button>
         <span class="step-indicator" id="step-indicator">1/8</span>
@@ -668,204 +516,731 @@
 
     <!-- 结果视图 -->
     <div id="result-view" class="hidden">
-      <h1 style="text-align:center;font-weight:400;color:#5E4B37;">你的旅行人格</h1>
-      <div class="subtitle" style="text-align:center;color:#9B8C7A;margin-bottom:0.5rem;font-style:italic;">内在的旅行者，终于被看见</div>
+      <h1>你的旅行人格</h1>
+      <div class="subtitle" style="margin-bottom:0.5rem;">内在的旅行者，终于被看见</div>
+      <div class="radar-container"><canvas id="radar-canvas" width="260" height="260"></canvas></div>
+      <div class="persona-name" id="persona-name"></div>
+      <div class="persona-desc" id="persona-desc"></div>
       
-      <div class="radar-container">
-        <canvas id="radar-canvas" width="260" height="260"></canvas>
-      </div>
-      
-      <div class="persona-reveal">
-        <div class="persona-name" id="persona-name"></div>
-        <div class="persona-desc" id="persona-desc"></div>
-      </div>
-      
-      <div class="detail-link" id="toggle-settings" style="margin-top:1.2rem;cursor:pointer;color:#9B8C7A;text-decoration:underline;text-align:center;">
-        🎒 出行偏好 ▾
-      </div>
+      <div class="detail-link" id="toggle-settings" style="text-align:center;margin-top:1rem;">🎒 出行偏好 ▾</div>
       <div id="settings-panel" class="hidden" style="background:#F7F1E5;border-radius:1.5rem;padding:1rem;margin:0.8rem 0;">
         <div style="display:flex;gap:0.8rem;align-items:center;margin-bottom:0.8rem;">
           <span style="min-width:80px;font-size:0.85rem;">人均预算</span>
-          <input type="number" id="budget-input" placeholder="元/天" min="100" max="3000" value="500"
-                 style="flex:1;border:1px solid #D6CBB8;border-radius:2rem;padding:0.5rem 1rem;font-family:inherit;background:rgba(253,251,247,0.9);">
+          <input type="number" id="budget-input" placeholder="元/天" min="100" max="3000" value="500" style="flex:1;border:1px solid #D6CBB8;border-radius:2rem;padding:0.5rem 1rem;font-family:inherit;background:rgba(253,251,247,0.9);">
         </div>
         <div style="display:flex;gap:0.8rem;align-items:center;margin-bottom:0.8rem;">
           <span style="min-width:80px;font-size:0.85rem;">出行天数</span>
-          <input type="number" id="days-input" placeholder="天" min="1" max="30" value="3"
-                 style="flex:1;border:1px solid #D6CBB8;border-radius:2rem;padding:0.5rem 1rem;font-family:inherit;background:rgba(253,251,247,0.9);">
+          <input type="number" id="days-input" placeholder="天" min="1" max="30" value="3" style="flex:1;border:1px solid #D6CBB8;border-radius:2rem;padding:0.5rem 1rem;font-family:inherit;background:rgba(253,251,247,0.9);">
         </div>
         <button class="btn primary" id="apply-settings" style="width:100%;">应用偏好</button>
       </div>
-      
-      <div style="text-align:center;color:#9B8C7A;margin-top:1.5rem;font-size:0.9rem;">你的心灵目的地</div>
+
+      <div style="text-align:center;margin-top:1.5rem;color:var(--muted);">你的心灵目的地</div>
       <div class="city-recommendation" id="city-list"></div>
       
-      <div style="text-align:center;margin-top:1.5rem;">
-        <span class="detail-link" id="restart-link" style="margin-right:1rem;">↺ 重测</span>
+      <div style="text-align:center;margin-top:1.5rem;display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;">
+        <span class="detail-link" id="restart-link">↺ 重测</span>
         <span class="detail-link" id="goto-regret">📖 遗憾笔记</span>
-      </div>
-      <div style="text-align:center;margin-top:0.5rem;">
         <span class="detail-link" id="goto-regret-pill">💊 后悔药</span>
-        <span class="detail-link" id="export-report" style="margin-left:1rem;">📥 导出报告</span>
+        <span class="detail-link" id="export-report">📥 导出报告</span>
       </div>
     </div>
 
     <!-- 城市景点视图 -->
     <div id="city-sights-view" class="hidden">
       <div class="back-link" id="back-to-result">← 返回推荐</div>
-      <h1 id="city-title" style="font-size:1.8rem;font-weight:400;text-align:center;color:#5E4B37;"></h1>
-      <div id="city-subtitle" style="text-align:center;color:#9B8C7A;margin-bottom:1rem;font-size:0.9rem;"></div>
+      <h1 id="city-title" style="font-size:1.8rem;text-align:center;"></h1>
+      <div id="city-subtitle" style="text-align:center;color:var(--muted);margin-bottom:1rem;"></div>
       <input type="text" class="search-box" id="sight-search" placeholder="🔍 搜索景点、城市或类型（如'古镇'）">
       <div class="sight-list" id="sight-list"></div>
     </div>
 
-    <!-- 遗憾笔记视图 -->
+    <!-- 遗憾笔记 -->
     <div id="regret-view" class="hidden">
       <div class="back-link" id="back-to-result-from-regret">← 返回</div>
-      <h1 style="font-size:1.8rem;font-weight:400;text-align:center;">遗憾笔记</h1>
-      <div style="text-align:center;color:#9B8C7A;margin-bottom:1.5rem;">那些想去却没去成的地方</div>
+      <h1>遗憾笔记</h1>
+      <div class="subtitle">那些想去却没去成的地方</div>
       <div id="regret-list"></div>
-      <div class="small-text" id="no-regret-msg"></div>
+      <div class="small-text" id="no-regret-msg" style="text-align:center;color:var(--muted);"></div>
     </div>
 
-    <!-- 后悔药视图 -->
+    <!-- 后悔药 -->
     <div id="regret-pill-view" class="hidden">
       <div class="back-link" id="back-to-result-from-pill">← 返回</div>
-      <h1 style="font-size:1.8rem;font-weight:400;text-align:center;">后悔药</h1>
-      <div id="pill-persona-subtitle" style="text-align:center;color:#9B8C7A;margin-bottom:1.5rem;"></div>
+      <h1>后悔药</h1>
+      <div id="pill-persona-subtitle" class="subtitle"></div>
       <div id="pill-rank-list"></div>
       <div style="text-align:center;color:#B7A48B;font-size:0.75rem;margin-top:1rem;">仅记录当前设备数据</div>
     </div>
   </div>
 
   <script>
-    (function() {
-      // ==================== 数据层（与之前一致，此处省略重复代码，实际部署时保留完整数据） ====================
-      const questions = [
-        { text: "清晨醒来，你更想……", options: ["在古城巷子里漫步", "在酒店阳台享受早餐和风景", "立刻出发去一个冷门秘境", "按照攻略打卡第一站"] },
-        { text: "旅途中最让你兴奋的是？", options: ["偶遇的古迹或博物馆", "一家完美的茶馆/咖啡馆", "没有人烟的山水", "提前预约好的网红餐厅"] },
-        { text: "你的行李通常……", options: ["极简背包，随时出发", "一个登机箱，搭配得体", "装满户外装备", "井井有条，分类打包"] },
-        { text: "对于排队景点，你的态度？", options: ["基本拒绝，除非意义非凡", "可以忍受，只要值得", "完全不想等，换地方", "提前买免排队票"] },
-        { text: "旅行预算方面，你更像？", options: ["精打细算的青旅/民宿派", "中等舒适，偶尔犒劳自己", "愿意为独特体验花钱", "预算宽松，体验至上"] },
-        { text: "一个人时，你倾向于？", options: ["自己安静地记录/拍照", "和当地人聊天交朋友", "享受孤独的行走", "独自但随时在线分享"] },
-        { text: "以下哪种描述最贴近你？", options: ["我喜欢深入当地历史", "我更在意自然风光", "美食是我的旅行核心", "我追求独特的审美体验"] },
-        { text: "面对计划变动，你通常？", options: ["兴奋，随遇而安", "有点焦虑但能调整", "立刻重新规划路线", "无所谓，本来就松散"] }
-      ];
+    // ==================== 完整数据 ====================
+    const questions = [
+      { text: "清晨醒来，你更想……", options: ["在古城巷子里漫步", "在酒店阳台享受早餐和风景", "立刻出发去一个冷门秘境", "按照攻略打卡第一站"] },
+      { text: "旅途中最让你兴奋的是？", options: ["偶遇的古迹或博物馆", "一家完美的茶馆/咖啡馆", "没有人烟的山水", "提前预约好的网红餐厅"] },
+      { text: "你的行李通常……", options: ["极简背包，随时出发", "一个登机箱，搭配得体", "装满户外装备", "井井有条，分类打包"] },
+      { text: "对于排队景点，你的态度？", options: ["基本拒绝，除非意义非凡", "可以忍受，只要值得", "完全不想等，换地方", "提前买免排队票"] },
+      { text: "旅行预算方面，你更像？", options: ["精打细算的青旅/民宿派", "中等舒适，偶尔犒劳自己", "愿意为独特体验花钱", "预算宽松，体验至上"] },
+      { text: "一个人时，你倾向于？", options: ["自己安静地记录/拍照", "和当地人聊天交朋友", "享受孤独的行走", "独自但随时在线分享"] },
+      { text: "以下哪种描述最贴近你？", options: ["我喜欢深入当地历史", "我更在意自然风光", "美食是我的旅行核心", "我追求独特的审美体验"] },
+      { text: "面对计划变动，你通常？", options: ["兴奋，随遇而安", "有点焦虑但能调整", "立刻重新规划路线", "无所谓，本来就松散"] }
+    ];
 
-      const scoreRules = [
-        [ { culture: 3, adventure: 2 }, { planning: 2, budget: -1 }, { adventure: 4, nature: 2 }, { planning: 4, culture: 1 } ],
-        [ { culture: 4, social: 1 }, { social: 2, planning: 2 }, { nature: 4, adventure: 3 }, { budget: -2, planning: 3 } ],
-        [ { adventure: 3, budget: 2 }, { social: 1, planning: 2 }, { nature: 3, adventure: 2 }, { planning: 4, culture: 1 } ],
-        [ { culture: 3, planning: 1 }, { planning: 2, social: 1 }, { adventure: 2, nature: 1 }, { budget: -2, planning: 3 } ],
-        [ { budget: 4, adventure: 1 }, { budget: 2, social: 1 }, { budget: -2, adventure: 3 }, { budget: -3, planning: 2 } ],
-        [ { culture: 2, social: -1 }, { social: 4, adventure: 1 }, { nature: 2, adventure: 2 }, { social: 2, planning: 1 } ],
-        [ { culture: 5, planning: 1 }, { nature: 5, adventure: 2 }, { social: 2, budget: 1 }, { culture: 2, social: 2, adventure: 1 } ],
-        [ { adventure: 3, planning: -2 }, { planning: 3, culture: 1 }, { planning: 5 }, { adventure: 2, social: 1 } ]
-      ];
+    const scoreRules = [
+      [ { culture: 3, adventure: 2 }, { planning: 2, budget: -1 }, { adventure: 4, nature: 2 }, { planning: 4, culture: 1 } ],
+      [ { culture: 4, social: 1 }, { social: 2, planning: 2 }, { nature: 4, adventure: 3 }, { budget: -2, planning: 3 } ],
+      [ { adventure: 3, budget: 2 }, { social: 1, planning: 2 }, { nature: 3, adventure: 2 }, { planning: 4, culture: 1 } ],
+      [ { culture: 3, planning: 1 }, { planning: 2, social: 1 }, { adventure: 2, nature: 1 }, { budget: -2, planning: 3 } ],
+      [ { budget: 4, adventure: 1 }, { budget: 2, social: 1 }, { budget: -2, adventure: 3 }, { budget: -3, planning: 2 } ],
+      [ { culture: 2, social: -1 }, { social: 4, adventure: 1 }, { nature: 2, adventure: 2 }, { social: 2, planning: 1 } ],
+      [ { culture: 5, planning: 1 }, { nature: 5, adventure: 2 }, { social: 2, budget: 1 }, { culture: 2, social: 2, adventure: 1 } ],
+      [ { adventure: 3, planning: -2 }, { planning: 3, culture: 1 }, { planning: 5 }, { adventure: 2, social: 1 } ]
+    ];
 
-      // 城市和景点数据（完整版从之前版本复制，此处为简洁略去数据结构）
-      const cities = [/* ...完整城市数据... */];
-      const allSights = [/* ...完整景点数据... */];
-      const personaDescriptions = {/* ...完整人格描述... */};
+    const cities = [
+      { name: "北京", culture: 95, nature: 45, adventure: 35, planning: 75, social: 60, budget: 40 },
+      { name: "上海", culture: 70, nature: 35, adventure: 40, planning: 70, social: 85, budget: 45 },
+      { name: "杭州", culture: 85, nature: 80, adventure: 40, planning: 60, social: 70, budget: 55 },
+      { name: "苏州", culture: 90, nature: 55, adventure: 25, planning: 75, social: 60, budget: 55 },
+      { name: "南京", culture: 90, nature: 55, adventure: 45, planning: 65, social: 65, budget: 55 },
+      { name: "成都", culture: 75, nature: 60, adventure: 55, planning: 45, social: 85, budget: 85 },
+      { name: "重庆", culture: 60, nature: 70, adventure: 70, planning: 40, social: 85, budget: 80 },
+      { name: "西安", culture: 98, nature: 40, adventure: 50, planning: 70, social: 55, budget: 50 },
+      { name: "长沙", culture: 65, nature: 50, adventure: 60, planning: 50, social: 90, budget: 85 },
+      { name: "厦门", culture: 65, nature: 75, adventure: 40, planning: 55, social: 80, budget: 70 },
+      { name: "泉州", culture: 85, nature: 55, adventure: 50, planning: 50, social: 70, budget: 75 },
+      { name: "洛阳", culture: 95, nature: 50, adventure: 45, planning: 65, social: 55, budget: 60 },
+      { name: "大理", culture: 60, nature: 90, adventure: 60, planning: 30, social: 75, budget: 80 },
+      { name: "丽江", culture: 70, nature: 90, adventure: 75, planning: 35, social: 70, budget: 60 },
+      { name: "昆明", culture: 60, nature: 80, adventure: 55, planning: 50, social: 70, budget: 75 },
+      { name: "哈尔滨", culture: 55, nature: 60, adventure: 50, planning: 60, social: 75, budget: 60 },
+      { name: "青岛", culture: 55, nature: 80, adventure: 45, planning: 55, social: 75, budget: 65 },
+      { name: "贵阳", culture: 55, nature: 85, adventure: 70, planning: 45, social: 65, budget: 75 },
+      { name: "敦煌", culture: 90, nature: 70, adventure: 80, planning: 50, social: 30, budget: 50 }
+    ];
 
-      // 如需完整数据，请使用上一版完整代码中的数据部分替换此处
-      
-      // ==================== 状态管理 ====================
-      let currentQuestion = 0;
-      let answers = new Array(questions.length).fill(-1);
-      let userDimensions = null;
-      let currentCity = null;
-      let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
-      let regrets = JSON.parse(localStorage.getItem('regrets') || '{}');
-      let regretPills = JSON.parse(localStorage.getItem('regretPills') || '[]');
-      let userBudget = 500, userDays = 3;
+    const allSights = [
+      { city:"北京", name:"故宫", type:"历史古迹", history:10, photo:9, crowd:3, stamina:5, food:4, value:8, unique:9, time:4, alt:["恭王府"] },
+      { city:"北京", name:"法源寺", type:"小众古寺", history:9, photo:7, crowd:8, stamina:1, food:3, value:10, unique:8, time:1.5, alt:["广济寺"] },
+      { city:"北京", name:"模式口历史文化街区", type:"古街", history:7, photo:8, crowd:8, stamina:2, food:7, value:10, unique:8, time:2, alt:["杨梅竹斜街"] },
+      { city:"北京", name:"颐和园", type:"皇家园林", history:9, photo:9, crowd:4, stamina:3, food:6, value:8, unique:7, time:3, alt:["圆明园"] },
+      { city:"北京", name:"天坛", type:"历史遗迹", history:10, photo:8, crowd:5, stamina:3, food:5, value:9, unique:8, time:2.5, alt:["地坛"] },
+      { city:"北京", name:"国子监", type:"人文古迹", history:9, photo:7, crowd:9, stamina:1, food:4, value:10, unique:7, time:1.5, alt:["孔庙"] },
+      { city:"北京", name:"三里屯太古里", type:"现代街区", history:4, photo:8, crowd:5, stamina:1, food:9, value:6, unique:5, time:2, alt:["蓝色港湾"] },
+      { city:"上海", name:"外滩", type:"城市地标", history:7, photo:9, crowd:5, stamina:1, food:8, value:10, unique:5, time:2, alt:["北外滩"] },
+      { city:"上海", name:"广富林文化遗址", type:"考古遗址", history:8, photo:8, crowd:8, stamina:2, food:4, value:9, unique:9, time:3, alt:["朱家角"] },
+      { city:"上海", name:"泗泾古镇", type:"古镇", history:7, photo:7, crowd:9, stamina:1, food:8, value:10, unique:8, time:2, alt:["七宝古镇"] },
+      { city:"上海", name:"武康路", type:"历史街区", history:8, photo:8, crowd:6, stamina:1, food:7, value:9, unique:6, time:1.5, alt:["安福路"] },
+      { city:"上海", name:"上海迪士尼", type:"主题乐园", history:4, photo:9, crowd:2, stamina:6, food:7, value:5, unique:9, time:8, alt:["欢乐谷"] },
+      { city:"上海", name:"徐汇滨江", type:"城市休闲", history:5, photo:8, crowd:8, stamina:2, food:6, value:10, unique:5, time:2, alt:["前滩公园"] },
+      { city:"杭州", name:"西湖", type:"自然风光", history:9, photo:9, crowd:4, stamina:3, food:8, value:10, unique:5, time:4, alt:["湘湖"] },
+      { city:"杭州", name:"茅家埠", type:"秘境湿地", history:7, photo:9, crowd:8, stamina:2, food:6, value:10, unique:9, time:2, alt:["浴鹄湾"] },
+      { city:"杭州", name:"九溪烟树", type:"徒步", history:7, photo:10, crowd:7, stamina:5, food:4, value:10, unique:8, time:3, alt:["龙井村"] },
+      { city:"杭州", name:"灵隐寺", type:"古寺", history:9, photo:8, crowd:5, stamina:2, food:5, value:8, unique:6, time:2, alt:["永福寺"] },
+      { city:"杭州", name:"宋城", type:"主题公园", history:6, photo:7, crowd:3, stamina:4, food:7, value:6, unique:7, time:4, alt:["杭州乐园"] },
+      { city:"杭州", name:"中国美院象山校区", type:"建筑艺术", history:5, photo:9, crowd:9, stamina:2, food:4, value:10, unique:9, time:2, alt:["良渚文化艺术中心"] },
+      { city:"苏州", name:"拙政园", type:"园林", history:10, photo:9, crowd:4, stamina:2, food:5, value:7, unique:7, time:3, alt:["留园"] },
+      { city:"苏州", name:"艺圃", type:"小众园林", history:9, photo:8, crowd:9, stamina:1, food:4, value:10, unique:10, time:1.5, alt:["耦园"] },
+      { city:"苏州", name:"苏州博物馆", type:"博物馆", history:9, photo:9, crowd:5, stamina:2, food:5, value:9, unique:8, time:2, alt:["苏州园林博物馆"] },
+      { city:"苏州", name:"平江路", type:"古街", history:8, photo:8, crowd:6, stamina:1, food:8, value:9, unique:5, time:2, alt:["山塘街"] },
+      { city:"苏州", name:"金鸡湖", type:"城市湖泊", history:4, photo:8, crowd:7, stamina:2, food:7, value:9, unique:5, time:2, alt:["独墅湖"] },
+      { city:"苏州", name:"周庄古镇", type:"古镇", history:8, photo:9, crowd:5, stamina:2, food:8, value:8, unique:7, time:4, alt:["同里古镇"] },
+      { city:"南京", name:"明孝陵", type:"历史遗迹", history:10, photo:8, crowd:6, stamina:4, food:3, value:9, unique:8, time:3, alt:["中山陵"] },
+      { city:"南京", name:"止马岭", type:"自然秘境", history:6, photo:9, crowd:9, stamina:5, food:2, value:10, unique:10, time:4, alt:["老山森林公园"] },
+      { city:"南京", name:"总统府", type:"历史建筑", history:9, photo:7, crowd:4, stamina:2, food:4, value:8, unique:6, time:2, alt:["梅园新村"] },
+      { city:"南京", name:"夫子庙", type:"历史街区", history:8, photo:8, crowd:2, stamina:1, food:9, value:7, unique:5, time:2, alt:["老门东"] },
+      { city:"南京", name:"玄武湖", type:"城市湖泊", history:6, photo:8, crowd:7, stamina:2, food:6, value:10, unique:5, time:2, alt:["莫愁湖"] },
+      { city:"南京", name:"南京博物院", type:"博物馆", history:10, photo:7, crowd:5, stamina:2, food:3, value:10, unique:7, time:3, alt:["朝天宫"] },
+      { city:"成都", name:"宽窄巷子", type:"街区", history:7, photo:8, crowd:4, stamina:1, food:10, value:7, unique:4, time:2, alt:["望平街"] },
+      { city:"成都", name:"观音阁老茶馆", type:"人文体验", history:8, photo:7, crowd:9, stamina:1, food:6, value:10, unique:10, time:1.5, alt:["鹤鸣茶社"] },
+      { city:"成都", name:"大熊猫基地", type:"动物园", history:4, photo:9, crowd:3, stamina:3, food:4, value:8, unique:9, time:3, alt:["都江堰熊猫谷"] },
+      { city:"成都", name:"武侯祠", type:"历史古迹", history:9, photo:8, crowd:5, stamina:2, food:5, value:8, unique:7, time:2, alt:["杜甫草堂"] },
+      { city:"成都", name:"锦里", type:"古街", history:7, photo:8, crowd:2, stamina:1, food:9, value:7, unique:5, time:2, alt:["文殊坊"] },
+      { city:"成都", name:"青城山", type:"自然山水", history:8, photo:9, crowd:6, stamina:6, food:5, value:8, unique:7, time:5, alt:["都江堰"] },
+      { city:"重庆", name:"洪崖洞", type:"夜景", history:6, photo:10, crowd:2, stamina:2, food:9, value:8, unique:5, time:2, alt:["十八梯"] },
+      { city:"重庆", name:"下浩里", type:"山城街区", history:8, photo:9, crowd:8, stamina:3, food:8, value:10, unique:9, time:2, alt:["山城步道"] },
+      { city:"重庆", name:"磁器口", type:"古镇", history:7, photo:8, crowd:3, stamina:1, food:9, value:7, unique:5, time:2, alt:["弹子石老街"] },
+      { city:"重庆", name:"解放碑", type:"城市地标", history:6, photo:7, crowd:4, stamina:1, food:9, value:9, unique:4, time:1, alt:["八一好吃街"] },
+      { city:"重庆", name:"武隆天生三桥", type:"自然奇观", history:5, photo:10, crowd:6, stamina:6, food:3, value:7, unique:10, time:5, alt:["仙女山"] },
+      { city:"重庆", name:"长江索道", type:"交通体验", history:5, photo:8, crowd:5, stamina:1, food:5, value:7, unique:8, time:0.5, alt:["两江游轮"] },
+      { city:"西安", name:"兵马俑", type:"历史遗址", history:10, photo:8, crowd:5, stamina:2, food:3, value:8, unique:10, time:4, alt:["汉阳陵"] },
+      { city:"西安", name:"书院门", type:"文化街区", history:8, photo:7, crowd:8, stamina:1, food:7, value:10, unique:8, time:2, alt:["湘子庙街"] },
+      { city:"西安", name:"大雁塔", type:"古建筑", history:9, photo:9, crowd:4, stamina:2, food:6, value:9, unique:7, time:2, alt:["小雁塔"] },
+      { city:"西安", name:"回民街", type:"美食街区", history:6, photo:7, crowd:2, stamina:1, food:10, value:8, unique:5, time:2, alt:["洒金桥"] },
+      { city:"西安", name:"城墙", type:"历史遗迹", history:9, photo:8, crowd:6, stamina:4, food:5, value:8, unique:7, time:2.5, alt:["环城公园"] },
+      { city:"西安", name:"陕西历史博物馆", type:"博物馆", history:10, photo:7, crowd:4, stamina:2, food:2, value:10, unique:8, time:3, alt:["西安博物院"] },
+      { city:"长沙", name:"岳麓山", type:"自然人文", history:9, photo:8, crowd:7, stamina:5, food:8, value:10, unique:6, time:3, alt:["橘子洲"] },
+      { city:"长沙", name:"丰盈西里", type:"小众街区", history:6, photo:8, crowd:9, stamina:1, food:8, value:10, unique:9, time:2, alt:["潮宗街"] },
+      { city:"长沙", name:"太平街", type:"历史街区", history:7, photo:8, crowd:3, stamina:1, food:9, value:8, unique:5, time:2, alt:["坡子街"] },
+      { city:"长沙", name:"湖南省博物馆", type:"博物馆", history:10, photo:7, crowd:5, stamina:2, food:3, value:10, unique:8, time:3, alt:["长沙简牍博物馆"] },
+      { city:"长沙", name:"IFS国金中心", type:"现代地标", history:3, photo:9, crowd:5, stamina:1, food:8, value:6, unique:5, time:1.5, alt:["万家丽"] },
+      { city:"长沙", name:"梅溪湖", type:"城市休闲", history:4, photo:8, crowd:8, stamina:2, food:6, value:10, unique:6, time:2, alt:["松雅湖"] },
+      { city:"厦门", name:"鼓浪屿", type:"海岛", history:8, photo:10, crowd:4, stamina:3, food:8, value:7, unique:7, time:4, alt:["集美学村"] },
+      { city:"厦门", name:"沙坡尾", type:"文艺街区", history:7, photo:9, crowd:7, stamina:1, food:9, value:10, unique:7, time:2, alt:["华新路"] },
+      { city:"厦门", name:"南普陀寺", type:"古寺", history:9, photo:8, crowd:6, stamina:2, food:5, value:10, unique:6, time:2, alt:["植物园"] },
+      { city:"厦门", name:"环岛路", type:"海岸风光", history:4, photo:9, crowd:7, stamina:3, food:7, value:10, unique:5, time:2, alt:["黄厝海滩"] },
+      { city:"厦门", name:"曾厝垵", type:"文创村", history:5, photo:8, crowd:3, stamina:1, food:9, value:8, unique:5, time:2, alt:["中山路"] },
+      { city:"厦门", name:"五缘湾", type:"湿地公园", history:5, photo:8, crowd:9, stamina:2, food:4, value:10, unique:7, time:2, alt:["筼筜湖"] },
+      { city:"泉州", name:"开元寺", type:"古寺", history:10, photo:8, crowd:8, stamina:1, food:5, value:10, unique:9, time:2, alt:["承天寺"] },
+      { city:"泉州", name:"梧林传统村落", type:"古村", history:8, photo:9, crowd:9, stamina:2, food:6, value:10, unique:10, time:3, alt:["五店市"] },
+      { city:"泉州", name:"西街", type:"历史街区", history:8, photo:8, crowd:4, stamina:1, food:9, value:9, unique:6, time:2, alt:["中山路"] },
+      { city:"泉州", name:"清净寺", type:"宗教遗迹", history:9, photo:7, crowd:9, stamina:1, food:3, value:10, unique:8, time:1, alt:["关帝庙"] },
+      { city:"泉州", name:"蟳埔村", type:"民俗村落", history:7, photo:9, crowd:7, stamina:1, food:7, value:10, unique:10, time:2, alt:["崇武古城"] },
+      { city:"洛阳", name:"龙门石窟", type:"世界遗产", history:10, photo:8, crowd:6, stamina:3, food:3, value:8, unique:10, time:3, alt:["关林"] },
+      { city:"洛阳", name:"洛邑古城", type:"汉服文化", history:7, photo:9, crowd:5, stamina:1, food:8, value:10, unique:6, time:3, alt:["应天门"] },
+      { city:"洛阳", name:"白马寺", type:"古寺", history:10, photo:7, crowd:6, stamina:1, food:3, value:9, unique:8, time:2, alt:["神州牡丹园"] },
+      { city:"洛阳", name:"老君山", type:"自然风光", history:6, photo:10, crowd:5, stamina:8, food:3, value:7, unique:9, time:6, alt:["白云山"] },
+      { city:"洛阳", name:"洛阳博物馆", type:"博物馆", history:9, photo:7, crowd:8, stamina:2, food:2, value:10, unique:7, time:2, alt:["古墓博物馆"] },
+      { city:"大理", name:"洱海生态廊道", type:"风景", history:7, photo:10, crowd:8, stamina:3, food:6, value:10, unique:8, time:4, alt:["双廊"] },
+      { city:"大理", name:"沙溪古镇", type:"宝藏古镇", history:9, photo:9, crowd:9, stamina:2, food:7, value:10, unique:10, time:3, alt:["喜洲古镇"] },
+      { city:"大理", name:"苍山", type:"自然风光", history:6, photo:9, crowd:6, stamina:7, food:3, value:8, unique:7, time:5, alt:["鸡足山"] },
+      { city:"大理", name:"崇圣寺三塔", type:"历史遗迹", history:9, photo:8, crowd:7, stamina:2, food:4, value:8, unique:7, time:2, alt:["天龙八部影视城"] },
+      { city:"大理", name:"喜洲古镇", type:"白族古镇", history:8, photo:9, crowd:7, stamina:1, food:8, value:10, unique:7, time:2, alt:["周城"] },
+      { city:"丽江", name:"玉龙雪山", type:"自然", history:8, photo:10, crowd:4, stamina:8, food:3, value:6, unique:8, time:6, alt:["牦牛坪"] },
+      { city:"丽江", name:"白沙古镇", type:"小众古镇", history:8, photo:9, crowd:8, stamina:1, food:6, value:10, unique:9, time:2, alt:["束河古镇"] },
+      { city:"丽江", name:"丽江古城", type:"古城", history:8, photo:9, crowd:3, stamina:2, food:8, value:8, unique:6, time:3, alt:["大研古城"] },
+      { city:"丽江", name:"泸沽湖", type:"湖泊", history:6, photo:10, crowd:6, stamina:4, food:5, value:7, unique:9, time:8, alt:["拉市海"] },
+      { city:"丽江", name:"蓝月谷", type:"自然景观", history:5, photo:10, crowd:5, stamina:2, food:3, value:8, unique:8, time:2, alt:["云杉坪"] },
+      { city:"昆明", name:"滇池", type:"湖泊", history:7, photo:8, crowd:7, stamina:2, food:6, value:10, unique:6, time:3, alt:["翠湖"] },
+      { city:"昆明", name:"东川红土地", type:"摄影", history:6, photo:10, crowd:9, stamina:4, food:2, value:10, unique:10, time:5, alt:["元阳梯田"] },
+      { city:"昆明", name:"石林", type:"喀斯特地貌", history:7, photo:9, crowd:5, stamina:4, food:4, value:7, unique:9, time:4, alt:["九乡"] },
+      { city:"昆明", name:"斗南花市", type:"市场", history:3, photo:8, crowd:4, stamina:1, food:7, value:10, unique:8, time:1.5, alt:["尚义花市"] },
+      { city:"昆明", name:"西山龙门", type:"古迹", history:8, photo:8, crowd:6, stamina:5, food:4, value:9, unique:6, time:3, alt:["太华寺"] },
+      { city:"哈尔滨", name:"中央大街", type:"城市景观", history:7, photo:8, crowd:6, stamina:1, food:9, value:10, unique:5, time:2, alt:["中华巴洛克"] },
+      { city:"哈尔滨", name:"伏尔加庄园", type:"俄式风情", history:6, photo:9, crowd:8, stamina:2, food:5, value:8, unique:8, time:3, alt:["太阳岛"] },
+      { city:"哈尔滨", name:"冰雪大世界", type:"冬季奇观", history:4, photo:10, crowd:4, stamina:3, food:3, value:5, unique:10, time:3, alt:["雪博会"] },
+      { city:"哈尔滨", name:"索菲亚教堂", type:"建筑", history:9, photo:10, crowd:6, stamina:1, food:4, value:10, unique:8, time:1, alt:["犹太老会堂"] },
+      { city:"哈尔滨", name:"松花江", type:"自然", history:5, photo:7, crowd:8, stamina:2, food:6, value:10, unique:5, time:2, alt:["斯大林公园"] },
+      { city:"青岛", name:"八大关", type:"建筑群", history:8, photo:9, crowd:8, stamina:2, food:7, value:10, unique:7, time:3, alt:["小鱼山"] },
+      { city:"青岛", name:"小麦岛", type:"海景", history:6, photo:10, crowd:8, stamina:2, food:6, value:10, unique:8, time:2, alt:["燕儿岛山"] },
+      { city:"青岛", name:"栈桥", type:"地标", history:7, photo:8, crowd:3, stamina:1, food:8, value:10, unique:5, time:1, alt:["小青岛"] },
+      { city:"青岛", name:"崂山", type:"自然", history:7, photo:9, crowd:6, stamina:6, food:5, value:8, unique:8, time:5, alt:["大珠山"] },
+      { city:"青岛", name:"啤酒博物馆", type:"博物馆", history:6, photo:7, crowd:4, stamina:1, food:9, value:8, unique:8, time:2, alt:["青岛啤酒街"] },
+      { city:"贵阳", name:"青岩古镇", type:"古镇", history:8, photo:8, crowd:7, stamina:2, food:8, value:9, unique:7, time:3, alt:["天河潭"] },
+      { city:"贵阳", name:"高坡云顶", type:"秘境草原", history:6, photo:10, crowd:9, stamina:5, food:3, value:10, unique:10, time:4, alt:["乌当香纸沟"] },
+      { city:"贵阳", name:"黔灵山公园", type:"城市公园", history:6, photo:8, crowd:6, stamina:3, food:6, value:10, unique:6, time:3, alt:["花溪公园"] },
+      { city:"贵阳", name:"甲秀楼", type:"古迹", history:8, photo:8, crowd:8, stamina:1, food:6, value:10, unique:6, time:1, alt:["文昌阁"] },
+      { city:"贵阳", name:"黄果树瀑布", type:"自然奇观", history:6, photo:10, crowd:4, stamina:5, food:4, value:7, unique:8, time:5, alt:["龙宫"] },
+      { city:"敦煌", name:"莫高窟", type:"文化遗产", history:10, photo:8, crowd:6, stamina:2, food:2, value:7, unique:10, time:4, alt:["榆林窟"] },
+      { city:"敦煌", name:"阳关", type:"边塞遗址", history:9, photo:8, crowd:9, stamina:2, food:2, value:10, unique:10, time:2, alt:["玉门关"] },
+      { city:"敦煌", name:"鸣沙山月牙泉", type:"沙漠奇观", history:7, photo:10, crowd:5, stamina:5, food:3, value:8, unique:9, time:4, alt:["沙洲夜市"] },
+      { city:"敦煌", name:"雅丹魔鬼城", type:"地貌奇观", history:6, photo:10, crowd:8, stamina:4, food:1, value:7, unique:10, time:5, alt:["玉门关"] },
+      { city:"敦煌", name:"沙洲夜市", type:"夜市", history:4, photo:7, crowd:3, stamina:1, food:9, value:8, unique:6, time:1.5, alt:["敦煌小镇"] }
+    ];
 
-      // ==================== 交互增强函数 ====================
-      function hapticFeedback() {
-        if (navigator.vibrate) {
-          navigator.vibrate(10);
-        }
+    const personaDescriptions = {
+      "硬核历史迷": "你旅行时最在意文化厚度。\n你愿意为了一个博物馆、一块碑刻、一座古寺专门前往一座城市。\n你不喜欢走马观花，更倾向于深度体验。",
+      "荒野探险家": "你对自然风光和极限体验充满渴望。\n你宁愿徒步一整天，也不愿在商圈闲逛。\n你追求的是人迹罕至的风景和挑战自我的旅程。",
+      "社交美食家": "你的旅行地图由美食决定。\n你乐于在街头巷尾寻找地道小吃，也喜欢和当地人聊天。\n对你来说，旅途中最美的风景是人间烟火。",
+      "随性流浪诗人": "你讨厌被行程束缚，喜欢随遇而安的惊喜。\n你可能会因为一家喜欢的咖啡馆而在某个小镇多停留一天。\n你的旅行没有明确目的，却总能找到属于自己的诗意。",
+      "精致计划者": "你享受将一切安排妥帖的掌控感。\n你会提前预订免排队票、规划好每一个小时的行程。\n完美的旅行，从一份井井有条的攻略开始。",
+      "省钱背包客": "你用最少的预算去看最大的世界。\n青旅、公共交通、免费景点是你的首选。\n你相信真正的旅行不在于花费多少，而在于经历了多少。"
+    };
+
+    // ==================== 全局状态 ====================
+    let currentQuestion = 0;
+    let answers = new Array(questions.length).fill(-1);
+    let userDimensions = null;
+    let currentCity = null;
+    let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+    let regrets = JSON.parse(localStorage.getItem('regrets') || '{}');
+    let regretPills = JSON.parse(localStorage.getItem('regretPills') || '[]');
+    let userBudget = 500, userDays = 3;
+
+    // ==================== 辅助函数 ====================
+    function saveData() {
+      localStorage.setItem('wishlist', JSON.stringify(wishlist));
+      localStorage.setItem('regrets', JSON.stringify(regrets));
+      localStorage.setItem('regretPills', JSON.stringify(regretPills));
+    }
+
+    function hapticFeedback() {
+      if (navigator.vibrate) navigator.vibrate(10);
+    }
+
+    function showToast(text) {
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = text;
+      document.body.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(-50%) translateY(10px)';
+        setTimeout(() => toast.remove(), 300);
+      }, 2000);
+      hapticFeedback();
+    }
+
+    function checkCityRegrets(cityName) {
+      const cityRegrets = Object.entries(regrets).filter(([name, data]) => data.city === cityName);
+      if (cityRegrets.length > 0) {
+        const names = cityRegrets.map(([name]) => name).join('、');
+        setTimeout(() => showToast(`📌 你上次在${cityName}留下了遗憾：${names}`), 500);
       }
+    }
 
-      function showToast(text) {
-        const toast = document.createElement('div');
-        toast.className = 'toast';
-        toast.textContent = text;
-        document.body.appendChild(toast);
-        setTimeout(() => {
-          toast.style.opacity = '0';
-          toast.style.transform = 'translateX(-50%) translateY(10px)';
-          setTimeout(() => toast.remove(), 300);
-        }, 2000);
-        hapticFeedback();
-      }
-
-      // 旅行进度条
-      function renderProgressDots() {
-        const container = document.getElementById('progress-dots');
-        container.innerHTML = '';
-        for (let i = 0; i < questions.length; i++) {
-          if (i > 0) {
-            const line = document.createElement('div');
-            line.className = 'journey-line';
-            if (answers[i - 1] !== -1) line.classList.add('completed');
-            container.appendChild(line);
+    function calculateDimensions() {
+      let dims = { culture: 20, nature: 20, adventure: 20, planning: 20, social: 20, budget: 20 };
+      answers.forEach((ans, qIdx) => {
+        if (ans !== -1 && scoreRules[qIdx]?.[ans]) {
+          const rule = scoreRules[qIdx][ans];
+          for (let [key, val] of Object.entries(rule)) {
+            if (dims[key] !== undefined) dims[key] += val;
           }
-          const dot = document.createElement('div');
-          dot.className = 'journey-stop';
-          if (i === currentQuestion) dot.classList.add('current');
-          if (answers[i] !== -1) dot.classList.add('visited');
-          container.appendChild(dot);
         }
-      }
+      });
+      for (let k in dims) dims[k] = Math.min(100, Math.max(0, dims[k]));
+      const budgetFactor = Math.max(0, 1 - (userBudget - 100) / 2000);
+      dims.budget = Math.min(100, dims.budget + Math.round(budgetFactor * 30));
+      if (userDays <= 2) dims.planning = Math.min(100, dims.planning + 15);
+      else if (userDays >= 7) dims.planning = Math.max(0, dims.planning - 10);
+      return dims;
+    }
 
-      function selectOption(index) {
-        answers[currentQuestion] = index;
-        hapticFeedback();
-        renderQuestion();
-        // 选中后短暂延迟自动进入下一题（可选）
-        if (currentQuestion < questions.length - 1) {
-          // 不自动跳转，保持用户控制感
+    function getPersonaName(dims) {
+      if (dims.culture > 75 && dims.planning > 60) return "硬核历史迷";
+      if (dims.nature > 75 && dims.adventure > 70) return "荒野探险家";
+      if (dims.social > 75 && dims.budget > 60) return "社交美食家";
+      if (dims.adventure > 70 && dims.planning < 40) return "随性流浪诗人";
+      if (dims.planning > 70 && dims.culture > 60) return "精致计划者";
+      if (dims.budget > 70) return "省钱背包客";
+      return "自由灵魂旅行者";
+    }
+
+    function drawRadar(dims) {
+      const ctx = document.getElementById('radar-canvas').getContext('2d');
+      const w = 260, h = 260;
+      ctx.clearRect(0, 0, w, h);
+      const labels = ['文化', '自然', '猎奇', '计划', '社交', '预算'];
+      const keys = ['culture', 'nature', 'adventure', 'planning', 'social', 'budget'];
+      const centerX = w/2, centerY = h/2, radius = 85;
+      ctx.strokeStyle = '#DDD4C8';
+      ctx.lineWidth = 0.6;
+      for (let i = 1; i <= 4; i++) {
+        ctx.beginPath();
+        for (let j = 0; j < 6; j++) {
+          const angle = (Math.PI * 2 / 6) * j - Math.PI/2;
+          const x = centerX + radius * (i/4) * Math.cos(angle);
+          const y = centerY + radius * (i/4) * Math.sin(angle);
+          j === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
         }
+        ctx.closePath();
+        ctx.stroke();
       }
+      for (let i = 0; i < 6; i++) {
+        const angle = (Math.PI * 2 / 6) * i - Math.PI/2;
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.lineTo(centerX + radius * Math.cos(angle), centerY + radius * Math.sin(angle));
+        ctx.strokeStyle = '#E2D9CD';
+        ctx.stroke();
+      }
+      ctx.beginPath();
+      for (let i = 0; i < 6; i++) {
+        const val = dims[keys[i]] / 100;
+        const angle = (Math.PI * 2 / 6) * i - Math.PI/2;
+        const x = centerX + radius * val * Math.cos(angle);
+        const y = centerY + radius * val * Math.sin(angle);
+        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(183, 164, 139, 0.25)';
+      ctx.fill();
+      ctx.strokeStyle = '#A58B6E';
+      ctx.lineWidth = 1.8;
+      ctx.stroke();
+      ctx.fillStyle = '#5E4B37';
+      ctx.font = '12px "Noto Serif SC", serif';
+      ctx.textAlign = 'center';
+      for (let i = 0; i < 6; i++) {
+        const angle = (Math.PI * 2 / 6) * i - Math.PI/2;
+        const x = centerX + (radius + 18) * Math.cos(angle);
+        const y = centerY + (radius + 18) * Math.sin(angle);
+        ctx.fillText(labels[i], x, y + 4);
+      }
+    }
 
-      function renderQuestion() {
-        const q = questions[currentQuestion];
-        document.getElementById('question-counter').textContent = `第 ${currentQuestion + 1} 题 / 共 ${questions.length} 题`;
-        document.getElementById('question-text').textContent = q.text;
-        
-        const container = document.getElementById('options-container');
-        container.innerHTML = '';
-        q.options.forEach((opt, idx) => {
-          const btn = document.createElement('button');
-          btn.className = 'option-btn';
-          if (answers[currentQuestion] === idx) btn.classList.add('selected');
-          btn.textContent = opt;
-          btn.addEventListener('click', (e) => {
-            // 点击涟漪效果
-            const rect = btn.getBoundingClientRect();
-            btn.style.setProperty('--x', (e.clientX - rect.left) + 'px');
-            btn.style.setProperty('--y', (e.clientY - rect.top) + 'px');
-            btn.querySelector('::after')?.style.setProperty('opacity', '1');
-            setTimeout(() => btn.querySelector('::after')?.style.setProperty('opacity', '0'), 300);
-            
-            selectOption(idx);
-          });
-          container.appendChild(btn);
+    function matchCities(dims) {
+      const weights = { culture: 2, nature: 1.5, adventure: 1.5, planning: 1, social: 1, budget: 1 };
+      const total = 8;
+      return cities.map(city => {
+        let score = 0;
+        for (let key of ['culture','nature','adventure','planning','social','budget']) {
+          score += weights[key] * (1 - Math.abs(dims[key] - city[key]) / 100);
+        }
+        return { ...city, match: Math.round((score / total) * 100) };
+      }).sort((a, b) => b.match - a.match).slice(0, 3);
+    }
+
+    function getPersonalizedScore(sight, dims) {
+      const w = {
+        history: dims.culture / 100,
+        photo: (dims.social + dims.culture) / 200,
+        crowd: 1 - (dims.planning / 100) * 0.7 - (dims.adventure / 100) * 0.3,
+        stamina: 1 - (dims.nature / 100) * 0.5,
+        food: dims.social / 100,
+        value: dims.budget / 100,
+        unique: dims.adventure / 100
+      };
+      let s = 0;
+      s += sight.history * w.history + sight.photo * w.photo + sight.crowd * w.crowd;
+      s += (10 - sight.stamina) * w.stamina + sight.food * w.food + sight.value * w.value + sight.unique * w.unique;
+      return Math.round(s / 7 * 10);
+    }
+
+    function getHighlights(sight, dims) {
+      const aspects = [
+        { key:'history', label:'历史人文', val:sight.history, weight:dims.culture },
+        { key:'photo', label:'出片颜值', val:sight.photo, weight:(dims.social+dims.culture)/2 },
+        { key:'crowd', label:'人少清净', val:sight.crowd, weight:100-dims.planning },
+        { key:'stamina', label:'轻松不累', val:10-sight.stamina, weight:100-dims.nature },
+        { key:'food', label:'美食关联', val:sight.food, weight:dims.social },
+        { key:'value', label:'性价比', val:sight.value, weight:dims.budget },
+        { key:'unique', label:'独特性', val:sight.unique, weight:dims.adventure }
+      ];
+      const pos = aspects.filter(a => a.weight > 50 && a.val > 7).sort((a,b) => b.weight-a.weight)[0];
+      const neg = aspects.filter(a => a.weight > 50 && a.val < 4).sort((a,b) => b.weight-a.weight)[0];
+      return { positive: pos || null, negative: neg || null };
+    }
+
+    function renderSightCard(sight, dims) {
+      const score = getPersonalizedScore(sight, dims);
+      const hl = getHighlights(sight, dims);
+      const isWished = wishlist.includes(sight.name);
+      const persona = getPersonaName(dims);
+      const isRegretted = regretPills.some(p => p.sight === sight.name && p.persona === persona);
+      const card = document.createElement('div');
+      card.className = 'sight-card fade-in';
+      card.innerHTML = `
+        <div class="sight-header">
+          <span><span class="sight-name">${sight.name}</span><span class="sight-type">${sight.type}</span></span>
+          <span class="sight-match">与你匹配 ${score}%</span>
+        </div>
+        <div class="dimension-highlight">
+          ${hl.positive ? `<span class="highlight-badge positive">${hl.positive.label} ${hl.positive.val} ← 你极爱</span>` : ''}
+          ${hl.negative ? `<span class="highlight-badge negative">${hl.negative.label} ${hl.negative.val} ← 你可能受不了</span>` : ''}
+        </div>
+        <div class="sight-meta">
+          <span>🕒 推荐 ${sight.time} 小时</span>
+          <div class="sight-actions">
+            <button class="action-btn ${isWished ? 'wished' : ''}" data-action="wish">${isWished ? '✓ 已想去' : '+ 想去'}</button>
+            <button class="action-btn ${isRegretted ? 'regretted' : ''}" data-action="regret">${isRegretted ? '💔 已后悔' : '⚡ 踩雷'}</button>
+          </div>
+        </div>
+        <div><button class="alt-toggle">替代方案 ▾</button></div>
+        <div class="alt-chips hidden">${sight.alt.map(a => `<span class="alt-chip">${a}</span>`).join('')}</div>
+      `;
+      // 绑定事件
+      card.querySelector('.alt-toggle').addEventListener('click', (e) => {
+        e.stopPropagation();
+        const chips = card.querySelector('.alt-chips');
+        chips.classList.toggle('hidden');
+        card.querySelector('.alt-toggle').textContent = chips.classList.contains('hidden') ? '替代方案 ▾' : '替代方案 ▴';
+      });
+      card.querySelectorAll('.alt-chip').forEach(chip => {
+        chip.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const altName = chip.textContent;
+          const altSight = allSights.find(s => s.name === altName);
+          if (altSight) showSingleSight(altSight);
+          else alert(`${altName} 暂无详情`);
         });
+      });
+      card.querySelector('[data-action="wish"]').addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleWishlist(sight.name);
+        refreshCurrentView();
+      });
+      card.querySelector('[data-action="regret"]').addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleRegretPill(sight);
+        refreshCurrentView();
+      });
+      return card;
+    }
 
-        document.getElementById('step-indicator').textContent = `${currentQuestion + 1}/${questions.length}`;
-        document.getElementById('prev-btn').disabled = currentQuestion === 0;
-        document.getElementById('next-btn').textContent = currentQuestion === questions.length - 1 ? '✨ 查看结果' : '下一题 →';
-        renderProgressDots();
+    function toggleWishlist(sightName) {
+      if (wishlist.includes(sightName)) {
+        wishlist = wishlist.filter(s => s !== sightName);
+        if (regrets[sightName]) delete regrets[sightName];
+      } else wishlist.push(sightName);
+      saveData();
+    }
+
+    function toggleRegretPill(sight) {
+      const persona = getPersonaName(userDimensions);
+      const idx = regretPills.findIndex(p => p.sight === sight.name && p.persona === persona);
+      if (idx > -1) regretPills.splice(idx, 1);
+      else regretPills.push({ sight: sight.name, city: sight.city, persona });
+      saveData();
+    }
+
+    function refreshCurrentView() {
+      if (!document.getElementById('city-sights-view').classList.contains('hidden')) {
+        if (currentCity) showCitySights(currentCity);
+        else if (document.getElementById('sight-search').value) handleSearch(document.getElementById('sight-search').value);
       }
+    }
 
-      // ... 其余核心逻辑（calculateDimensions, getPersonaName, drawRadar, matchCities, renderSightCard等）与上一版一致
-      // 为确保代码完整性，实际使用时请复制上一版完整代码中的对应函数
-      
-      // 初始化
+    function showSingleSight(sight) {
+      document.getElementById('city-title').textContent = sight.name;
+      document.getElementById('city-subtitle').textContent = `${sight.type} · ${sight.city}`;
+      document.getElementById('sight-list').innerHTML = '';
+      document.getElementById('sight-list').appendChild(renderSightCard(sight, userDimensions));
+      document.getElementById('sight-search').value = '';
+      hideAllViews();
+      document.getElementById('city-sights-view').classList.remove('hidden');
+      currentCity = null;
+    }
+
+    function showCitySights(cityName) {
+      const citySights = allSights.filter(s => s.city === cityName);
+      if (!userDimensions || citySights.length === 0) return;
+      currentCity = cityName;
+      document.getElementById('city-title').textContent = cityName;
+      document.getElementById('city-subtitle').textContent = `根据你的人格精选 ${citySights.length} 个景点`;
+      document.getElementById('sight-search').value = '';
+      renderSightList(citySights);
+      hideAllViews();
+      document.getElementById('city-sights-view').classList.remove('hidden');
+      checkCityRegrets(cityName);
+    }
+
+    function renderSightList(sights) {
+      const container = document.getElementById('sight-list');
+      container.innerHTML = '';
+      if (sights.length === 0) {
+        container.innerHTML = '<p style="text-align:center;color:var(--muted);">暂无景点</p>';
+        return;
+      }
+      const sorted = [...sights].sort((a,b) => getPersonalizedScore(b, userDimensions) - getPersonalizedScore(a, userDimensions));
+      sorted.forEach(s => container.appendChild(renderSightCard(s, userDimensions)));
+    }
+
+    function handleSearch(query) {
+      if (!query.trim()) {
+        if (currentCity) renderSightList(allSights.filter(s => s.city === currentCity));
+        else document.getElementById('sight-list').innerHTML = '';
+        return;
+      }
+      const q = query.toLowerCase();
+      const results = allSights.filter(s => s.name.includes(q) || s.city.includes(q) || s.type.includes(q));
+      renderSightList(results);
+    }
+
+    function hideAllViews() {
+      ['test-view','result-view','city-sights-view','regret-view','regret-pill-view'].forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+      });
+    }
+
+    // 遗憾笔记与后悔药逻辑（同之前版本）
+    function renderRegretView() {
+      const list = document.getElementById('regret-list');
+      const msg = document.getElementById('no-regret-msg');
+      list.innerHTML = '';
+      const wished = wishlist.map(n => allSights.find(s => s.name === n)).filter(Boolean);
+      if (wished.length === 0) {
+        msg.textContent = '你还没有收藏任何景点，去结果中点击“+ 想去”吧';
+        return;
+      }
+      msg.textContent = '';
+      wished.forEach(sight => {
+        const isRegret = !!regrets[sight.name];
+        const div = document.createElement('div');
+        div.className = 'regret-item';
+        div.style.cssText = 'background:#FBF8F0;border:1px solid #E3D8C4;border-radius:1.5rem;padding:1rem;margin-bottom:1rem;';
+        div.innerHTML = `
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span><strong>${sight.name}</strong> <span class="sight-type">${sight.city}</span></span>
+            <label><input type="checkbox" ${isRegret?'checked':''} data-sight="${sight.name}" class="regret-checkbox"> 遗憾</label>
+          </div>
+          <input class="regret-note-input" placeholder="写下你想说的话..." value="${isRegret?regrets[sight.name].note:''}" data-sight="${sight.name}" style="width:100%;margin-top:0.5rem;border:1px solid #D6CBB8;border-radius:2rem;padding:0.5rem 1rem;font-family:inherit;">
+        `;
+        list.appendChild(div);
+      });
+      document.querySelectorAll('.regret-checkbox').forEach(cb => {
+        cb.addEventListener('change', (e) => {
+          const name = e.target.dataset.sight;
+          const sight = allSights.find(s => s.name === name);
+          if (e.target.checked) {
+            const note = document.querySelector(`.regret-note-input[data-sight="${name}"]`)?.value || '';
+            regrets[name] = { note, city: sight?.city || '' };
+          } else delete regrets[name];
+          saveData();
+        });
+      });
+      document.querySelectorAll('.regret-note-input').forEach(input => {
+        input.addEventListener('input', (e) => {
+          if (regrets[e.target.dataset.sight]) {
+            regrets[e.target.dataset.sight].note = e.target.value;
+            saveData();
+          }
+        });
+      });
+    }
+
+    function renderPillView() {
+      const persona = getPersonaName(userDimensions);
+      document.getElementById('pill-persona-subtitle').textContent = `“${persona}” 型旅行者最后悔去的景点`;
+      const list = document.getElementById('pill-rank-list');
+      list.innerHTML = '';
+      const pills = regretPills.filter(p => p.persona === persona);
+      if (pills.length === 0) {
+        list.innerHTML = '<p style="text-align:center;color:var(--muted);">还没有数据，去给景点点“踩雷”吧</p>';
+        return;
+      }
+      const counts = {};
+      pills.forEach(p => counts[p.sight] = (counts[p.sight]||0)+1);
+      Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,5).forEach(([name, cnt], i) => {
+        const sight = allSights.find(s => s.name === name);
+        if (!sight) return;
+        const div = document.createElement('div');
+        div.className = 'regret-rank-item';
+        div.style.cssText = 'background:#FBF8F0;border:1px solid #E3D8C4;border-radius:1.5rem;padding:1rem;margin-bottom:0.5rem;';
+        div.innerHTML = `<div style="display:flex;justify-content:space-between;"><span><strong>${i+1}. ${name}</strong> <span class="sight-type">${sight.city}</span></span><span class="regret-badge">${cnt}人后悔</span></div>`;
+        list.appendChild(div);
+      });
+    }
+
+    function exportReport() {
+      if (!userDimensions) return;
+      const persona = getPersonaName(userDimensions);
+      const topCities = matchCities(userDimensions);
+      const wished = wishlist.map(n => allSights.find(s => s.name === n)).filter(Boolean);
+      const style = `<style>body{font-family:"Noto Serif SC",serif;background:#F9F6F0;padding:2rem;max-width:400px;margin:auto;}</style>`;
+      const content = `
+        <h1 style="text-align:center;">${persona}</h1>
+        <p style="text-align:center;">${personaDescriptions[persona]?.replace(/\n/g,'<br>')}</p>
+        <p>💰 预算：${userBudget}元/天 · 📅 天数：${userDays}天</p>
+        <h3>🏙️ 推荐城市</h3><ul>${topCities.map(c=>`<li>${c.name} (${c.match}%)</li>`).join('')}</ul>
+        <h3>❤️ 想去</h3><ul>${wished.length?wished.map(s=>`<li>${s.name}（${s.city}）</li>`).join(''):'<li>暂无</li>'}</ul>
+        <h3>📌 遗憾</h3><ul>${Object.entries(regrets).length?Object.entries(regrets).map(([n,d])=>`<li>${n}（${d.city}）：${d.note||'无'}</li>`).join(''):'<li>暂无</li>'}</ul>
+        <p style="text-align:center;">Next Station · 旅行人格卡</p>
+      `;
+      const win = window.open('', '_blank', 'width=500,height=700');
+      win.document.write(style + content);
+      win.document.close();
+      win.print();
+    }
+
+    function showResults() {
+      userBudget = parseInt(document.getElementById('budget-input').value) || 500;
+      userDays = parseInt(document.getElementById('days-input').value) || 3;
+      userDimensions = calculateDimensions();
+      const persona = getPersonaName(userDimensions);
+      const topCities = matchCities(userDimensions);
+      hideAllViews();
+      document.getElementById('result-view').classList.remove('hidden');
+      document.getElementById('persona-name').textContent = persona;
+      document.getElementById('persona-desc').textContent = personaDescriptions[persona] || '';
+      drawRadar(userDimensions);
+      const cityContainer = document.getElementById('city-list');
+      cityContainer.innerHTML = '';
+      topCities.forEach(city => {
+        const div = document.createElement('div');
+        div.className = 'city-card';
+        div.innerHTML = `<div class="city-name">${city.name}</div><div class="match-percent">匹配 ${city.match}%</div>`;
+        div.addEventListener('click', () => showCitySights(city.name));
+        cityContainer.appendChild(div);
+      });
+    }
+
+    function restartTest() {
+      answers = new Array(questions.length).fill(-1);
+      currentQuestion = 0;
+      userDimensions = null;
+      currentCity = null;
+      hideAllViews();
+      document.getElementById('test-view').classList.remove('hidden');
       renderQuestion();
-    })();
+    }
+
+    // 绑定全局事件
+    document.getElementById('prev-btn').addEventListener('click', () => {
+      if (currentQuestion > 0) { currentQuestion--; renderQuestion(); }
+    });
+    document.getElementById('next-btn').addEventListener('click', () => {
+      if (answers[currentQuestion] === -1) { showToast('请先选择一个选项'); return; }
+      if (currentQuestion < questions.length - 1) { currentQuestion++; renderQuestion(); }
+      else showResults();
+    });
+    document.getElementById('restart-link').addEventListener('click', restartTest);
+    document.getElementById('toggle-settings').addEventListener('click', () => {
+      document.getElementById('settings-panel').classList.toggle('hidden');
+    });
+    document.getElementById('apply-settings').addEventListener('click', showResults);
+    document.getElementById('export-report').addEventListener('click', exportReport);
+    document.getElementById('goto-regret').addEventListener('click', () => {
+      hideAllViews();
+      document.getElementById('regret-view').classList.remove('hidden');
+      renderRegretView();
+    });
+    document.getElementById('goto-regret-pill').addEventListener('click', () => {
+      if (!userDimensions) return;
+      hideAllViews();
+      document.getElementById('regret-pill-view').classList.remove('hidden');
+      renderPillView();
+    });
+    document.getElementById('back-to-result').addEventListener('click', () => {
+      hideAllViews();
+      document.getElementById('result-view').classList.remove('hidden');
+    });
+    document.getElementById('back-to-result-from-regret').addEventListener('click', () => {
+      hideAllViews();
+      document.getElementById('result-view').classList.remove('hidden');
+    });
+    document.getElementById('back-to-result-from-pill').addEventListener('click', () => {
+      hideAllViews();
+      document.getElementById('result-view').classList.remove('hidden');
+    });
+    document.getElementById('sight-search').addEventListener('input', (e) => handleSearch(e.target.value));
+
+    function renderProgressDots() {
+      const container = document.getElementById('progress-dots');
+      container.innerHTML = '';
+      for (let i = 0; i < questions.length; i++) {
+        if (i > 0) {
+          const line = document.createElement('div');
+          line.className = 'journey-line';
+          if (answers[i-1] !== -1) line.classList.add('completed');
+          container.appendChild(line);
+        }
+        const dot = document.createElement('div');
+        dot.className = 'journey-stop';
+        if (i === currentQuestion) dot.classList.add('current');
+        if (answers[i] !== -1) dot.classList.add('visited');
+        container.appendChild(dot);
+      }
+    }
+
+    function renderQuestion() {
+      const q = questions[currentQuestion];
+      document.getElementById('question-counter').textContent = `第 ${currentQuestion + 1} 题 / 共 ${questions.length} 题`;
+      document.getElementById('question-text').textContent = q.text;
+      const optionsContainer = document.getElementById('options-container');
+      optionsContainer.innerHTML = '';
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        if (answers[currentQuestion] === idx) btn.classList.add('selected');
+        btn.textContent = opt;
+        btn.addEventListener('click', () => {
+          answers[currentQuestion] = idx;
+          hapticFeedback();
+          renderQuestion();
+        });
+        optionsContainer.appendChild(btn);
+      });
+      document.getElementById('step-indicator').textContent = `${currentQuestion + 1}/${questions.length}`;
+      document.getElementById('prev-btn').disabled = currentQuestion === 0;
+      document.getElementById('next-btn').textContent = currentQuestion === questions.length - 1 ? '✨ 查看结果' : '下一题 →';
+      renderProgressDots();
+    }
+
+    // 启动
+    renderQuestion();
   </script>
 </body>
 </html>
