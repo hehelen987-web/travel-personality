@@ -261,14 +261,14 @@
       ];
 
       const scoreRules = [
-  [ { culture: 3, adventure: 2 }, { planning: 2, budget: -1 }, { adventure: 4, nature: 2 }, { planning: 4, culture: 1 } ],
-  [ { culture: 4, social: 1 }, { social: 2, planning: 2 }, { nature: 4, adventure: 3 }, { budget: -1, planning: 3 } ],
-  [ { adventure: 3, budget: 1 }, { social: 1, planning: 2 }, { nature: 3, adventure: 2 }, { planning: 4, culture: 1 } ],
-  [ { culture: 3, planning: 1 }, { planning: 2, social: 1 }, { adventure: 2, nature: 1 }, { budget: -1, planning: 3 } ],
-  [ { budget: 2, adventure: 1 }, { budget: 1, social: 1 }, { budget: -1, adventure: 3 }, { budget: -2, planning: 2 } ],
-  [ { culture: 2, social: -1 }, { social: 4, adventure: 1 }, { nature: 2, adventure: 2 }, { social: 2, planning: 1 } ],
-  [ { culture: 5, planning: 1 }, { nature: 5, adventure: 2 }, { social: 2, budget: 1 }, { culture: 2, social: 2, adventure: 1 } ],
-  [ { adventure: 3, planning: -2 }, { planning: 3, culture: 1 }, { planning: 5 }, { adventure: 2, social: 1 } ]
+  [ { culture: 4, adventure: 2 }, { planning: 2, budget: -1 }, { adventure: 5, nature: 3 }, { planning: 4, culture: 1 } ],
+  [ { culture: 4, social: 2 }, { social: 2, planning: 2 }, { nature: 5, adventure: 3 }, { budget: -2, planning: 2 } ],
+  [ { adventure: 4, budget: 1 }, { social: 2, planning: 2 }, { nature: 4, adventure: 2 }, { planning: 4, culture: 1 } ],
+  [ { culture: 3, planning: 2 }, { planning: 2, social: 2 }, { adventure: 3, nature: 2 }, { budget: -2, planning: 3 } ],
+  [ { budget: 3, adventure: 1 }, { budget: 1, social: 1 }, { budget: -2, adventure: 4 }, { budget: -3, planning: 2 } ],
+  [ { culture: 3, social: -1 }, { social: 5, adventure: 1 }, { nature: 3, adventure: 3 }, { social: 2, planning: 2 } ],
+  [ { culture: 6, planning: 1 }, { nature: 6, adventure: 2 }, { social: 3, budget: 1 }, { culture: 2, social: 2, adventure: 1 } ],
+  [ { adventure: 4, planning: -2 }, { planning: 3, culture: 1 }, { planning: 5 }, { adventure: 3, social: 1 } ]
 ];
 
       const cities = [
@@ -471,50 +471,60 @@
 
       // ---------- 核心算法 ----------
       function calculateDimensions() {
-        let dims = { culture: 20, nature: 20, adventure: 20, planning: 20, social: 20, budget: 20 };
-        answers.forEach((ans, qIdx) => {
-          if (ans !== -1 && scoreRules[qIdx]?.[ans]) {
-            const rule = scoreRules[qIdx][ans];
-            for (let [k, v] of Object.entries(rule)) {
-              if (dims[k] !== undefined) dims[k] += v;
-            }
-          }
-        });
-        for (let k in dims) dims[k] = Math.min(100, Math.max(0, dims[k]));
-        // 出行偏好调整
-        const budgetFactor = Math.max(0, 1 - (userBudget - 100) / 2000);
-        dims.budget = Math.min(100, dims.budget + Math.round(budgetFactor * 30));
-        if (userDays <= 2) dims.planning = Math.min(100, dims.planning + 15);
-        else if (userDays >= 7) dims.planning = Math.max(0, dims.planning - 10);
-        return dims;
+  // 初始值从20降至10，让题目得分影响更大
+  let dims = { culture: 10, nature: 10, adventure: 10, planning: 10, social: 10, budget: 10 };
+  answers.forEach((ans, qIdx) => {
+    if (ans !== -1 && scoreRules[qIdx]?.[ans]) {
+      const rule = scoreRules[qIdx][ans];
+      for (let [k, v] of Object.entries(rule)) {
+        if (dims[k] !== undefined) dims[k] += v;
       }
+    }
+  });
+  // 边界控制
+  for (let k in dims) dims[k] = Math.min(100, Math.max(0, dims[k]));
 
-     function getPersonaName(dims) {
-  // 提高预算相关阈值，并增加组合条件
-  if (dims.culture >= 68 && dims.planning >= 55) return "硬核历史迷";
-  if (dims.nature >= 72 && dims.adventure >= 65) return "荒野探险家";
-  if (dims.social >= 72 && dims.budget >= 68 && dims.food ? true : true) return "社交美食家"; // 实际无food维度，忽略
-  if (dims.social >= 72 && dims.budget >= 68) return "社交美食家";
-  if (dims.adventure >= 68 && dims.planning <= 35) return "随性流浪诗人";
-  if (dims.planning >= 70 && dims.culture >= 60) return "精致计划者";
-  if (dims.budget >= 78 && dims.adventure <= 50) return "省钱背包客"; // 提高阈值，且要求低冒险
-  if (dims.culture >= 68 && dims.social >= 65) return "文艺打卡机";
-  if (dims.nature >= 68 && dims.planning <= 40) return "自然隐居者";
-  if (dims.social >= 68 && dims.adventure >= 60) return "城市探索家";
-  if (dims.planning >= 65 && dims.budget >= 68) return "性价比指挥官";
-  // 新增：什么都沾点但都不极端，就是佛系漫游者
-  const allAbove40 = Object.values(dims).every(v => v >= 40 && v <= 70);
-  if (allAbove40) return "佛系漫游者";
-  // 兜底：按最高维度给偏向型
-  const maxDim = Object.entries(dims).sort((a,b) => b[1] - a[1])[0][0];
-  const map = {
-    culture: "文化爱好者",
-    nature: "自然向往者",
-    adventure: "好奇冒险家",
-    planning: "井井有条派",
-    social: "人间烟火客",
-    budget: "精打细算旅人"
+  // 出行偏好只做轻微调整（±5），不再大幅改变
+  if (userBudget <= 300) dims.budget = Math.min(100, dims.budget + 5);
+  else if (userBudget >= 1500) dims.budget = Math.max(0, dims.budget - 5);
+  if (userDays <= 2) dims.planning = Math.min(100, dims.planning + 5);
+  else if (userDays >= 7) dims.planning = Math.max(0, dims.planning - 5);
+
+  return dims;
+}
+
+function getPersonaName(dims) {
+  // 定义每种人格的理想维度画像（0-100）
+  const personas = {
+    "硬核历史迷":      { culture: 85, nature: 30, adventure: 30, planning: 70, social: 40, budget: 40 },
+    "荒野探险家":      { culture: 30, nature: 90, adventure: 85, planning: 25, social: 30, budget: 45 },
+    "社交美食家":      { culture: 40, nature: 35, adventure: 50, planning: 45, social: 90, budget: 70 },
+    "随性流浪诗人":    { culture: 55, nature: 60, adventure: 75, planning: 15, social: 60, budget: 55 },
+    "精致计划者":      { culture: 70, nature: 35, adventure: 25, planning: 90, social: 50, budget: 45 },
+    "省钱背包客":      { culture: 35, nature: 45, adventure: 50, planning: 40, social: 45, budget: 95 },
+    "文艺打卡机":      { culture: 75, nature: 55, adventure: 35, planning: 60, social: 70, budget: 50 },
+    "自然隐居者":      { culture: 40, nature: 90, adventure: 50, planning: 20, social: 25, budget: 55 },
+    "城市探索家":      { culture: 55, nature: 45, adventure: 65, planning: 40, social: 80, budget: 60 },
+    "性价比指挥官":    { culture: 45, nature: 40, adventure: 45, planning: 70, social: 60, budget: 85 },
+    "佛系漫游者":      { culture: 55, nature: 55, adventure: 55, planning: 55, social: 55, budget: 55 },
   };
+
+  let bestPersona = "自由灵魂旅行者";
+  let bestScore = Infinity;
+
+  // 计算用户维度与每种人格画像的欧几里得距离，距离越小越匹配
+  for (let [name, ideal] of Object.entries(personas)) {
+    let dist = 0;
+    for (let key of ['culture','nature','adventure','planning','social','budget']) {
+      dist += Math.pow(dims[key] - ideal[key], 2);
+    }
+    if (dist < bestScore) {
+      bestScore = dist;
+      bestPersona = name;
+    }
+  }
+  return bestPersona;
+}
   return map[maxDim] || "自由灵魂旅行者";
 }
       function drawRadar(dims) {
