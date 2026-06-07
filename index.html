@@ -599,26 +599,26 @@
     ];
 
     const cities = [
-      { name: "北京", culture: 95, nature: 45, adventure: 35, planning: 75, social: 60, budget: 40 },
-      { name: "上海", culture: 70, nature: 35, adventure: 40, planning: 70, social: 85, budget: 45 },
-      { name: "杭州", culture: 85, nature: 80, adventure: 40, planning: 60, social: 70, budget: 55 },
-      { name: "苏州", culture: 90, nature: 55, adventure: 25, planning: 75, social: 60, budget: 55 },
-      { name: "南京", culture: 90, nature: 55, adventure: 45, planning: 65, social: 65, budget: 55 },
-      { name: "成都", culture: 75, nature: 60, adventure: 55, planning: 45, social: 85, budget: 85 },
-      { name: "重庆", culture: 60, nature: 70, adventure: 70, planning: 40, social: 85, budget: 80 },
-      { name: "西安", culture: 98, nature: 40, adventure: 50, planning: 70, social: 55, budget: 50 },
-      { name: "长沙", culture: 65, nature: 50, adventure: 60, planning: 50, social: 90, budget: 85 },
-      { name: "厦门", culture: 65, nature: 75, adventure: 40, planning: 55, social: 80, budget: 70 },
-      { name: "泉州", culture: 85, nature: 55, adventure: 50, planning: 50, social: 70, budget: 75 },
-      { name: "洛阳", culture: 95, nature: 50, adventure: 45, planning: 65, social: 55, budget: 60 },
-      { name: "大理", culture: 60, nature: 90, adventure: 60, planning: 30, social: 75, budget: 80 },
-      { name: "丽江", culture: 70, nature: 90, adventure: 75, planning: 35, social: 70, budget: 60 },
-      { name: "昆明", culture: 60, nature: 80, adventure: 55, planning: 50, social: 70, budget: 75 },
-      { name: "哈尔滨", culture: 55, nature: 60, adventure: 50, planning: 60, social: 75, budget: 60 },
-      { name: "青岛", culture: 55, nature: 80, adventure: 45, planning: 55, social: 75, budget: 65 },
-      { name: "贵阳", culture: 55, nature: 85, adventure: 70, planning: 45, social: 65, budget: 75 },
-      { name: "敦煌", culture: 90, nature: 70, adventure: 80, planning: 50, social: 30, budget: 50 }
-    ];
+  { name: "北京", culture: 98, nature: 40, adventure: 30, planning: 75, social: 55, budget: 35, tags:["硬核历史迷","精致计划者"] },
+  { name: "西安", culture: 97, nature: 35, adventure: 45, planning: 70, social: 50, budget: 48, tags:["硬核历史迷","文艺打卡机"] },
+  { name: "洛阳", culture: 94, nature: 45, adventure: 42, planning: 65, social: 50, budget: 58, tags:["硬核历史迷","文化爱好者"] },
+  { name: "敦煌", culture: 90, nature: 70, adventure: 80, planning: 48, social: 28, budget: 50, tags:["荒野探险家","好奇冒险家"] },
+  { name: "丽江", culture: 68, nature: 92, adventure: 78, planning: 32, social: 65, budget: 58, tags:["自然隐居者","随性流浪诗人"] },
+  { name: "大理", culture: 60, nature: 90, adventure: 62, planning: 28, social: 72, budget: 78, tags:["自然隐居者","省钱背包客"] },
+  { name: "成都", culture: 75, nature: 62, adventure: 55, planning: 42, social: 88, budget: 88, tags:["社交美食家","人间烟火客"] },
+  { name: "长沙", culture: 65, nature: 52, adventure: 58, planning: 48, social: 92, budget: 86, tags:["社交美食家","城市探索家"] },
+  { name: "重庆", culture: 62, nature: 72, adventure: 72, planning: 38, social: 88, budget: 82, tags:["城市探索家","社交美食家"] },
+  { name: "厦门", culture: 66, nature: 78, adventure: 42, planning: 55, social: 82, budget: 72, tags:["文艺打卡机","人间烟火客"] },
+  { name: "青岛", culture: 55, nature: 82, adventure: 48, planning: 58, social: 78, budget: 68, tags:["城市探索家","自然向往者"] },
+  { name: "苏州", culture: 92, nature: 56, adventure: 25, planning: 76, social: 60, budget: 56, tags:["精致计划者","文艺打卡机"] },
+  { name: "杭州", culture: 86, nature: 82, adventure: 40, planning: 60, social: 70, budget: 58, tags:["文艺打卡机","自然向往者"] },
+  { name: "南京", culture: 90, nature: 58, adventure: 45, planning: 66, social: 66, budget: 58, tags:["硬核历史迷","井井有条派"] },
+  { name: "泉州", culture: 86, nature: 56, adventure: 52, planning: 52, social: 72, budget: 76, tags:["文化爱好者","人间烟火客"] },
+  { name: "昆明", culture: 60, nature: 82, adventure: 55, planning: 50, social: 72, budget: 78, tags:["自然向往者","省钱背包客"] },
+  { name: "贵阳", culture: 56, nature: 86, adventure: 72, planning: 44, social: 66, budget: 76, tags:["好奇冒险家","自然隐居者"] },
+  { name: "哈尔滨", culture: 56, nature: 62, adventure: 52, planning: 62, social: 78, budget: 62, tags:["城市探索家","井井有条派"] },
+  { name: "上海", culture: 72, nature: 36, adventure: 40, planning: 72, social: 86, budget: 42, tags:["精致计划者","城市探索家"] }
+];
 
     const allSights = [
       { city:"北京", name:"故宫", type:"历史古迹", history:10, photo:9, crowd:3, stamina:5, food:4, value:8, unique:9, time:4, alt:["恭王府"] },
@@ -887,17 +887,40 @@
       }
     }
 
-    function matchCities(dims) {
-      const weights = { culture: 2, nature: 1.5, adventure: 1.5, planning: 1, social: 1, budget: 1 };
-      const total = 8;
-      return cities.map(city => {
-        let score = 0;
-        for (let key of ['culture','nature','adventure','planning','social','budget']) {
-          score += weights[key] * (1 - Math.abs(dims[key] - city[key]) / 100);
-        }
-        return { ...city, match: Math.round((score / total) * 100) };
-      }).sort((a, b) => b.match - a.match).slice(0, 3);
+   function matchCities(dims) {
+  const persona = getPersonaName(dims);
+  const weights = { culture: 2, nature: 1.5, adventure: 1.5, planning: 1, social: 1, budget: 1 };
+  const totalWeight = 8;
+
+  return cities.map(city => {
+    let score = 0;
+    for (let key of ['culture','nature','adventure','planning','social','budget']) {
+      score += weights[key] * (1 - Math.abs(dims[key] - city[key]) / 100);
     }
+    let match = Math.round((score / totalWeight) * 100);
+
+    // 标签加权：如果城市标签包含当前人格，额外加分
+    if (city.tags && city.tags.includes(persona)) {
+      match = Math.min(100, match + 12);
+    }
+    // 如果用户的主维度与城市的主维度匹配，额外加分
+    const sortedUserDims = Object.entries(dims).sort((a,b) => b[1] - a[1]);
+    const topUserDim = sortedUserDims[0][0];
+    const cityMaxDim = Object.entries({
+      culture: city.culture,
+      nature: city.nature,
+      adventure: city.adventure,
+      planning: city.planning,
+      social: city.social,
+      budget: city.budget
+    }).sort((a,b) => b[1] - a[1])[0][0];
+    if (topUserDim === cityMaxDim) {
+      match = Math.min(100, match + 8);
+    }
+
+    return { name: city.name, match };
+  }).sort((a, b) => b.match - a.match).slice(0, 3);
+}
 
     function getPersonalizedScore(sight, dims) {
       const w = {
