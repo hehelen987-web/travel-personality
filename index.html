@@ -261,18 +261,18 @@
       ];
 
       const scoreRules = [
-  [ { culture: 4, adventure: 2 }, { planning: 2, budget: -1 }, { adventure: 5, nature: 3 }, { planning: 4, culture: 1 } ],
-  [ { culture: 4, social: 2 }, { social: 2, planning: 2 }, { nature: 5, adventure: 3 }, { budget: -2, planning: 2 } ],
-  [ { adventure: 4, budget: 1 }, { social: 2, planning: 2 }, { nature: 4, adventure: 2 }, { planning: 4, culture: 1 } ],
-  [ { culture: 3, planning: 2 }, { planning: 2, social: 2 }, { adventure: 3, nature: 2 }, { budget: -2, planning: 3 } ],
-  [ { budget: 3, adventure: 1 }, { budget: 1, social: 1 }, { budget: -2, adventure: 4 }, { budget: -3, planning: 2 } ],
-  [ { culture: 3, social: -1 }, { social: 5, adventure: 1 }, { nature: 3, adventure: 3 }, { social: 2, planning: 2 } ],
-  [ { culture: 6, planning: 1 }, { nature: 6, adventure: 2 }, { social: 3, budget: 1 }, { culture: 2, social: 2, adventure: 1 } ],
-  [ { adventure: 4, planning: -2 }, { planning: 3, culture: 1 }, { planning: 5 }, { adventure: 3, social: 1 } ]
-];
+        [ { culture: 4, adventure: 2 }, { planning: 2, budget: -1 }, { adventure: 5, nature: 3 }, { planning: 4, culture: 1 } ],
+        [ { culture: 4, social: 2 }, { social: 2, planning: 2 }, { nature: 5, adventure: 3 }, { budget: -2, planning: 2 } ],
+        [ { adventure: 4, budget: 1 }, { social: 2, planning: 2 }, { nature: 4, adventure: 2 }, { planning: 4, culture: 1 } ],
+        [ { culture: 3, planning: 2 }, { planning: 2, social: 2 }, { adventure: 3, nature: 2 }, { budget: -2, planning: 3 } ],
+        [ { budget: 3, adventure: 1 }, { budget: 1, social: 1 }, { budget: -2, adventure: 4 }, { budget: -3, planning: 2 } ],
+        [ { culture: 3, social: -1 }, { social: 5, adventure: 1 }, { nature: 3, adventure: 3 }, { social: 2, planning: 2 } ],
+        [ { culture: 6, planning: 1 }, { nature: 6, adventure: 2 }, { social: 3, budget: 1 }, { culture: 2, social: 2, adventure: 1 } ],
+        [ { adventure: 4, planning: -2 }, { planning: 3, culture: 1 }, { planning: 5 }, { adventure: 3, social: 1 } ]
+      ];
 
       const cities = [
-        { name: "北京", culture: 98, nature: 58, adventure: 50, planning: 75, social: 55, budget: 35, minDays: 3, maxDays: 6, tags:["硬核历史迷","精致计划者"] },
+        { name: "北京", culture: 98, nature: 40, adventure: 30, planning: 75, social: 55, budget: 35, minDays: 3, maxDays: 6, tags:["硬核历史迷","精致计划者"] },
         { name: "西安", culture: 97, nature: 35, adventure: 45, planning: 70, social: 50, budget: 48, minDays: 3, maxDays: 5, tags:["硬核历史迷","文艺打卡机"] },
         { name: "洛阳", culture: 94, nature: 45, adventure: 42, planning: 65, social: 50, budget: 58, minDays: 2, maxDays: 4, tags:["硬核历史迷","文化爱好者"] },
         { name: "敦煌", culture: 90, nature: 70, adventure: 80, planning: 48, social: 28, budget: 50, minDays: 3, maxDays: 6, tags:["荒野探险家","好奇冒险家"] },
@@ -290,7 +290,7 @@
         { name: "昆明", culture: 60, nature: 82, adventure: 55, planning: 50, social: 72, budget: 78, minDays: 3, maxDays: 5, tags:["自然向往者","省钱背包客"] },
         { name: "贵阳", culture: 56, nature: 86, adventure: 72, planning: 44, social: 66, budget: 76, minDays: 3, maxDays: 6, tags:["好奇冒险家","自然隐居者"] },
         { name: "哈尔滨", culture: 56, nature: 62, adventure: 52, planning: 62, social: 78, budget: 62, minDays: 3, maxDays: 5, tags:["城市探索家","井井有条派"] },
-        { name: "上海", culture: 72, nature: 58, adventure: 40, planning: 72, social: 86, budget: 42, minDays: 2, maxDays: 4, tags:["精致计划者","城市探索家"] }
+        { name: "上海", culture: 72, nature: 36, adventure: 40, planning: 72, social: 86, budget: 42, minDays: 2, maxDays: 4, tags:["精致计划者","城市探索家"] }
       ];
 
       const allSights = [
@@ -402,26 +402,26 @@
         { city:"敦煌", name:"沙洲夜市", type:"夜市", history:4, photo:7, crowd:3, stamina:1, food:9, value:8, unique:6, time:1.5, alt:["敦煌小镇"] }
       ];
 
-     const personaDescriptions = {
-  "硬核历史迷": "你旅行时最在意文化厚度。\n你愿意为了一个博物馆、一块碑刻、一座古寺专门前往一座城市。\n你不喜欢走马观花，更倾向于深度体验。",
-  "荒野探险家": "你对自然风光和极限体验充满渴望。\n你宁愿徒步一整天，也不愿在商圈闲逛。\n你追求的是人迹罕至的风景和挑战自我的旅程。",
-  "社交美食家": "你的旅行地图由美食决定。\n你乐于在街头巷尾寻找地道小吃，也喜欢和当地人聊天。\n对你来说，旅途中最美的风景是人间烟火。",
-  "随性流浪诗人": "你讨厌被行程束缚，喜欢随遇而安的惊喜。\n你可能会因为一家喜欢的咖啡馆而在某个小镇多停留一天。\n你的旅行没有明确目的，却总能找到属于自己的诗意。",
-  "精致计划者": "你享受将一切安排妥帖的掌控感。\n你会提前预订免排队票、规划好每一个小时的行程。\n完美的旅行，从一份井井有条的攻略开始。",
-  "省钱背包客": "你用最少的预算去看最大的世界。\n青旅、公共交通、免费景点是你的首选。\n你相信真正的旅行不在于花费多少，而在于经历了多少。",
-  "文艺打卡机": "你既爱历史底蕴，又迷恋出片率。\n你会在博物馆里临摹展品，也会在网红咖啡馆拍照。\n文化审美与社交分享，你两者都要。",
-  "自然隐居者": "你渴望远离人群，在大自然中充电。\n一座山、一片湖、一间小屋就足够。\n你不需热闹，只求内心平静。",
-  "城市探索家": "你痴迷于城市的肌理与活力。\n你喜欢穿街走巷，发现藏在老城里的新潮小店。\n不设限的漫步，是你和城市对话的方式。",
-  "性价比指挥官": "你擅长用有限的预算撬动最大的体验。\n你会在特价机票、免费讲解、错峰出行中找到乐趣。\n每一分钱都花在刀刃上，但从不牺牲旅行的质量。",
-  "佛系漫游者": "你是个随和而包容的旅行者。\n历史、自然、美食你都喜欢，但都不强求。\n去哪里都行，怎么玩都开心，旅途中的小确幸最让你满足。",
-  "文化爱好者": "你对历史与艺术情有独钟，但不一定执着于打卡清单。\n你喜欢在旅途中感受文明的温度，一次好的展览就能点亮一整天。",
-  "自然向往者": "你心向山水，即使体力一般，也愿意为一片晚霞停下脚步。\n你喜欢柔和的自然，比如森林步道、湖畔骑行。",
-  "好奇冒险家": "你对未知充满好奇，喜欢小众目的地和惊喜。\n你不怕折腾，怕的是旅途无趣。",
-  "井井有条派": "你相信好的计划是成功旅行的一半。\n你享受安排行程的过程，也享受一切顺利的安心感。",
-  "人间烟火客": "你爱热闹，爱市场，爱和陌生人聊天。\n旅途中的人情味，是你最珍视的风景。",
-  "精打细算旅人": "你对预算敏感，但并非抠门。\n你追求高性价比，擅长发现免费又好玩的地方。",
-  "自由灵魂旅行者": "你是独特的旅行者，拥有属于自己的探索方式。\n有时你偏爱历史，有时你向往自然，你的旅行风格灵活多变，不被定义。"
-};
+      const personaDescriptions = {
+        "硬核历史迷": "你旅行时最在意文化厚度。\n你愿意为了一个博物馆、一块碑刻、一座古寺专门前往一座城市。\n你不喜欢走马观花，更倾向于深度体验。",
+        "荒野探险家": "你对自然风光和极限体验充满渴望。\n你宁愿徒步一整天，也不愿在商圈闲逛。\n你追求的是人迹罕至的风景和挑战自我的旅程。",
+        "社交美食家": "你的旅行地图由美食决定。\n你乐于在街头巷尾寻找地道小吃，也喜欢和当地人聊天。\n对你来说，旅途中最美的风景是人间烟火。",
+        "随性流浪诗人": "你讨厌被行程束缚，喜欢随遇而安的惊喜。\n你可能会因为一家喜欢的咖啡馆而在某个小镇多停留一天。\n你的旅行没有明确目的，却总能找到属于自己的诗意。",
+        "精致计划者": "你享受将一切安排妥帖的掌控感。\n你会提前预订免排队票、规划好每一个小时的行程。\n完美的旅行，从一份井井有条的攻略开始。",
+        "省钱背包客": "你用最少的预算去看最大的世界。\n青旅、公共交通、免费景点是你的首选。\n你相信真正的旅行不在于花费多少，而在于经历了多少。",
+        "文艺打卡机": "你既爱历史底蕴，又迷恋出片率。\n你会在博物馆里临摹展品，也会在网红咖啡馆拍照。\n文化审美与社交分享，你两者都要。",
+        "自然隐居者": "你渴望远离人群，在大自然中充电。\n一座山、一片湖、一间小屋就足够。\n你不需热闹，只求内心平静。",
+        "城市探索家": "你痴迷于城市的肌理与活力。\n你喜欢穿街走巷，发现藏在老城里的新潮小店。\n不设限的漫步，是你和城市对话的方式。",
+        "性价比指挥官": "你擅长用有限的预算撬动最大的体验。\n你会在特价机票、免费讲解、错峰出行中找到乐趣。\n每一分钱都花在刀刃上，但从不牺牲旅行的质量。",
+        "佛系漫游者": "你是个随和而包容的旅行者。\n历史、自然、美食你都喜欢，但都不强求。\n去哪里都行，怎么玩都开心，旅途中的小确幸最让你满足。",
+        "文化爱好者": "你对历史与艺术情有独钟，但不一定执着于打卡清单。\n你喜欢在旅途中感受文明的温度，一次好的展览就能点亮一整天。",
+        "自然向往者": "你心向山水，即使体力一般，也愿意为一片晚霞停下脚步。\n你喜欢柔和的自然，比如森林步道、湖畔骑行。",
+        "好奇冒险家": "你对未知充满好奇，喜欢小众目的地和惊喜。\n你不怕折腾，怕的是旅途无趣。",
+        "井井有条派": "你相信好的计划是成功旅行的一半。\n你享受安排行程的过程，也享受一切顺利的安心感。",
+        "人间烟火客": "你爱热闹，爱市场，爱和陌生人聊天。\n旅途中的人情味，是你最珍视的风景。",
+        "精打细算旅人": "你对预算敏感，但并非抠门。\n你追求高性价比，擅长发现免费又好玩的地方。",
+        "自由灵魂旅行者": "你是独特的旅行者，拥有属于自己的探索方式。\n有时你偏爱历史，有时你向往自然，你的旅行风格灵活多变，不被定义。"
+      };
 
       // ---------- 状态 ----------
       let currentQuestion = 0;
@@ -471,62 +471,49 @@
 
       // ---------- 核心算法 ----------
       function calculateDimensions() {
-  // 初始值从20降至10，让题目得分影响更大
-  let dims = { culture: 10, nature: 10, adventure: 10, planning: 10, social: 10, budget: 10 };
-  answers.forEach((ans, qIdx) => {
-    if (ans !== -1 && scoreRules[qIdx]?.[ans]) {
-      const rule = scoreRules[qIdx][ans];
-      for (let [k, v] of Object.entries(rule)) {
-        if (dims[k] !== undefined) dims[k] += v;
+        let dims = { culture: 10, nature: 10, adventure: 10, planning: 10, social: 10, budget: 10 };
+        answers.forEach((ans, qIdx) => {
+          if (ans !== -1 && scoreRules[qIdx]?.[ans]) {
+            const rule = scoreRules[qIdx][ans];
+            for (let [k, v] of Object.entries(rule)) {
+              if (dims[k] !== undefined) dims[k] += v;
+            }
+          }
+        });
+        for (let k in dims) dims[k] = Math.min(100, Math.max(0, dims[k]));
+        if (userBudget <= 300) dims.budget = Math.min(100, dims.budget + 5);
+        else if (userBudget >= 1500) dims.budget = Math.max(0, dims.budget - 5);
+        if (userDays <= 2) dims.planning = Math.min(100, dims.planning + 5);
+        else if (userDays >= 7) dims.planning = Math.max(0, dims.planning - 5);
+        return dims;
       }
-    }
-  });
-  // 边界控制
-  for (let k in dims) dims[k] = Math.min(100, Math.max(0, dims[k]));
 
-  // 出行偏好只做轻微调整（±5），不再大幅改变
-  if (userBudget <= 300) dims.budget = Math.min(100, dims.budget + 5);
-  else if (userBudget >= 1500) dims.budget = Math.max(0, dims.budget - 5);
-  if (userDays <= 2) dims.planning = Math.min(100, dims.planning + 5);
-  else if (userDays >= 7) dims.planning = Math.max(0, dims.planning - 5);
+      function getPersonaName(dims) {
+        const personas = {
+          "硬核历史迷":      { culture: 85, nature: 30, adventure: 30, planning: 70, social: 40, budget: 40 },
+          "荒野探险家":      { culture: 30, nature: 90, adventure: 85, planning: 25, social: 30, budget: 45 },
+          "社交美食家":      { culture: 40, nature: 35, adventure: 50, planning: 45, social: 90, budget: 70 },
+          "随性流浪诗人":    { culture: 55, nature: 60, adventure: 75, planning: 15, social: 60, budget: 55 },
+          "精致计划者":      { culture: 70, nature: 35, adventure: 25, planning: 90, social: 50, budget: 45 },
+          "省钱背包客":      { culture: 35, nature: 45, adventure: 50, planning: 40, social: 45, budget: 95 },
+          "文艺打卡机":      { culture: 75, nature: 55, adventure: 35, planning: 60, social: 70, budget: 50 },
+          "自然隐居者":      { culture: 40, nature: 90, adventure: 50, planning: 20, social: 25, budget: 55 },
+          "城市探索家":      { culture: 55, nature: 45, adventure: 65, planning: 40, social: 80, budget: 60 },
+          "性价比指挥官":    { culture: 45, nature: 40, adventure: 45, planning: 70, social: 60, budget: 85 },
+          "佛系漫游者":      { culture: 55, nature: 55, adventure: 55, planning: 55, social: 55, budget: 55 },
+        };
+        let bestPersona = "自由灵魂旅行者";
+        let bestScore = Infinity;
+        for (let [name, ideal] of Object.entries(personas)) {
+          let dist = 0;
+          for (let key of ['culture','nature','adventure','planning','social','budget']) {
+            dist += Math.pow(dims[key] - ideal[key], 2);
+          }
+          if (dist < bestScore) { bestScore = dist; bestPersona = name; }
+        }
+        return bestPersona;
+      }
 
-  return dims;
-}
-
-function getPersonaName(dims) {
-  // 定义每种人格的理想维度画像（0-100）
-  const personas = {
-    "硬核历史迷":      { culture: 85, nature: 30, adventure: 30, planning: 70, social: 40, budget: 40 },
-    "荒野探险家":      { culture: 30, nature: 90, adventure: 85, planning: 25, social: 30, budget: 45 },
-    "社交美食家":      { culture: 40, nature: 35, adventure: 50, planning: 45, social: 90, budget: 70 },
-    "随性流浪诗人":    { culture: 55, nature: 60, adventure: 75, planning: 15, social: 60, budget: 55 },
-    "精致计划者":      { culture: 70, nature: 35, adventure: 25, planning: 90, social: 50, budget: 45 },
-    "省钱背包客":      { culture: 35, nature: 45, adventure: 50, planning: 40, social: 45, budget: 95 },
-    "文艺打卡机":      { culture: 75, nature: 55, adventure: 35, planning: 60, social: 70, budget: 50 },
-    "自然隐居者":      { culture: 40, nature: 90, adventure: 50, planning: 20, social: 25, budget: 55 },
-    "城市探索家":      { culture: 55, nature: 45, adventure: 65, planning: 40, social: 80, budget: 60 },
-    "性价比指挥官":    { culture: 45, nature: 40, adventure: 45, planning: 70, social: 60, budget: 85 },
-    "佛系漫游者":      { culture: 55, nature: 55, adventure: 55, planning: 55, social: 55, budget: 55 },
-  };
-
-  let bestPersona = "自由灵魂旅行者";
-  let bestScore = Infinity;
-
-  // 计算用户维度与每种人格画像的欧几里得距离，距离越小越匹配
-  for (let [name, ideal] of Object.entries(personas)) {
-    let dist = 0;
-    for (let key of ['culture','nature','adventure','planning','social','budget']) {
-      dist += Math.pow(dims[key] - ideal[key], 2);
-    }
-    if (dist < bestScore) {
-      bestScore = dist;
-      bestPersona = name;
-    }
-  }
-  return bestPersona;
-}
-  return map[maxDim] || "自由灵魂旅行者";
-}
       function drawRadar(dims) {
         const canvas = document.getElementById('radar-canvas');
         const ctx = canvas.getContext('2d');
@@ -535,8 +522,7 @@ function getPersonaName(dims) {
         const labels = ['文化', '自然', '猎奇', '计划', '社交', '预算'];
         const keys = ['culture', 'nature', 'adventure', 'planning', 'social', 'budget'];
         const centerX = w/2, centerY = h/2, radius = 85;
-        ctx.strokeStyle = '#DDD4C8';
-        ctx.lineWidth = 0.6;
+        ctx.strokeStyle = '#DDD4C8'; ctx.lineWidth = 0.6;
         for (let i = 1; i <= 4; i++) {
           ctx.beginPath();
           for (let j = 0; j < 6; j++) {
@@ -587,14 +573,11 @@ function getPersonaName(dims) {
           const topUserDim = sortedUserDims[0][0];
           const cityMaxDim = Object.entries({culture:city.culture, nature:city.nature, adventure:city.adventure, planning:city.planning, social:city.social, budget:city.budget}).sort((a,b)=>b[1]-a[1])[0][0];
           if (topUserDim === cityMaxDim) match = Math.min(100, match+8);
-
-          // 预算与天数影响
           if (userBudget <= 300 && city.budget < 50) match -= 15;
           else if (userBudget >= 1000 && city.budget > 80) match -= 10;
           if (userDays < city.minDays) match -= 20;
           else if (userDays >= city.minDays && userDays <= city.maxDays) match += 8;
           else if (userDays > city.maxDays) match -= 5;
-
           match = Math.min(100, Math.max(0, match));
           return { name: city.name, match };
         }).sort((a,b) => b.match - a.match).slice(0,3);
@@ -747,21 +730,16 @@ function getPersonaName(dims) {
         renderSightList(results);
       }
 
-      // 遗憾笔记与后悔药
       function renderRegretView() {
         const list = document.getElementById('regret-list');
         const msg = document.getElementById('no-regret-msg');
         list.innerHTML = '';
         const wished = wishlist.map(n => allSights.find(s => s.name===n)).filter(Boolean);
-        if (wished.length === 0) {
-          msg.textContent = '你还没有收藏任何景点，去结果中点击“+ 想去”吧';
-          return;
-        }
+        if (wished.length === 0) { msg.textContent = '你还没有收藏任何景点，去结果中点击“+ 想去”吧'; return; }
         msg.textContent = '';
         wished.forEach(sight => {
           const isRegret = !!regrets[sight.name];
           const div = document.createElement('div');
-          div.className = 'regret-item';
           div.style.cssText = 'background:#FBF8F0;border:1px solid #E3D8C4;border-radius:1.5rem;padding:1rem;margin-bottom:1rem;';
           div.innerHTML = `
             <div style="display:flex;justify-content:space-between;">
@@ -785,10 +763,7 @@ function getPersonaName(dims) {
         });
         document.querySelectorAll('.regret-note-input').forEach(input => {
           input.addEventListener('input', (e) => {
-            if (regrets[e.target.dataset.sight]) {
-              regrets[e.target.dataset.sight].note = e.target.value;
-              saveData();
-            }
+            if (regrets[e.target.dataset.sight]) { regrets[e.target.dataset.sight].note = e.target.value; saveData(); }
           });
         });
       }
@@ -799,10 +774,7 @@ function getPersonaName(dims) {
         const list = document.getElementById('pill-rank-list');
         list.innerHTML = '';
         const pills = regretPills.filter(p => p.persona===persona);
-        if (pills.length === 0) {
-          list.innerHTML = '<p style="text-align:center;color:var(--muted);">还没有数据，去给景点点“踩雷”吧</p>';
-          return;
-        }
+        if (pills.length === 0) { list.innerHTML = '<p style="text-align:center;color:var(--muted);">还没有数据，去给景点点“踩雷”吧</p>'; return; }
         const counts = {};
         pills.forEach(p => counts[p.sight] = (counts[p.sight]||0)+1);
         Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,5).forEach(([name, cnt], i) => {
@@ -868,7 +840,6 @@ function getPersonaName(dims) {
         renderQuestion();
       }
 
-      // ---------- 进度条与题目渲染 ----------
       function renderProgressDots() {
         const container = document.getElementById('progress-dots');
         container.innerHTML = '';
@@ -911,7 +882,7 @@ function getPersonaName(dims) {
         renderProgressDots();
       }
 
-      // ---------- 事件绑定 ----------
+      // 事件绑定
       document.getElementById('prev-btn').addEventListener('click', () => {
         if (currentQuestion > 0) { currentQuestion--; renderQuestion(); }
       });
@@ -939,10 +910,7 @@ function getPersonaName(dims) {
       });
       ['back-to-result', 'back-to-result-from-regret', 'back-to-result-from-pill'].forEach(id => {
         document.getElementById(id).addEventListener('click', () => {
-          if (userDimensions) {
-            hideAllViews();
-            document.getElementById('result-view').classList.remove('hidden');
-          }
+          if (userDimensions) { hideAllViews(); document.getElementById('result-view').classList.remove('hidden'); }
         });
       });
       document.getElementById('sight-search').addEventListener('input', (e) => handleSearch(e.target.value));
